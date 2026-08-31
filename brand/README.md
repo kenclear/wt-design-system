@@ -44,13 +44,22 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 
 ### 竖版 — 头像、方形版位、印刷封面
 
-`logo/wordmark-portrait.{pdf,png}` + `-black` / `-white` 变体。叶片在上、文字在下。
-**没有 SVG**，源文件是 `.ai`（在 Zoho 的 Marketing/Logo 目录里）。
+`logo/wordmark-portrait.svg` 是主资产，另有 `.pdf` / `.png` + `-black` / `-white` 变体。
+叶片在上、文字在下。
+
+**这个 SVG 是拼出来的，不是从 `.ai` 导的**（本机没有矢量转换工具）：路径直接取自
+`wordmark-landscape.svg`，逐字未改，只按官方 `wordmark-portrait.png` 实测的比例
+重新排布 —— 叶子相对文字放大 1.595 倍、间隙为文字高度的 26.77%。
+跟官方 PNG 做过像素比对：**形状吻合 99.29%、颜色吻合 99.92%**，差异全在边缘抗锯齿。
+要绝对权威的版本，从 `.ai` 源文件重新导出覆盖它。
 
 ### 纯图标 — 无字标形态
 
-`icon/icon.{pdf,png}` + `-black` / `-white`。只有叶片，用于头像、应用图标、
-需要正方形且不放文字的地方。**同样没有 SVG。**
+`icon/icon.svg` 是主资产，另有 `.pdf` / `.png` + `-black` / `-white`。只有叶片，
+用于头像、应用图标、需要正方形且不放文字的地方。
+
+viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白由使用方决定。
+同样由 landscape SVG 的 `#_x35_` 组裁出，路径逐字未改。
 
 ### 站点当前在用的导出品
 
@@ -61,6 +70,8 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 
 **页头那个应该换成 `wordmark-landscape.svg`。** 现在是把 2560px 宽的 PNG 缩到
 165px 显示，矢量才是对的做法。
+
+三种形态现在都有 SVG 了：横版（官方导出）、竖版与纯图标（由横版重排/裁切而来）。
 
 ### 站上的实测尺寸
 
@@ -119,6 +130,9 @@ PWA 那两个还需要一个 `manifest.json`。
 
 `.ai` / `.eps` 源文件留在 Zoho 的 `Marketing/Logo/梧桐小讲堂/`，本仓库只收可直接
 使用的导出格式。要改 logo 本身，回源文件改，再重新导出到这里。
+
+`.ai` 实际是 PDF 1.5 容器，但本机没有 `pdf2svg` / `mutool` / `inkscape`，所以竖版和
+图标的 SVG 是从横版重新组合的（见上）。装了转换工具之后可以从 `.ai` 直接导出覆盖。
 
 ## 第三方标不在这里
 

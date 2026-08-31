@@ -18,8 +18,8 @@ tokens/
                   由脚本生成，不要手改。
 
 brand/
-  logo/           横版矢量字标（主资产）+ 竖版 + 黑/白单色变体
-  icon/           纯图标形态（只有叶片）
+  logo/           横版 / 竖版矢量字标 + pdf/png + 黑白单色变体
+  icon/           纯图标形态（只有叶片），含 SVG
   favicon/        favicon.svg + 96/192/512 PNG + apple-touch-icon
   photo/          人物照、首页主视觉
   README.md       尺寸、留白、使用规则 —— 数值都是线上实测的
@@ -96,8 +96,10 @@ logo、favicon、照片在 [`brand/`](brand/)，用法规则见 [brand/README.md
 都直接取自 logo 源文件，取代此前口述的 `#2d3782` / `#d93730`。三条色阶按原有步长
 重算，明暗关系不变。详见 [brand/README.md](brand/README.md)。
 
-矢量字标、深底白版、纯图标形态**都已齐备**。唯一还缺的是竖版和纯图标的 SVG
-（源文件是 .ai，留在 Zoho）。站点页头目前仍在用 2560px 的 PNG，应换成 SVG。
+**三种形态的 SVG 现在都有了** —— 横版（官方导出）、竖版与纯图标（由横版路径重排/
+裁切，与官方 PNG 像素比对吻合 99.29%）。深底白版、黑版、favicon 全套齐备。
+
+站点页头目前仍在用 2560px 的 PNG，应换成 `wordmark-landscape.svg`。
 
 YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别家公司的商标。
 
