@@ -26,8 +26,8 @@ brand/
 fonts/            Funnel Display 四个切片 + OFL 许可证。40KB。
 
 docs/
-  index.html      完整规范文档（15 节）。GitHub Pages 直接托管。
-  梧桐设计系统.pdf  同一份文档的 A4 打印版，28 页。
+  index.html      完整规范文档（16 节）。GitHub Pages 直接托管。
+  梧桐设计系统.pdf  同一份文档的 A4 打印版，31 页。
 
 scripts/
   build-tokens.mjs  从 core.css 生成 tokens.json
