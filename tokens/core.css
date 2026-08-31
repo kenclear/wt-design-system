@@ -324,7 +324,7 @@
     --font-sans:
         'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC',
         'Source Han Sans SC', -apple-system, 'Segoe UI', sans-serif;
-    /* 标题只加载一个拉丁展示体 Funnel Display（34KB，见 fonts.css），中文落到
+    /* 标题只加载一个拉丁展示体 Funnel Display（33KB，见 fonts.css），中文落到
        --font-sans 的系统栈。"2026"、"Shopify"、"B2B" 走展示体，中文走苹方/雅黑，
        靠的是字体栈顺序加各自的字符覆盖范围，不是手动切分标签。
 

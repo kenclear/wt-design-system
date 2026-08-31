@@ -350,7 +350,7 @@
     <span>圆角 <b>14</b></span>
     <span>品牌资产 <b>7</b></span>
     <span>装饰类 <b>33</b></span>
-    <span>网络字体 <b>34 KB</b></span>
+    <span>网络字体 <b>33 KB</b></span>
     <span>Tailwind <b>v4 @theme</b></span>
   </div>
 </header>
@@ -724,13 +724,13 @@
       <dt>覆盖</dt><dd>拉丁字母与数字。中文不在其字符集内，直接落到 HarmonyOS</dd>
       <dt>字重</dt><dd>500 / 700</dd>
       <dt>分片</dt><dd>4 个 woff2（latin · latin-ext × 两档字重）</dd>
-      <dt>体积</dt><dd>合计 31KB</dd>
+      <dt>体积</dt><dd>合计 33KB（磁盘）· 34KB（实际传输，含 HTTP 头）</dd>
     </dl>
   </div>
 
   <div class="note">
     <b>双语标题的分工，是这套排版的核心手法。</b>一个中英混排的标题——「20 分钟，快速启动 Shopify 店铺」——其中「20」和「Shopify」由 Funnel Display 这个展示体承担，中文整体交给 HarmonyOS。<b>靠的不是手动切分标签，而是字体栈顺序加各自的字符覆盖范围：前一个字体没有的字，浏览器自动向后找。</b><br><br>
-    结果是拉丁部分获得了一个有性格的展示字体，而一个中文字都没有被动过——中文展示体的可选项本来就极少，硬套通常只会更糟。代价是 31KB。
+    结果是拉丁部分获得了一个有性格的展示字体，而一个中文字都没有被动过——中文展示体的可选项本来就极少，硬套通常只会更糟。代价是 33KB。
   </div>
 
   <div class="note warn">

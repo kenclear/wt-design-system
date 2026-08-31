@@ -13,7 +13,7 @@
 tokens/
   core.css        跨站点通用的一切 —— 色阶、语义色、类型标尺、圆角、
                   间距、容器、断点、阴影、动效、装饰层。Tailwind v4 @theme。
-  fonts.css       字体声明。站上唯一的网络字体是 Funnel Display（34KB）。
+  fonts.css       字体声明。站上唯一的网络字体是 Funnel Display（33KB）。
   tokens.json     平台无关导出，给 Figma / Style Dictionary 这类工具读。
                   由脚本生成，不要手改。
 
@@ -111,7 +111,7 @@ YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别
 
 ## 字体
 
-站上只加载一个网络字体：**Funnel Display**（拉丁展示体，34KB，OFL）。
+站上只加载一个网络字体：**Funnel Display**（拉丁展示体，33KB，OFL）。
 
 中文走系统黑体——Mac 苹方、Windows 微软雅黑。`--font-heading` 把
 Funnel Display 排在系统栈前面，所以一个中英混排的标题里，「Shopify」「2026」
