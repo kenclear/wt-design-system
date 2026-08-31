@@ -92,9 +92,9 @@ npm run build:tokens     # 重新生成 tokens.json
 
 logo、favicon、照片在 [`brand/`](brand/)，用法规则见 [brand/README.md](brand/README.md)。
 
-⚠ **logo 的三个颜色一个都不在站点色板里** —— `#003A89` / `#E63946` / `#457B9D`
-对应站点的 `#2d3782` / `#d93730` / 无。这是待决定的事，不是 bug；在决定之前
-不要让任何工具自动「统一」这两组颜色。详见 [brand/README.md](brand/README.md)。
+**色板以 logo 为准。** 2026-08-31 起主色 `#003a89`、punch `#e63946`、steel `#457b9d`
+都直接取自 logo 源文件，取代此前口述的 `#2d3782` / `#d93730`。三条色阶按原有步长
+重算，明暗关系不变。详见 [brand/README.md](brand/README.md)。
 
 矢量字标、深底白版、纯图标形态**都已齐备**。唯一还缺的是竖版和纯图标的 SVG
 （源文件是 .ai，留在 Zoho）。站点页头目前仍在用 2560px 的 PNG，应换成 SVG。
@@ -124,13 +124,24 @@ YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别
 
 ## 品牌色板
 
+取自 logo 源文件（`brand/logo/wordmark-landscape.svg`）：
+
 ```
-#2d3782  海军蓝（主色）    #d93730  红        #a8dadc  浅青
-#eff9fb  淡青底            #a1ec84  浅绿      #f2673f  珊瑚
-#f1f4f5  浅灰              #ffffff  白        #00dc82  亮翠绿
+#003a89  海军蓝（主色）    #e63946  红        #457b9d  青灰
+```
+
+客户提供的九色板，其余仍在用的：
+
+```
+#a8dadc  浅青    #eff9fb  淡青底    #a1ec84  浅绿
+#f2673f  珊瑚    #f1f4f5  浅灰      #ffffff  白      #00dc82  亮翠绿
 ```
 
 板外新增一支交互蓝：`#165dfc` / `#0e48d6` / `#e8eefe`。
+
+⚠ **白字压 punch 基色 `#e63946` 只有 4.17:1，过不了 AA。** 所以语义别名
+`--color-error` 指向 `punch-dark #b72d38`（6.09:1），基色留作图形填充 ——
+它是 logo 的真实颜色，要保留。
 
 ## 字体
 

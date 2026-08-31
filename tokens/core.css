@@ -112,20 +112,21 @@
     --color-neutral-darkest: #0b0302;
 
     /* Jacksons Purple — brand primary (deep indigo blue) */
-    /* 基色 #2d3782 来自品牌色板（2026-08-27 客户确认）。原来是 #1e3a8a ——
-       同样是海军蓝，但色相偏了，品牌那支更靛。
-       换的只是基色：上下六档仍按这套设计原有的步长推出来，
+    /* 基色 #003a89 —— 直接取自 logo 源文件 wordmark-landscape.svg 的 .st0。
+       2026-08-31 从 #2d3782 换来：那个值是客户口述的品牌色，而 logo 里实际
+       用的是 #003a89，两者色距 45.6。logo 是品牌最固定的一环，UI 向它靠拢。
+       （更早还有一个 #1e3a8a，是模板导入时带来的。）
+       上下六档按这套设计原有的步长推出来，明暗关系不变：
          lightest/lighter/light = 基色混白 89.8% / 79.7% / 29.9%
          dark/darker/darkest    = 基色乘 0.797 / 0.399 / 0.297
-       所以明暗关系和以前完全一致，只有色相整体位移。
-       白字压基色 10.60:1（旧值 10.36:1），压 --color-brand-mist 9.59:1。 */
-    --color-jacksons-purple-lightest: #eaebf2;
-    --color-jacksons-purple-lighter: #d4d6e6;
-    --color-jacksons-purple-light: #6c73a7;
-    --color-jacksons-purple: #2d3782;
-    --color-jacksons-purple-dark: #242c68;
-    --color-jacksons-purple-darker: #121634;
-    --color-jacksons-purple-darkest: #0d1027;
+       白字压基色 10.68:1（原 10.60）。 */
+    --color-jacksons-purple-lightest: #e5ebf3;
+    --color-jacksons-purple-lighter: #cbd7e7;
+    --color-jacksons-purple-light: #4c75ac;
+    --color-jacksons-purple: #003a89;
+    --color-jacksons-purple-dark: #002e6d;
+    --color-jacksons-purple-darker: #001737;
+    --color-jacksons-purple-darkest: #001129;
 
     /* Flamingo — warm accent */
     --color-flamingo-lightest: #fdefeb;
@@ -157,13 +158,32 @@
     --color-aqua-island-darkest: #324142;
 
     /* Punch — alert / destructive */
-    --color-punch-lightest: #fbebea;
-    --color-punch-lighter: #f7d7d5;
-    --color-punch-light: #e4736e;
-    --color-punch: #d93730;
-    --color-punch-dark: #ad2c26;
-    --color-punch-darker: #561613;
-    --color-punch-darkest: #41100e;
+    /* 基色 #e63946 —— logo 源文件里的 .st2（叶片右半）。2026-08-31 从 #d93730
+       换来，同一次向 logo 对齐。
+       ⚠ 白字压这个基色只有 4.17:1，过不了 AA（原来的 #d93730 是 4.63）。
+       所以语义别名 --color-error 指向 -dark 那一档而不是基色，见下面。
+       基色本身留作图形/填充用，它是 logo 的真实颜色。 */
+    --color-punch-lightest: #fcebec;
+    --color-punch-lighter: #fad7d9;
+    --color-punch-light: #ed747d;
+    --color-punch: #e63946;
+    --color-punch-dark: #b72d38;
+    --color-punch-darker: #5c171c;
+    --color-punch-darkest: #441115;
+
+    /* Steel —— logo 源文件里的 .st1（叶柄）。2026-08-31 补进色板：它是 logo
+       三色之一，此前整个色板里没有对应色阶，离最近的 aqua-island-dark 还有
+       84.8 的色距。
+       #457b9d / #e63946 / #a8dadc 本就是一套成组的配色，而 --color-aqua-island
+       正好就是 #a8dadc —— 说明 logo 用的是这一套，站点的蓝和红后来漂走了。
+       白字压基色 4.59:1，刚过 AA；要承载文字优先用 -dark（6.55:1）。 */
+    --color-steel-lightest: #ecf2f5;
+    --color-steel-lighter: #d9e4eb;
+    --color-steel-light: #7da2ba;
+    --color-steel: #457b9d;
+    --color-steel-dark: #37627d;
+    --color-steel-darker: #1c313f;
+    --color-steel-darkest: #14252f;
 
     /* Sulu — success / positive */
     --color-sulu-lightest: #f5fdf2;
@@ -301,7 +321,9 @@
     --color-warning: var(--color-flamingo);
     --color-warning-light: var(--color-flamingo-lighter);
     --color-warning-dark: var(--color-flamingo-darker);
-    --color-error: var(--color-punch);
+    /* 指向 -dark 而不是基色：白字压 punch 基色 #e63946 只有 4.17:1，过不了 AA。
+       -dark #b72d38 是 6.09:1。基色留给图形填充用。 */
+    --color-error: var(--color-punch-dark);
     --color-error-light: var(--color-punch-lighter);
     --color-error-dark: var(--color-punch-darker);
     --color-info: var(--color-jacksons-purple);
