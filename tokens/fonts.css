@@ -1,0 +1,39 @@
+/*
+ * Funnel Display — Latin and numerals in headings only.
+ *
+ * 站上唯一的网络字体。排在 --font-heading 的最前面，只认领它覆盖的字符 ——
+ * "2026"、"Shopify"、"B2B" —— 中文直接落到系统黑体（Mac 苹方 / Win 微软雅黑）。
+ *
+ * 中文标题曾经加载过网络字体（先 HarmonyOS Sans SC，后思源黑体），2026-08 取消：
+ * 实测一页要下 249.5KB 分片，只为渲染几十个中文字。标题的性格主要来自这个拉丁
+ * 展示体，中文黑体之间的差异读者基本感知不到，而 250KB 的首屏延迟感知得到。
+ * 现在四个切片一共 34KB，是全站字体开销的全部。
+ */
+@font-face {
+  font-family: 'Funnel Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('/fonts/funnel-display-latin-ext-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Funnel Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('/fonts/funnel-display-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Funnel Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/funnel-display-latin-ext-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Funnel Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/funnel-display-latin-700-normal.woff2') format('woff2');
+}

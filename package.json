@@ -1,0 +1,11 @@
+{
+  "name": "wt-design-system",
+  "version": "1.0.0",
+  "description": "梧桐小讲堂设计系统 —— 令牌、字体与规范",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,869 @@
+/*
+ * 梧桐设计系统 — 核心层（core）
+ * ============================================================================
+ *
+ * 这个文件是设计系统仓库 wt-design-system 的产物，由 `npm run sync-tokens`
+ * 同步过来。**不要在这里改** —— 改了会在下次同步时被覆盖。
+ * 要改品牌色、类型标尺、圆角、间距，去 wt-design-system/tokens/core.css。
+ *
+ * 这里放的是「跨站点通用」的东西：六条色阶、语义别名、类型标尺、圆角、间距、
+ * 容器、断点、阴影、动效、装饰层。
+ * 只属于本站某一页的东西（工具卡、筛选 chip、快装包导航底色）在 site.css。
+ *
+ * ----------------------------------------------------------------------------
+ * 维护铁律（完整版见设计系统仓库的 docs/）
+ *
+ * 1. 行高是字号的一部分。每一档自带行高，正文 1.75、标题 1.3–1.4。不要用
+ *    leading-snug / leading-tight 覆盖正文字号，那是拉丁字母的值。
+ * 2. 墨要实。正文和次级文字取颜色令牌，绝不用白/墨加透明度。透明度阶梯只给
+ *    蒙版、导轨、细线用。
+ * 3. AA 是地板不是及格线。每个文字颜色要在 --color-surface 和
+ *    --color-surface-alt 两个底上都过 4.5:1。
+ *
+ * 类型标尺在 lg（992px）断点整体跳一档，通过 --wt-* 中间变量实现。
+ */
+
+:root {
+    --wt-h1: 2.75rem;
+    --wt-h2: 2.5rem;
+    --wt-h3: 2rem;
+    --wt-h4: 1.5rem;
+    --wt-h5: 1.25rem;
+    --wt-h6: 1.125rem;
+    --wt-large: 1.125rem;
+    --wt-medium: 1rem;
+    --wt-regular: 0.75rem;
+    --wt-small: 0.75rem;
+    --wt-tiny: 0.625rem;
+
+    /* Display — the hero headline only. Kept separate from h1 so the hero can
+       carry the tight, heavy treatment without changing every h1 on the site.
+       Sized for CJK: full-width glyphs read considerably larger than Latin at
+       the same px, so this sits just *under* h1 rather than above it. */
+    --wt-display: 2.375rem;
+}
+
+@media (width >= 992px) {
+    :root {
+        --wt-display: 3.75rem;
+        --wt-h1: 4.5rem;
+        --wt-h2: 3.25rem;
+        --wt-h3: 2.75rem;
+        --wt-h4: 2.25rem;
+        --wt-h5: 1.75rem;
+        --wt-h6: 1.375rem;
+        --wt-large: 1.375rem;
+        --wt-medium: 1.125rem;
+        --wt-regular: 1rem;
+        --wt-small: 0.875rem;
+        --wt-tiny: 0.75rem;
+    }
+}
+
+@theme {
+    /* ==============================================================
+     * COLOURS
+     * Full ramps from the design system, plus the semantic aliases the
+     * components actually use. Prefer the semantic names in markup
+     * (bg-surface, text-content) — reach for a raw ramp only when the
+     * design genuinely calls for that specific swatch.
+     * ============================================================== */
+
+    /* Neutral */
+    --color-white: #ffffff;
+    /* ==============================================================
+     * 品牌色板（客户提供的九色板，逐色核对过）
+     *
+     * 其中四个 theme.css 里本来就有，值完全一致：
+     *   #d93730 = punch      #a8dadc = aqua-island
+     *   #a1ec84 = sulu       #f2673f = flamingo
+     * 说明这份 theme.css 就是从这张板子翻译来的。对不上的有两处：
+     *
+     * 1. 品牌海军蓝 #2d3782 —— 已于 2026-08-27 换成全站主色，
+     *    --color-jacksons-purple 整条 ramp 按它重算过（见下）。
+     * 2. 品牌板里有 #00dc82（亮翠绿），theme.css 整个色板里没有对应色阶。
+     *    上一轮我说「这个色板里没有明亮色，蓝族只有海军蓝一档」—— 是我
+     *    手上的 theme.css 缺了它，不是品牌缺。它就是那个活力色。
+     * ============================================================== */    /* 品牌色板（客户 2026-08-27 提供并逐色核对）：
+         #2d3782 海军蓝   #d93730 红     #a8dadc 浅青
+         #eff9fb 淡青底   #a1ec84 浅绿   #f2673f 珊瑚
+         #f1f4f5 浅灰     #ffffff 白     #00dc82 亮翠绿
+       其中海军蓝已经是全站主色（见下面 jacksons-purple 那条 ramp）。其余几支
+       /tools 页面当前没用到 —— 那一页的配色整套移植自 deals.meticsmedia.com，
+       见 --color-ref-* 一节。要用回品牌色时按上面的值取。
+
+       下面这支蓝不在品牌原板上，是客户指定按 deals.meticsmedia.com
+       的交互蓝来做 —— 那站的 --indigo，取自它自己的 :root，不是从截图取色。
+       白字压它 5.24:1 过 AA；深一档 #0e48d6 是 7.20:1，用作 hover。
+       它跟 --color-brand-navy 分工不同：navy 是「这是梧桐」（选中的 chip、
+       首选徽章），blue 是「点这里」（每张卡上那一个访问官网）。 */
+    --color-brand-blue: #165dfc;
+    --color-brand-blue-deep: #0e48d6;
+
+    /* 品牌板那两支浅色，这一页不用了 —— #f1f4f5(L=0.900) 客户判为还是重，
+       列表页的底直接用参考站原值 --color-ref-bg #fbfbfd(L=0.966)。 */
+
+    --color-neutral-lightest: #f2f2f2;
+    --color-neutral-lighter: #dad9d9;
+    --color-neutral-light: #b5b3b3;
+    --color-neutral: #858180;
+    --color-neutral-dark: #544e4d;
+    --color-neutral-darker: #231c1b;
+    --color-neutral-darkest: #0b0302;
+
+    /* Jacksons Purple — brand primary (deep indigo blue) */
+    /* 基色 #2d3782 来自品牌色板（2026-08-27 客户确认）。原来是 #1e3a8a ——
+       同样是海军蓝，但色相偏了，品牌那支更靛。
+       换的只是基色：上下六档仍按这套设计原有的步长推出来，
+         lightest/lighter/light = 基色混白 89.8% / 79.7% / 29.9%
+         dark/darker/darkest    = 基色乘 0.797 / 0.399 / 0.297
+       所以明暗关系和以前完全一致，只有色相整体位移。
+       白字压基色 10.60:1（旧值 10.36:1），压 --color-brand-mist 9.59:1。 */
+    --color-jacksons-purple-lightest: #eaebf2;
+    --color-jacksons-purple-lighter: #d4d6e6;
+    --color-jacksons-purple-light: #6c73a7;
+    --color-jacksons-purple: #2d3782;
+    --color-jacksons-purple-dark: #242c68;
+    --color-jacksons-purple-darker: #121634;
+    --color-jacksons-purple-darkest: #0d1027;
+
+    /* Flamingo — warm accent */
+    --color-flamingo-lightest: #fdefeb;
+    --color-flamingo-lighter: #fce0d8;
+    --color-flamingo-light: #f59478;
+    --color-flamingo: #f2673f;
+    /* #c15232 measured 4.61:1 on white but only 4.45:1 on --color-surface-alt,
+       and half the site's sections run on that tint — so every in-body link
+       (.link-inline resolves here) was failing AA on alternate sections. This
+       step clears both grounds, and because it is also what every text-bearing
+       flamingo now resolves to, one value fixes links, badge fills, star
+       ratings and the timeline dots at once:
+         #c15232  5.04:1 white / 4.45:1 surface-alt   ✗
+         #b94d2f  5.04:1 white / 4.82:1 surface-alt   ✓  (white on it: 5.04:1)
+       Same hue, one step deeper. --color-flamingo stays exactly as drawn — it
+       is still the right colour for rules, rails and dots, which carry no text
+       and answer to the 3:1 graphics threshold instead. */
+    --color-flamingo-dark: #b94d2f;
+    --color-flamingo-darker: #602919;
+    --color-flamingo-darkest: #481e12;
+
+    /* Aqua Island — surface tint for every soft section background */
+    --color-aqua-island-lightest: #f6fbfb;
+    --color-aqua-island-lighter: #edf7f8;
+    --color-aqua-island-light: #c2e5e6;
+    --color-aqua-island: #a8dadc;
+    --color-aqua-island-dark: #86aeb0;
+    --color-aqua-island-darker: #435758;
+    --color-aqua-island-darkest: #324142;
+
+    /* Punch — alert / destructive */
+    --color-punch-lightest: #fbebea;
+    --color-punch-lighter: #f7d7d5;
+    --color-punch-light: #e4736e;
+    --color-punch: #d93730;
+    --color-punch-dark: #ad2c26;
+    --color-punch-darker: #561613;
+    --color-punch-darkest: #41100e;
+
+    /* Sulu — success / positive */
+    --color-sulu-lightest: #f5fdf2;
+    --color-sulu-lighter: #ecfbe6;
+    --color-sulu-light: #bdf1a8;
+    --color-sulu: #a1ec84;
+    --color-sulu-dark: #80bc69;
+    --color-sulu-darker: #405e34;
+    --color-sulu-darkest: #304627;
+
+    /* Alpha ramps — the only legal way to make a translucent ink or veil */
+    --color-white-5: color-mix(in srgb, var(--color-white), transparent 95%);
+    --color-white-10: color-mix(in srgb, var(--color-white), transparent 90%);
+    --color-white-15: color-mix(in srgb, var(--color-white), transparent 85%);
+    --color-white-20: color-mix(in srgb, var(--color-white), transparent 80%);
+    --color-white-30: color-mix(in srgb, var(--color-white), transparent 70%);
+    --color-white-40: color-mix(in srgb, var(--color-white), transparent 60%);
+    --color-white-50: color-mix(in srgb, var(--color-white), transparent 50%);
+    --color-white-60: color-mix(in srgb, var(--color-white), transparent 40%);
+    --color-ink-5: color-mix(in srgb, var(--color-neutral-darkest), transparent 95%);
+    --color-ink-10: color-mix(in srgb, var(--color-neutral-darkest), transparent 90%);
+    --color-ink-15: color-mix(in srgb, var(--color-neutral-darkest), transparent 85%);
+    --color-ink-20: color-mix(in srgb, var(--color-neutral-darkest), transparent 80%);
+    --color-ink-30: color-mix(in srgb, var(--color-neutral-darkest), transparent 70%);
+    --color-ink-40: color-mix(in srgb, var(--color-neutral-darkest), transparent 60%);
+    --color-ink-50: color-mix(in srgb, var(--color-neutral-darkest), transparent 50%);
+    --color-ink-60: color-mix(in srgb, var(--color-neutral-darkest), transparent 40%);
+
+    /* Channel marks. These are外部平台的品牌色, not ours — they exist so the
+       follow block can carry each channel's own identity instead of painting
+       everything brand blue. Use them nowhere else. */
+    /* macOS window lights. Like the channel colours these are somebody else's
+       palette, quoted deliberately — the browser frame only reads as a browser
+       if the three dots are the exact colours everyone recognises. */
+    --color-mac-close: #ff5f57;
+    --color-mac-minimise: #febc2e;
+    --color-mac-zoom: #28c840;
+
+    --color-channel-youtube: #ff0033;
+    /* Same problem the bilibili pair below already solves, caught later: white
+       on #ff0033 is 3.96:1, under AA. This deepened red clears 4.94:1 so the
+       channel button can stay white-on-colour. Decoration — the rail and the
+       dot — keeps the real brand red. */
+    --color-channel-youtube-dark: #e10032;
+    --color-channel-bilibili: #fb7299;
+    /* B站's pink is too light to carry white text (2.6:1) and near-black on it
+       reads muddy. This deepened version clears AA against white at 5.2:1, so
+       the two channel buttons can both be white-on-colour. Decoration keeps the
+       real brand pink. */
+    --color-channel-bilibili-dark: #c23b63;
+
+    /* Washi tape — the decorative strips that pin photos and cards down.
+       Always translucent so whatever sits underneath still reads through. */
+    --color-tape-blue: color-mix(in srgb, var(--color-aqua-island), transparent 40%);
+    --color-tape-peach: color-mix(in srgb, var(--color-flamingo-light), transparent 55%);
+
+    /* --- Semantic aliases (use these in markup) --- */
+    --color-primary: var(--color-jacksons-purple);
+    --color-primary-dark: var(--color-jacksons-purple-dark);
+    --color-primary-light: var(--color-jacksons-purple-light);
+    --color-secondary: var(--color-flamingo);
+    --color-secondary-dark: var(--color-flamingo-dark);
+    --color-secondary-light: var(--color-flamingo-light);
+    /* 导航里那个「Shopify 快装包」的底。
+       色相取自 Shopify 自己的品牌绿 —— shopify.svg 里量到的是 #95bf47，
+       本站色板里最接近的是 sulu-dark #80bc69（色距 40，同一族），所以用后者
+       兑白推出来，不引色板外的色号。
+       混白 85% 是照着原来那支珊瑚淡底的亮度反推的（两边都是 L≈0.886）——
+       只换色相，不改轻重。字仍旧是正文色，压在这两档底上都是 14.7:1 以上。 */
+    --color-accent: var(--color-aqua-island);
+    --color-accent-dark: var(--color-aqua-island-dark);
+    --color-accent-light: var(--color-aqua-island-light);
+    --color-on-primary: var(--color-white);
+    --color-on-secondary: var(--color-white);
+    --color-on-accent: var(--color-neutral-darkest);
+
+    --color-surface: var(--color-white);
+    --color-surface-alt: var(--color-aqua-island-lightest);
+    --color-surface-hover: var(--color-aqua-island-lighter);
+    --color-surface-sunken: var(--color-neutral-lightest);
+    --color-surface-inverse: var(--color-jacksons-purple-dark);
+
+    /* Not the darkest step. #0b0302 is effectively pure black, and pure black on
+       white is the single hardest edge a screen can draw — it is what makes an
+       otherwise fine layout feel like a system dialog. One step up still clears
+       15:1 and reads as ink rather than as a border. */
+    --color-content: var(--color-neutral-darker);
+    --color-content-light: var(--color-neutral-dark);
+    /* NOT --color-neutral (#858180). That step measures 3.69:1 on white and
+       3.55:1 on --color-surface-alt — it fails WCAG AA (4.5:1) for normal text,
+       and this is the token every caption, eyebrow, meta line and helper string
+       on the site reaches for. 25 uses across 16 files were all sitting below
+       the line, which is what made pages read washed-out and grey rather than
+       quiet: the eye keeps trying to resolve strokes that never quite land.
+       Measured on the two grounds the site actually uses:
+         #858180  3.69:1 white / 3.55:1 surface-alt   ✗
+         #6f6b6a  5.28:1 white / 5.05:1 surface-alt   ✓
+       Still two clear steps lighter than --color-content-light (8.16:1), so the
+       hierarchy survives — it just stops being a legibility problem. */
+    --color-content-lighter: #6f6b6a;
+    /* Fourth step down, and the only one in this ramp that is NOT for text.
+       3.43:1 clears the 3:1 threshold for graphics — a disabled icon, the lock
+       in a browser-chrome mockup — and nothing else. It was #b5b3b3 (2.09:1),
+       which failed even that.
+       Anything a reader has to read, including a copyright line and an input
+       placeholder, takes --color-content-lighter instead. Both were on this
+       token and both were failing AA. */
+    --color-content-faint: #8d8a89;
+    --color-content-inverse: var(--color-white);
+    /* Secondary text on --color-surface-inverse. A SOLID ramp step, not white
+       at reduced alpha, and that distinction is CJK-specific enough to be worth
+       spelling out: alpha thins every stroke by the same proportion. A Latin
+       letterform has few enough strokes to survive it; a 14px 檀 or 繁 has a
+       dozen in the same box, and at 60% they stop resolving into a character
+       even though the measured ratio still clears AA (white-60 on the inverse
+       surface #242c68 is 5.28:1 — passing, and unreadable).
+       This step measures 8.90:1 on the inverse surface and keeps a clear
+       distance from the pure-white headings above it (12.84:1).
+       Both numbers re-measured 2026-08-27 after the base hue moved to
+       #2d3782; they were 5.57 / 8.87 on the old ramp. */
+    --color-content-inverse-light: var(--color-jacksons-purple-lighter);
+
+    --color-outline: var(--color-neutral-lighter);
+    --color-outline-light: var(--color-neutral-lightest);
+    --color-outline-inverse: var(--color-white-20);
+    /* Card hairlines: cooler and lighter than --color-outline, which is a warm
+       grey and reads as a heavy box when repeated across a wall of cards.
+       --color-outline-hover is the same line tinted with the brand blue. */
+    --color-outline-soft: var(--color-ink-10);
+    --color-outline-hover: color-mix(in srgb, var(--color-primary), transparent 75%);
+
+    --color-success: var(--color-sulu-dark);
+    --color-success-light: var(--color-sulu-lighter);
+    --color-success-dark: var(--color-sulu-darker);
+    --color-warning: var(--color-flamingo);
+    --color-warning-light: var(--color-flamingo-lighter);
+    --color-warning-dark: var(--color-flamingo-darker);
+    --color-error: var(--color-punch);
+    --color-error-light: var(--color-punch-lighter);
+    --color-error-dark: var(--color-punch-darker);
+    --color-info: var(--color-jacksons-purple);
+    --color-info-light: var(--color-jacksons-purple-lightest);
+    --color-info-dark: var(--color-jacksons-purple-darker);
+
+    /* ==============================================================
+     * TYPOGRAPHY
+     * System CJK-first stack — the design loads no webfonts on purpose.
+     * Every family ships with the OS.
+     * ============================================================== */
+    /* CJK families first, on purpose.
+     *
+     * With -apple-system leading, a mixed line like "Envato Elements 评测" is set
+     * in two unrelated typefaces: SF Pro draws the Latin, PingFang draws the
+     * Chinese. Their x-heights and stroke weights don't agree, so the Latin
+     * reads a size smaller than the Chinese sitting right next to it. PingFang
+     * and YaHei both ship Latin glyphs drawn to match their own ideographs, so
+     * putting them first makes one line one typeface. */
+    --font-sans:
+        'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC',
+        'Source Han Sans SC', -apple-system, 'Segoe UI', sans-serif;
+    /* 标题只加载一个拉丁展示体 Funnel Display（34KB，见 fonts.css），中文落到
+       --font-sans 的系统栈。"2026"、"Shopify"、"B2B" 走展示体，中文走苹方/雅黑，
+       靠的是字体栈顺序加各自的字符覆盖范围，不是手动切分标签。
+
+       中文标题曾用网络字体：先 HarmonyOS Sans SC（许可证不允许子集化后再分发），
+       后思源黑体（OFL 合规但一页要下 249.5KB）。2026-08 一并取消 —— 标题的性格
+       来自拉丁展示体，中文黑体之间的差异抵不上那个体积。 */
+    --font-heading: 'Funnel Display', var(--font-sans);
+    --font-body: var(--font-sans);
+    /* Monospace. global.css has always set code/kbd/samp/pre to var(--font-mono)
+       and the variable never existed, so every code block on the site has been
+       falling back to the browser default. Defined here as a system stack — the
+       numerals in the install-steps rail need to be tabular and evenly spaced,
+       and that is not worth a font download. */
+    --font-mono:
+        ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas,
+        'Liberation Mono', monospace;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    /* 600, not 700, and this matters more than it looks.
+     *
+     * PingFang SC ships Ultralight→Semibold and has no Bold. Ask for 700 and the
+     * rasteriser fakes it by smearing every stroke outward: counters clog, corners
+     * square off, and Chinese headings take on exactly the blunt, hard look of
+     * 微软雅黑 Bold. 600 is a real cut of the typeface, drawn rather than computed.
+     *
+     * anything using the heading face gets a drawn bold. This value is what body
+     * copy and UI text fall back to. */
+    /* 原来 bold 和 semibold 都是 600 —— 也就是说这套系统里没有「粗体」，
+       h1、卡片标题、按钮、chip、徽章全都落在同一个字重上。整页 145 个文字节点
+       有 95 个是 600，中文在这个密度下会糊成一块，跟行高压太紧是同一个病。
+       700 让标题真的比正文重一档，剩下的往下让位。 */
+    --font-weight-bold: 700;
+
+    /* ==============================================================
+     * READING RULES — these bind every future change to this file.
+     *
+     * 1. LINE HEIGHT IS PART OF THE SIZE. Each step below ships its own
+     *    line-height, tuned for Chinese: 1.75 for anything that runs as prose,
+     *    1.3–1.4 only for headings. Do NOT override a prose size with
+     *    `leading-snug` / `leading-tight` (1.375 / 1.25) — those are Latin
+     *    values. A Chinese glyph carries several times the stroke density of a
+     *    letter in the same box, so squeezing the leading closes the gaps
+     *    between rows and the paragraph greys into a block. Tight leading is
+     *    for a two-line card title and nothing else.
+     *
+     * 2. INK IS SOLID. Body and secondary text take a colour token, never
+     *    white/ink at reduced alpha. Alpha thins every stroke proportionally,
+     *    which Latin survives and CJK does not — see
+     *    --color-content-inverse-light. The alpha ramps are for veils, rails
+     *    and hairlines, not for text.
+     *
+     * 3. AA IS THE FLOOR, NOT THE TEST. Every text colour here clears 4.5:1 on
+     *    both --color-surface and --color-surface-alt (the two grounds the site
+     *    actually uses — measuring only against white is how the in-body link
+     *    colour shipped at 4.45:1 on half the sections). Clearing it is not
+     *    sufficient: both of the rules above describe text that passes the
+     *    ratio and still cannot be read.
+     * ============================================================== */
+
+    /* Type scale -> text-display, text-h1 … text-h6, text-large … text-tiny */
+    --text-display: var(--wt-display);
+    --text-display--line-height: 1.15;
+    --text-display--letter-spacing: -0.01em;
+    --text-h1: var(--wt-h1);
+    --text-h1--line-height: 1.3;
+    --text-h1--letter-spacing: 0em;
+    --text-h2: var(--wt-h2);
+    --text-h2--line-height: 1.3;
+    --text-h2--letter-spacing: 0em;
+    --text-h3: var(--wt-h3);
+    --text-h3--line-height: 1.3;
+    --text-h3--letter-spacing: 0em;
+    --text-h4: var(--wt-h4);
+    --text-h4--line-height: 1.4;
+    --text-h4--letter-spacing: 0em;
+    --text-h5: var(--wt-h5);
+    --text-h5--line-height: 1.4;
+    --text-h5--letter-spacing: 0em;
+    --text-h6: var(--wt-h6);
+    --text-h6--line-height: 1.4;
+    --text-h6--letter-spacing: 0em;
+    --text-large: var(--wt-large);
+    --text-large--line-height: 1.75;
+    --text-medium: var(--wt-medium);
+    --text-medium--line-height: 1.75;
+    --text-regular: var(--wt-regular);
+    --text-regular--line-height: 1.75;
+    --text-small: var(--wt-small);
+    --text-small--line-height: 1.75;
+    /* 卡内四档字号。参考站量到的是 15.5 / 12 / 13.5 / 11.5px —— 那是给拉丁
+       字母排的，同样的字号中文要小一号才看得清，所以整体上调约 1.5px：
+         标题 15.5 -> 17    描述 13.5 -> 15
+         标签 12   -> 13    徽章 11.5 -> 13
+       行高保持 1.5-1.6（比参考站的 1.55 略松，中文两行以内够用）。 */
+    --text-cardname--line-height: 1.4;
+    --text-cardlabel--line-height: 1.5;
+    --text-carddesc--line-height: 1.6;
+    --text-badge--line-height: 1.5;
+
+    --text-tiny: var(--wt-tiny);
+    --text-tiny--line-height: 1.5;
+
+    /* Navigation and other short UI labels — the same reasoning that fixed the
+       article body, applied to chrome.
+       Size: fixed 1rem. --text-regular drops to 0.75rem below 992px, which is
+       fine for a caption and far too small for a 教程 / 工具 / 关于 you are
+       meant to hit with a thumb. The bar is the same height everywhere, so the
+       label should be too.
+       Weight: 500. At 400 a four-stroke character carries too little ink to
+       hold its shape at 16px, and it reads washed out next to the logo. 500 is
+       PingFang's drawn Medium, not a rasterised fake, so the strokes get
+       darker without the counters closing up. */
+    --text-nav: 1rem;
+    --text-nav--line-height: 1.5;
+
+    /* Eyebrow micro-labels. Latin small caps get their air from letter-spacing;
+       CJK needs less of it, so this is deliberately tighter than a Western kit
+       would use. */
+    --tracking-eyebrow: 0.12em;
+
+    /* Pull quotes in testimonial cards: a touch smaller than body copy with a
+       generous 1.7 leading, so a wall of them reads calm rather than shouty.
+       Fixed rather than responsive — these cards are the same size everywhere. */
+    --text-quote: 0.875rem;
+    --text-quote--line-height: 1.7;
+
+    /* ==============================================================
+     * RADIUS — "bubble" UI: pills for anything you click, 16px to read.
+     * ============================================================== */
+    --radius-button: 6.25rem;
+    --radius-badge: 6.25rem;
+    --radius-carousel: 6.25rem;
+    /* 24px, not 16px. Cards carry no border any more, so the corner is the only
+       thing describing the card's shape — it has to be generous enough to read. */
+    /* 24px -> 16px。24 在小卡上会圆到发胖，读着不够利落；16 是工具页那批卡
+       一直在用的值（移植自 deals.meticsmedia.com），现在全站统一到它。 */
+    --radius-card: 1rem;
+    --radius-image: 1rem;
+    --radius-form: min(6.25rem, 0.75rem);
+    --radius-checkbox: 0.25rem;
+    --radius-full: 9999px;
+    /* A phone bezel. Not --radius-card: a handset corner is far rounder than
+       any card, and at card radius the mockup stops reading as a phone. */
+    --radius-device: 1.75rem;
+    /* The screen inside that bezel. --radius-device minus the 0.375rem bezel
+       width: concentric corners, or the gap between glass and shell visibly
+       changes thickness around the curve. */
+    --radius-device-screen: 1.375rem;
+    /* Paper details: a photo sitting inside a white frame, and the tape itself. */
+    /* 导航「更多」里那三个 24px 品牌牌子的圆角。两个品牌 SVG 自带的圆角
+       换算到 24px 上分别是 7px 和 4px，取中间 6px，三个看起来才是一套。 */
+    --radius-mark: 0.375rem;
+
+    --radius-photo: 0.75rem;
+    --radius-tape: 0.125rem;
+
+    /* ==============================================================
+     * SPACING & CONTAINERS
+     * The numeric scale (--space-1 … --space-30) is intentionally omitted:
+     * it is identical to Tailwind's own 0.25rem scale, so p-4 already equals
+     * the design's --space-4. Only the semantic rhythm needs tokens.
+     * ============================================================== */
+    --spacing-gutter: 5%;
+    /* Brand mark heights. The header runs the flat wordmark. The footer runs the
+       embossed version, whose artboard carries ~44% empty margin — hence the
+       much larger box for a mark that ends up only slightly bigger on screen. */
+
+    /* 紧凑工具卡的 logo 方块。48px，跟名字排一行；旧卡那个 aspect-video 图版
+       在 359px 宽的卡上要吃掉 202px，一张卡 42% 的高度是个空盒子。 */
+
+    --spacing-logo: 2.5rem;
+    --spacing-logo-footer: 7.5rem;
+    /* Section rhythm — retuned to the homepage's cadence (14 / 20 / 28 on the
+       spacing scale). The homepage was settled first and every other page is
+       being brought onto it, so these tokens now carry that rhythm rather than
+       the 4/6/7rem the Relume sections shipped with. Use py-section, never the
+       raw numbers. */
+    --spacing-section: 3.5rem;
+    --spacing-section-md: 5rem;
+    --spacing-section-lg: 7rem;
+    /* Gap between a section's header block and its content. */
+    --spacing-section-header-gap: 3rem;
+    --spacing-section-header-gap-md: 4rem;
+    --spacing-section-header-gap-lg: 4rem;
+
+    /* max-w-shell = page width, max-w-readable = reading column */
+    --container-shell: 80rem;
+    /* 工具列表专用，70rem = 1120px —— 参考站 deals.meticsmedia.com 的容器就是
+       这个宽。用 max-w-shell(1280) 时三列每张 416px，而卡内字号是照它 347px
+       排的，结果字显小、右边空一大片。宽度和字号必须是一套。 */
+    --container-readable: 48rem;
+    --container-narrow: 35rem;
+
+    /* ==============================================================
+     * BORDERS, MOTION, ELEVATION
+     * Buttons are flat pills — no offset shadow, no press travel; hover is a
+     * soft tone shift. Elevation is limited to these three steps, and nothing
+     * else in the project may invent a fourth:
+     *   shadow-card       resting state of a hairline card
+     *   shadow-card-hover the same card under the cursor
+     *   shadow-lift       paper elements (a taped photo) sitting off the page
+     * ============================================================== */
+    /* No drop-shadow token for the embossed mark on purpose: the artwork already
+       carries its own bevel and highlights, and any cast shadow underneath —
+       however light — greys down the metal. Leave it unshadowed. */
+    /* 参考站 .card:hover 的阴影，原值照抄。负扩散(-12px)是关键：阴影只在卡
+       正下方收成一小片，不往四周漫，所以二十张卡同时存在也不会糊。 */
+
+    --shadow-card: 0 0.625rem 1.875rem var(--color-ink-5);
+    --shadow-card-hover: 0 1rem 2.5rem var(--color-ink-10);
+    --shadow-lift: 0 1.25rem 2.5rem -1rem var(--color-ink-20);
+    /* Glass panels floating over a coloured glow. The shadow is tinted with the
+       brand blue, not black: a neutral shadow over a blue glow turns grey and
+       kills the light. */
+    --shadow-glass: 0 1.5rem 3rem -1.25rem
+        color-mix(in srgb, var(--color-primary), transparent 72%);
+
+    --border-width-card: 1px;
+    --border-width-divider: 1px;
+    --border-width-control: 1.5px;
+
+    --ease-ds: cubic-bezier(0.4, 0, 0.2, 1);
+    /* --motion-fast 200ms / --motion-base 300ms map exactly onto Tailwind's
+       duration-200 / duration-300, so no extra tokens are needed. */
+
+    /* ==============================================================
+     * BREAKPOINTS — the design's, not Tailwind's defaults.
+     * ============================================================== */
+    --breakpoint-sm: 480px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+}
+
+/* ------------------------------------------------------------------
+ * 3. Paper details
+ *
+ * The decorative layer: photos and cards are pinned to the page with washi
+ * tape and sit at a slight angle, backed by a dot grid. These are rotations
+ * and background patterns rather than colours or sizes, so they live as
+ * component classes instead of Tailwind utilities — but every value they use
+ * still comes from a token above.
+ *
+ * Keep this layer rare. It belongs on the hero and on the two feature cards;
+ * everywhere else the page stays flat and quiet, which is what makes these
+ * few touches read as craft rather than scrapbook.
+ * ------------------------------------------------------------------ */
+:root {
+    --rotate-card: 1.5deg;
+    --rotate-tape: -8deg;
+    --rotate-tape-alt: 6deg;
+    --pattern-dot-gap: 1rem;
+    --pattern-dot-size: 1.5px;
+}
+
+@layer components {
+    .tilt-card {
+        rotate: var(--rotate-card);
+    }
+    .tilt-card-reverse {
+        rotate: calc(var(--rotate-card) * -1);
+    }
+
+    .tape {
+        border-radius: var(--radius-tape);
+        rotate: var(--rotate-tape);
+    }
+    .tape-alt {
+        rotate: var(--rotate-tape-alt);
+    }
+
+    .pattern-dots {
+        background-image: radial-gradient(
+            var(--pattern-dot-color, var(--color-neutral-light)) var(--pattern-dot-size),
+            transparent var(--pattern-dot-size)
+        );
+        background-size: var(--pattern-dot-gap) var(--pattern-dot-gap);
+    }
+
+    /* Warm variant, for dropping a patch of texture into a section corner. */
+    .pattern-dots-accent {
+        --pattern-dot-color: var(--color-secondary);
+    }
+
+    /* Fades a decoration out towards its bottom-right, so a patch of pattern
+       dissolves into the page instead of ending on a hard square edge. */
+    .pattern-fade {
+        mask-image: radial-gradient(120px 120px at 0 0, black 24%, transparent 72%);
+    }
+
+    /* The same idea for a patch that floats free rather than sitting in a
+       corner: solid in the middle, gone at every edge. `closest-side` keys the
+       mask to the element, so unlike .pattern-fade's fixed 120px it holds at
+       any size. */
+    .pattern-fade-soft {
+        mask-image: radial-gradient(closest-side, black 40%, transparent 100%);
+    }
+
+    /* Line grid — the ground plane of a modern product page. Two 1px rules
+       crossing at --grid-gap, tinted with the brand blue rather than grey so it
+       reads as a drawing surface instead of graph paper. */
+    .pattern-grid {
+        background-image:
+            linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+        background-size: var(--grid-gap, 4.5rem) var(--grid-gap, 4.5rem);
+        --grid-color: color-mix(in srgb, var(--color-primary), transparent 92%);
+    }
+
+    /* Same grid on a dark ground: a white hairline instead of a blue one. */
+    .pattern-grid-inverse {
+        --grid-color: var(--color-white-10);
+    }
+
+    /* Clears the grid out of the middle so the headline sits on plain ground
+       and the lines only show where the composition is empty. */
+    .pattern-grid-fade {
+        mask-image: radial-gradient(
+            ellipse 62% 58% at 50% 46%,
+            transparent 38%,
+            black 92%
+        );
+    }
+
+    /* Coarser grid for a patch big enough that the 16px rhythm turns to mush. */
+    .pattern-dots-lg {
+        --pattern-dot-gap: 1.375rem;
+        --pattern-dot-size: 2px;
+    }
+
+    /* The hand-drawn stroke under a keyword. `pathLength="1"` on the <path>
+       normalises the dash maths, so this works for any stroke length.
+       Without motion (or without support) the stroke is simply already drawn. */
+    .underline-draw {
+        stroke-dashoffset: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .underline-draw {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            /* 700ms, matching the hero block's own arrival: the stroke starts
+               drawing exactly as the heading finishes settling. At the old
+               300ms it began while the text was still ~40% faded in, so two
+               things moved at once and neither registered. */
+            animation: underline-draw 600ms var(--ease-ds) 700ms forwards;
+        }
+    }
+
+    /* Optical size correction for a logo whose artwork sits narrow inside the
+       shared canvas.
+       The logo files are normalised by HEIGHT — every mark is drawn 78px tall
+       on a 440×225 canvas — but the card sizes them by WIDTH, because that is
+       what fills the plate. A compact lockup like Blocksy fills only 55% of the
+       canvas width where SiteGround's wordmark fills 87%, so at identical
+       height it carries visibly less weight. This nudges the narrow ones back
+       to par. Optical, not mathematical: the eye decides, hence a short scale
+       of fixed steps rather than a computed ratio. */
+    .logo-scale-110 { scale: 1.1; }
+    .logo-scale-120 { scale: 1.2; }
+
+    /* ------------------------------------------------------------------
+     * Floating hero tiles
+     *
+     * The eight scattered tiles in the tools hero drift instead of sitting
+     * still. Three rules keep it from turning into a screensaver:
+     *
+     *   amplitude  10–14px over a 7–10s cycle. Big enough to read as alive at
+     *              the edge of vision, small enough that nothing appears to
+     *              move while you are looking at the headline.
+     *   phase      every tile gets a NEGATIVE delay, so each one starts already
+     *              part-way through its cycle. Positive delays would have all
+     *              eight sitting still and then setting off together, and a
+     *              synchronised bob reads as a mechanism rather than as drift.
+     *   drift      the rotation is a fraction of a degree and alternates sign,
+     *              so neighbouring tiles never lean the same way at once.
+     *
+     * Transform only — no layout property is animated, so this cannot reflow
+     * the hero or shift the heading.
+     * ------------------------------------------------------------------ */
+    .float-tile {
+        animation: float-drift var(--float-duration, 8s) var(--ease-ds) infinite;
+        will-change: transform;
+    }
+    /* Eight literal variants rather than an inline style per tile: the values
+       are a design decision, so they live here with the rest of them. */
+    .float-1 { --float-drift: 12px; --float-tilt: 0.5deg;  --float-duration: 7.5s;  animation-delay: -0.6s; }
+    .float-2 { --float-drift: 9px;  --float-tilt: -0.4deg; --float-duration: 9.5s;  animation-delay: -3.1s; }
+    .float-3 { --float-drift: 14px; --float-tilt: 0.6deg;  --float-duration: 8.2s;  animation-delay: -5.4s; }
+    .float-4 { --float-drift: 10px; --float-tilt: -0.5deg; --float-duration: 10s;   animation-delay: -1.8s; }
+    .float-5 { --float-drift: 11px; --float-tilt: -0.5deg; --float-duration: 8.8s;  animation-delay: -4.2s; }
+    .float-6 { --float-drift: 13px; --float-tilt: 0.4deg;  --float-duration: 7.2s;  animation-delay: -2.5s; }
+    .float-7 { --float-drift: 9px;  --float-tilt: -0.6deg; --float-duration: 9.1s;  animation-delay: -6.3s; }
+    .float-8 { --float-drift: 12px; --float-tilt: 0.5deg;  --float-duration: 8.5s;  animation-delay: -0.9s; }
+
+    @media (prefers-reduced-motion: reduce) {
+        .float-tile {
+            animation: none;
+        }
+    }
+
+    /* ------------------------------------------------------------------
+     * Layered reveal
+     *
+     * One composition arriving in order — heading, then the line under it,
+     * then the button, then the screenshot — rather than eight elements
+     * fading in wherever they happen to be. Reserved for a first screen; a
+     * page that does this to every section is a page you wait for.
+     *
+     * Declared only inside the no-preference query, so the resting state is
+     * simply "visible". Nothing can leave an element stuck at opacity 0 if
+     * the animation never runs — which is what a `.rise-in { opacity: 0 }`
+     * base rule would risk on any browser that skipped it.
+     *
+     * 1rem and 700ms: far enough to read as arriving, short enough that the
+     * headline is settled before the eye has finished the first line.
+     * ------------------------------------------------------------------ */
+    @media (prefers-reduced-motion: no-preference) {
+        .rise-in {
+            animation: rise-in var(--rise-duration, 700ms) var(--ease-ds) both;
+            animation-delay: var(--rise-delay, 0ms);
+        }
+    }
+
+    /* The second half of a two-block first screen. Measured off convology.com,
+       which is this homepage's model: its .hero-text runs 0.7s and its
+       .hero-photo runs 0.9s, both starting at 0s.
+       That is a stagger by DURATION, not by delay, and the difference is worth
+       preserving. With delays, the second block sits visibly holding still
+       while the first one arrives — the page reads as a queue. Starting both at
+       once and letting the heavier one take longer reads as two things falling
+       into place at their own weight, which is the whole effect. */
+    .rise-slow {
+        --rise-duration: 900ms;
+    }
+
+    /* Steps of 90ms. Below ~70ms a stagger reads as one blurred event; above
+       ~120ms the last element arrives after the reader has started reading. */
+    .rise-1 { --rise-delay: 0ms; }
+    .rise-2 { --rise-delay: 90ms; }
+    .rise-3 { --rise-delay: 180ms; }
+    .rise-4 { --rise-delay: 270ms; }
+    .rise-5 { --rise-delay: 360ms; }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 1rem;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@keyframes float-drift {
+    0%,
+    100% {
+        translate: 0 0;
+        rotate: 0deg;
+    }
+    50% {
+        translate: 0 calc(var(--float-drift, 12px) * -1);
+        rotate: var(--float-tilt, 0.5deg);
+    }
+}
+
+@keyframes underline-draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * 4. Scroll-driven motion
+ *
+ * The timeline rail fills and its dots light up as they pass the viewport.
+ * Both are driven by `animation-timeline`, so there is no JavaScript and no
+ * scroll listener — the browser runs them off the compositor.
+ *
+ * Progressive enhancement: without `animation-timeline` support (Firefox, and
+ * Safari before 26) the rail simply renders fully drawn and every dot is
+ * already active, which is a perfectly good static design. The same static
+ * result is used when the visitor prefers reduced motion.
+ * ------------------------------------------------------------------ */
+@layer components {
+    .timeline-rail-fill {
+        transform-origin: top;
+    }
+
+    /* Retints a rail without copying the animation: the keyframes read these
+       two properties. --color-secondary-dark rather than --color-secondary,
+       because flamingo at full strength is 2.9:1 on white and the dot has to
+       read as lit, not as faded — the dark step clears 4.6:1. */
+    .timeline-accent {
+        --timeline-dot-on: var(--color-secondary-dark);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        @supports (animation-timeline: view()) {
+            .timeline-rail-fill {
+                transform: scaleY(0);
+                animation: timeline-rail-fill linear both;
+                animation-timeline: view();
+                animation-range: cover 0% cover 100%;
+            }
+
+            .timeline-dot {
+                /* Both endpoints are declared in the keyframes rather than here:
+                   the dot carries a `bg-content` utility as its no-support
+                   fallback, and utilities outrank this layer, so an implicit
+                   `from` would just inherit the final colour. */
+                animation: timeline-dot-on steps(1, end) both;
+                animation-timeline: view();
+                /* Flips as the dot crosses the middle of the viewport. */
+                animation-range: cover 45% cover 55%;
+            }
+        }
+    }
+}
+
+@keyframes timeline-rail-fill {
+    to {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes timeline-dot-on {
+    from {
+        background-color: var(--timeline-dot-off, var(--color-neutral-light));
+    }
+    to {
+        background-color: var(--timeline-dot-on, var(--color-content));
+    }
+}
+
+
+/* /tools 的按钮蓝 = --color-brand-blue #165dfc，见上面品牌色一节。 */
+
+

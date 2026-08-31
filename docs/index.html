@@ -1,0 +1,1158 @@
+<title>梧桐设计系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root {
+    --ground: #ffffff;
+    --ground-alt: #f6f8f9;
+    --ground-sunken: #eef1f3;
+    --ink: #231c1b;
+    --ink-soft: #544e4d;
+    --ink-faint: #6f6b6a;
+    --rule: #e2e6ea;
+    --rule-soft: #eef1f3;
+    --coral: #f2673f;
+    --coral-ink: #b94d2f;
+    --navy: #2d3782;
+    --navy-soft: #eaebf2;
+    --chip-ground: #f2f4f7;
+    --swatch-edge: rgb(35 28 27 / 0.14);
+    --shadow: 0 1px 2px rgb(35 28 27 / 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14161c;
+      --ground-alt: #1a1d25;
+      --ground-sunken: #22262f;
+      --ink: #eceef2;
+      --ink-soft: #b3b8c2;
+      --ink-faint: #8b9099;
+      --rule: #2c313b;
+      --rule-soft: #23272f;
+      --coral: #ff8560;
+      --coral-ink: #ffa584;
+      --navy: #98a4e6;
+      --navy-soft: #232941;
+      --chip-ground: #22262f;
+      --swatch-edge: rgb(255 255 255 / 0.16);
+      --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #14161c;
+    --ground-alt: #1a1d25;
+    --ground-sunken: #22262f;
+    --ink: #eceef2;
+    --ink-soft: #b3b8c2;
+    --ink-faint: #8b9099;
+    --rule: #2c313b;
+    --rule-soft: #23272f;
+    --coral: #ff8560;
+    --coral-ink: #ffa584;
+    --navy: #98a4e6;
+    --navy-soft: #232941;
+    --chip-ground: #22262f;
+    --swatch-edge: rgb(255 255 255 / 0.16);
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code, .mono, td.v, .tok {
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-variant-ligatures: none;
+  }
+
+  .wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  /* ---------- 页头 ---------- */
+  header.top {
+    padding: 4.5rem 0 2.5rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 3rem;
+  }
+  .kicker {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--coral-ink); margin: 0 0 1rem;
+  }
+  header.top h1 {
+    font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; font-weight: 700;
+    margin: 0 0 1rem; letter-spacing: -0.01em; text-wrap: balance;
+  }
+  header.top p { margin: 0; max-width: 44rem; color: var(--ink-soft); }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem;
+    margin-top: 1.75rem; font-size: 0.8125rem; color: var(--ink-faint);
+  }
+  .meta b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* ---------- 目录 ---------- */
+  nav.toc {
+    background: var(--ground-alt); border: 1px solid var(--rule);
+    border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 4rem;
+  }
+  nav.toc h2 {
+    font-size: 0.75rem; letter-spacing: 0.14em; font-weight: 700;
+    color: var(--ink-faint); margin: 0 0 0.875rem;
+  }
+  nav.toc ol {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.375rem 1.5rem;
+    counter-reset: toc;
+  }
+  nav.toc li { counter-increment: toc; }
+  nav.toc a {
+    color: var(--ink); text-decoration: none; font-size: 0.9375rem;
+    display: flex; gap: 0.625rem; padding: 0.125rem 0;
+    border-bottom: 1px solid transparent;
+  }
+  nav.toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--coral-ink); font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; padding-top: 0.2em;
+  }
+  nav.toc a:hover, nav.toc a:focus-visible { border-bottom-color: var(--coral); outline: none; }
+
+  /* ---------- 章节 ---------- */
+  section { margin-bottom: 4.5rem; scroll-margin-top: 2rem; }
+  section > h2 {
+    font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem;
+    padding-top: 1.25rem; border-top: 1px solid var(--ink);
+    display: flex; align-items: baseline; gap: 0.75rem; text-wrap: balance;
+  }
+  section > h2 .n {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    font-weight: 500; color: var(--coral-ink); flex: none;
+  }
+  section > .lede { margin: 0 0 1.75rem; color: var(--ink-soft); max-width: 46rem; }
+  h3 {
+    font-size: 1rem; font-weight: 700; margin: 2.25rem 0 0.75rem;
+    display: flex; align-items: center; gap: 0.625rem;
+  }
+  h3::before {
+    content: ''; width: 1.25rem; height: 2px; background: var(--coral); flex: none;
+  }
+  p { margin: 0 0 1rem; }
+  .note {
+    border-left: 3px solid var(--coral); background: var(--ground-alt);
+    padding: 0.875rem 1.125rem; margin: 1.25rem 0; border-radius: 0 8px 8px 0;
+    font-size: 0.9375rem; color: var(--ink-soft);
+  }
+  .note b { color: var(--ink); }
+  .note.warn { border-left-color: var(--navy); }
+
+  /* ---------- 表格 ---------- */
+  .scroll { overflow-x: auto; margin: 1rem 0 1.5rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.875rem; min-width: 34rem; }
+  th {
+    text-align: left; font-weight: 500; font-size: 0.6875rem; letter-spacing: 0.1em;
+    color: var(--ink-faint); padding: 0 0.875rem 0.5rem 0;
+    border-bottom: 1px solid var(--rule); white-space: nowrap;
+  }
+  td {
+    padding: 0.5rem 0.875rem 0.5rem 0; border-bottom: 1px solid var(--rule-soft);
+    vertical-align: middle;
+  }
+  td.v, th.v { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tok { font-size: 0.8125rem; color: var(--navy); white-space: nowrap; }
+  td.note-cell { color: var(--ink-faint); font-size: 0.8125rem; line-height: 1.55; }
+
+  .sw {
+    display: inline-block; width: 2.25rem; height: 1.375rem; border-radius: 5px;
+    border: 1px solid var(--swatch-edge); vertical-align: middle; flex: none;
+  }
+  .sw-lg { width: 100%; height: 3.5rem; border-radius: 8px; display: block; }
+
+  /* ---------- 品牌色板 ---------- */
+  .brand {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    gap: 0.875rem; margin: 1.25rem 0 1.5rem;
+  }
+  .brand figure { margin: 0; }
+  .brand figcaption { margin-top: 0.5rem; font-size: 0.75rem; line-height: 1.5; }
+  .brand .hex {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    display: block; color: var(--ink);
+  }
+  .brand .who { color: var(--ink-faint); }
+
+  /* ---------- 色阶 ---------- */
+  .ramp { margin: 0 0 1.5rem; }
+  .ramp .name {
+    font-size: 0.8125rem; font-weight: 700; margin-bottom: 0.5rem;
+    display: flex; align-items: baseline; gap: 0.625rem;
+  }
+  .ramp .name span { font-weight: 400; color: var(--ink-faint); font-size: 0.75rem; }
+  .steps { display: flex; gap: 3px; }
+  .steps div { flex: 1; height: 2.75rem; position: relative; }
+  .steps div:first-child { border-radius: 5px 0 0 5px; }
+  .steps div:last-child { border-radius: 0 5px 5px 0; }
+  .steps b {
+    position: absolute; inset: auto 0 -1.375rem 0; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.5625rem; font-weight: 400;
+    color: var(--ink-faint); letter-spacing: -0.02em;
+  }
+  .ramp { padding-bottom: 1.5rem; }
+
+  /* ---------- 类型样例 ---------- */
+  .typerow {
+    display: grid; grid-template-columns: 7.5rem 1fr; gap: 1.25rem;
+    align-items: baseline; padding: 0.625rem 0; border-bottom: 1px solid var(--rule-soft);
+  }
+  .typerow .spec {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem;
+    color: var(--ink-faint); line-height: 1.5;
+  }
+  .typerow .spec b { display: block; color: var(--navy); font-weight: 500; font-size: 0.75rem; }
+  .typerow .sample { overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---------- 组件规格 ---------- */
+  .spec-card {
+    border: 1px solid var(--rule); border-radius: 12px; padding: 1.25rem 1.375rem;
+    margin: 1rem 0; background: var(--ground-alt);
+  }
+  .spec-card h4 {
+    margin: 0 0 0.75rem; font-size: 0.9375rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .spec-card h4 em {
+    font-style: normal; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6875rem; color: var(--ink-faint); font-weight: 400;
+  }
+  .spec-card dl {
+    margin: 0; display: grid; grid-template-columns: max-content 1fr;
+    gap: 0.3125rem 1.125rem; font-size: 0.8125rem;
+  }
+  .spec-card dt { color: var(--ink-faint); }
+  .spec-card dd {
+    margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--ink); line-height: 1.7;
+  }
+
+  /* ---------- 对比度 ---------- */
+  .pass { color: #1b7a4b; font-weight: 700; }
+  .fail { color: #c0392b; font-weight: 700; }
+  :root[data-theme="dark"] .pass, :root:not([data-theme="light"]) .pass { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .pass { color: #58d69a; }
+    :root:not([data-theme="light"]) .fail { color: #ff8a7a; }
+  }
+  :root[data-theme="dark"] .pass { color: #58d69a; }
+  :root[data-theme="dark"] .fail { color: #ff8a7a; }
+
+  /* 读前必读 */
+  .brief {
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 1.5rem 1.625rem; margin-bottom: 2.5rem; background: var(--ground-alt);
+  }
+  .brief h2 {
+    margin: 0 0 0.375rem; font-size: 1.0625rem; font-weight: 700;
+    display: flex; align-items: center; gap: 0.625rem;
+  }
+  .brief h2::before { content: ''; width: 1.25rem; height: 2px; background: var(--coral); flex: none; }
+  .brief > p { margin: 0 0 1.25rem; color: var(--ink-soft); font-size: 0.9375rem; }
+  .brief .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem; }
+  .brief .col h3 {
+    margin: 0 0 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: 700;
+  }
+  .brief .col h3::before { display: none; }
+  .brief .col.keep h3 { color: #1b7a4b; }
+  .brief .col.drop h3 { color: #c0392b; }
+  .brief ul { margin: 0; padding-left: 1.125rem; font-size: 0.875rem; line-height: 1.7; color: var(--ink-soft); }
+  .brief li { margin-bottom: 0.25rem; }
+  .brief li b { color: var(--ink); font-weight: 500; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .brief .col.keep h3 { color: #58d69a; }
+    :root:not([data-theme="light"]) .brief .col.drop h3 { color: #ff8a7a; }
+  }
+  :root[data-theme="dark"] .brief .col.keep h3 { color: #58d69a; }
+  :root[data-theme="dark"] .brief .col.drop h3 { color: #ff8a7a; }
+
+  /* 状态演示 */
+  .states { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0 1.25rem; }
+  .states .demo {
+    border-radius: 100px; padding: 0.5rem 1.25rem; font-size: 0.875rem; font-weight: 600;
+    background: #2d3782; color: #fff; border: 1.5px solid transparent;
+  }
+  .states .demo.ring { outline: 2px solid #b94d2f; outline-offset: 2px; }
+  .states .demo.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
+  .states .demo.ghost.ring { outline: 2px solid #b94d2f; outline-offset: 2px; }
+  .states .lbl { font-size: 0.6875rem; color: var(--ink-faint); align-self: center; font-family:'JetBrains Mono',monospace; }
+
+  footer.end {
+    border-top: 2px solid var(--ink); padding-top: 1.5rem; margin-top: 4rem;
+    font-size: 0.8125rem; color: var(--ink-faint);
+  }
+
+  @media (max-width: 40rem) {
+    .typerow { grid-template-columns: 1fr; gap: 0.25rem; }
+    .spec-card dl { grid-template-columns: 1fr; gap: 0 0; }
+    .spec-card dt { margin-top: 0.5rem; }
+  }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="kicker">wutong.org · 设计令牌全量</p>
+  <h1>梧桐设计系统</h1>
+  <p>这份文档是从 <code>src/styles/theme.css</code> 全量导出的，不是凭记忆写的。每一个数值都可以在代码里逐字对上。改版过程中定下的规则和踩过的坑一并记在这里——它们比数值本身更难重建。</p>
+  <div class="meta">
+    <span>导出日期 <b>2026-08-28</b></span>
+    <span>颜色令牌 <b>123</b></span>
+    <span>字号令牌 <b>22</b></span>
+    <span>圆角 <b>14</b></span>
+    <span>装饰类 <b>33</b></span>
+    <span>自托管字体分片 <b>99</b></span>
+    <span>Tailwind <b>v4 @theme</b></span>
+  </div>
+</header>
+
+<div class="brief">
+  <h2>给设计系统工具的说明</h2>
+  <p>如果这份文档是交给自动化工具重建设计系统的，先读这一段。有些东西必须原样保留，有些是历史遗留、不能当成规范。</p>
+  <div class="cols">
+    <div class="col keep">
+      <h3>必须原样保留</h3>
+      <ul>
+        <li><b>四档字重是四个不同值</b>（400/500/600/700）。曾经 bold 与 semibold 同为 600，那是缺陷不是风格。</li>
+        <li><b>正文行高 1.75</b>。中文专用值，不要按拉丁排版惯例压到 1.5。</li>
+        <li><b>卡内四档字号</b>（17/15/13/13px）。已在拉丁参考值上加过 1.5px，不要退回。</li>
+        <li><b>颜色只能从语义别名引用</b>，组件永不直接引色阶。</li>
+        <li><b>标题字体是「Funnel Display 在前、HarmonyOS Sans SC 在后」</b>的双语分工，顺序不能反，见第 06 节。</li>
+        <li><b>不透明度阶梯只用于蒙版与细线</b>，任何情况下不用于文字。</li>
+      </ul>
+    </div>
+    <div class="col drop">
+      <h3>不要带走 / 不要推导</h3>
+      <ul>
+        <li><b><code>.scheme-1</code> 到 <code>.scheme-4</code> 是死代码</b>。Relume 模板遗留，全站零使用。不要重建成「区块配色方案」。</li>
+        <li><b><code>--color-ref-*</code> 与品牌色不要合并</b>。前者是列表页从外部移植的独立体系，两组不能互相推导，也不能统一成一条色阶。</li>
+        <li><b>不要生成深色主题</b>。本站是浅色单主题，见第 10 节。</li>
+        <li><b><code>#b94d2f</code> 不是品牌色</b>。它是 AA 规则从珊瑚身上压出来的产物，见坑 01。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#rules">中文排版三条铁律</a></li>
+    <li><a href="#brand">品牌色板</a></li>
+    <li><a href="#ramps">六条色阶</a></li>
+    <li><a href="#semantic">语义色</a></li>
+    <li><a href="#ref">工具页配色</a></li>
+    <li><a href="#type">字号与字重</a></li>
+    <li><a href="#radius">圆角</a></li>
+    <li><a href="#space">间距与容器</a></li>
+    <li><a href="#shadow">阴影与动效</a></li>
+    <li><a href="#focus">焦点态与主题策略</a></li>
+    <li><a href="#components">组件规格</a></li>
+    <li><a href="#decor">装饰层</a></li>
+    <li><a href="#layers">图标与层级</a></li>
+    <li><a href="#contrast">对比度实测</a></li>
+    <li><a href="#traps">四个坑</a></li>
+  </ol>
+</ol>
+</nav>
+
+<!-- ============ 1 ============ -->
+<section id="rules">
+  <h2><span class="n">01</span>中文排版三条铁律</h2>
+  <p class="lede">这三条是这个项目上用错误换来的，不是通用建议。它们约束的是所有后续改动——任何一次「让它更紧凑一点」的尝试，都要先过这三条。</p>
+
+  <h3>行高是字号的一部分</h3>
+  <p>类型标尺里每一档都自带行高：正文 <code>1.75</code>，标题 <code>1.3–1.4</code>。<b>不要用 <code>leading-snug</code> / <code>leading-tight</code> 覆盖正文字号</b>——那是拉丁字母的值。同样一个字框里，中文字的笔画密度是字母的好几倍，行距一压，行与行之间的空隙就没了，整段灰成一块。紧行距只给两行以内的卡片标题用。</p>
+
+  <h3>墨要实</h3>
+  <p>正文和次级文字取颜色令牌，<b>绝不用白/墨加透明度</b>（<code>text-white-60</code> 之类）。透明度会等比削薄每一笔，拉丁字母扛得住，中文扛不住。深色底上用 <code>--color-content-inverse-light</code>。透明度阶梯是给蒙版、导轨、细线用的，不给文字。</p>
+
+  <h3>AA 是地板，不是及格线</h3>
+  <p>每个文字颜色要在 <b>两个底</b> 上都过 4.5:1——<code>--color-surface</code>（#ffffff）和 <code>--color-surface-alt</code>（#f6fbfb）。只量白底，是当初正文链接色以 4.45:1 上线到半个站的原因。而且过了比例也不等于可读：上面两条描述的正是「过了 AA 却读不了」的情况。拿不准就去量渲染出来的页面，别在脑子里推。</p>
+
+  <div class="note">
+    <b>推论：</b><code>--text-tiny</code> 在手机上是 <code>0.625rem</code>（10px）。那是徽章或说明文字的尺寸，永远不能拿来做需要读者去操作的标签。
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="brand">
+  <h2><span class="n">02</span>品牌色板</h2>
+  <p class="lede">客户提供并逐色核对过的九色板。其中四色与原 theme.css 完全一致，说明这套主题本就是从这张板子翻译来的。</p>
+
+  <div class="brand">
+    <figure><span class="sw-lg" style="background:#2d3782"></span><figcaption><span class="hex">#2d3782</span><span class="who">海军蓝 · 全站主色</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#d93730"></span><figcaption><span class="hex">#d93730</span><span class="who">红 · punch</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#a8dadc"></span><figcaption><span class="hex">#a8dadc</span><span class="who">浅青 · aqua island</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#eff9fb"></span><figcaption><span class="hex">#eff9fb</span><span class="who">淡青底</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#a1ec84"></span><figcaption><span class="hex">#a1ec84</span><span class="who">浅绿 · sulu</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#f2673f"></span><figcaption><span class="hex">#f2673f</span><span class="who">珊瑚 · flamingo</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#f1f4f5"></span><figcaption><span class="hex">#f1f4f5</span><span class="who">浅灰</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#ffffff"></span><figcaption><span class="hex">#ffffff</span><span class="who">白</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#00dc82"></span><figcaption><span class="hex">#00dc82</span><span class="who">亮翠绿</span></figcaption></figure>
+  </div>
+
+  <h3>板外新增色</h3>
+  <p>唯一一支不在品牌板上的颜色，来源明确记录：取自 <code>deals.meticsmedia.com</code> 的 <code>--indigo</code>（读它自己的 <code>:root</code>，不是截图取色）。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th></th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-brand-blue</td><td class="v">#165dfc</td><td><span class="sw" style="background:#165dfc"></span></td><td class="note-cell">工具卡主按钮底；白字 5.24:1</td></tr>
+        <tr><td class="tok">--color-brand-blue-deep</td><td class="v">#0e48d6</td><td><span class="sw" style="background:#0e48d6"></span></td><td class="note-cell">同上 hover；白字 7.20:1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    <b>删过两次的令牌：</b><code>--color-brand-blue-soft</code>（#e8eefe）。两次因「当时无人使用」被清理，第三次又被需要。如果你的设计系统要保留完整三档，就把它固定下来：#165dfc / #0e48d6 / #e8eefe。
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="ramps">
+  <h2><span class="n">03</span>六条色阶</h2>
+  <p class="lede">每条七档，命名一致：<code>lightest · lighter · light · (base) · dark · darker · darkest</code>。海军蓝那条 2026-08 换过基色，上下六档按原有步长重算：浅三档是基色混白 <b>89.8% / 79.7% / 29.9%</b>，深三档是基色乘 <b>0.797 / 0.399 / 0.297</b>。要新增色阶，沿用这组比例。</p>
+
+  <div class="ramp">
+    <div class="name">jacksons-purple <span>主色 · 基色 #2d3782（原 #1e3a8a，2026-08 换）</span></div>
+    <div class="steps">
+      <div style="background:#eaebf2"><b>eaebf2</b></div><div style="background:#d4d6e6"><b>d4d6e6</b></div><div style="background:#6c73a7"><b>6c73a7</b></div><div style="background:#2d3782"><b>2d3782</b></div><div style="background:#242c68"><b>242c68</b></div><div style="background:#121634"><b>121634</b></div><div style="background:#0d1027"><b>0d1027</b></div>
+    </div>
+  </div>
+
+  <div class="ramp">
+    <div class="name">flamingo <span>次色 / 强调 · 基色 #f2673f</span></div>
+    <div class="steps">
+      <div style="background:#fdefeb"><b>fdefeb</b></div><div style="background:#fce0d8"><b>fce0d8</b></div><div style="background:#f59478"><b>f59478</b></div><div style="background:#f2673f"><b>f2673f</b></div><div style="background:#b94d2f"><b>b94d2f</b></div><div style="background:#602919"><b>602919</b></div><div style="background:#481e12"><b>481e12</b></div>
+    </div>
+  </div>
+
+  <div class="ramp">
+    <div class="name">aqua-island <span>点缀 / 浅色底 · 基色 #a8dadc</span></div>
+    <div class="steps">
+      <div style="background:#f6fbfb"><b>f6fbfb</b></div><div style="background:#edf7f8"><b>edf7f8</b></div><div style="background:#c2e5e6"><b>c2e5e6</b></div><div style="background:#a8dadc"><b>a8dadc</b></div><div style="background:#86aeb0"><b>86aeb0</b></div><div style="background:#435758"><b>435758</b></div><div style="background:#324142"><b>324142</b></div>
+    </div>
+  </div>
+
+  <div class="ramp">
+    <div class="name">sulu <span>成功态 · 基色 #a1ec84</span></div>
+    <div class="steps">
+      <div style="background:#f5fdf2"><b>f5fdf2</b></div><div style="background:#ecfbe6"><b>ecfbe6</b></div><div style="background:#bdf1a8"><b>bdf1a8</b></div><div style="background:#a1ec84"><b>a1ec84</b></div><div style="background:#80bc69"><b>80bc69</b></div><div style="background:#405e34"><b>405e34</b></div><div style="background:#304627"><b>304627</b></div>
+    </div>
+  </div>
+
+  <div class="ramp">
+    <div class="name">punch <span>错误态 · 基色 #d93730</span></div>
+    <div class="steps">
+      <div style="background:#fbebea"><b>fbebea</b></div><div style="background:#f7d7d5"><b>f7d7d5</b></div><div style="background:#e4736e"><b>e4736e</b></div><div style="background:#d93730"><b>d93730</b></div><div style="background:#ad2c26"><b>ad2c26</b></div><div style="background:#561613"><b>561613</b></div><div style="background:#41100e"><b>41100e</b></div>
+    </div>
+  </div>
+
+  <div class="ramp">
+    <div class="name">neutral <span>文字与描边 · 基色 #858180（暖灰，非纯灰）</span></div>
+    <div class="steps">
+      <div style="background:#f2f2f2"><b>f2f2f2</b></div><div style="background:#dad9d9"><b>dad9d9</b></div><div style="background:#b5b3b3"><b>b5b3b3</b></div><div style="background:#858180"><b>858180</b></div><div style="background:#544e4d"><b>544e4d</b></div><div style="background:#231c1b"><b>231c1b</b></div><div style="background:#0b0302"><b>0b0302</b></div>
+    </div>
+  </div>
+
+  <h3>透明度阶梯</h3>
+  <p>两组各八档：<code>--color-white-5 … -60</code> 和 <code>--color-ink-5 … -60</code>（后者基于 <code>--color-neutral-darkest</code> #0b0302）。数字是<b>不透明度</b>，实现用 <code>color-mix(in srgb, X, transparent N%)</code>。档位：5 / 10 / 15 / 20 / 30 / 40 / 50 / 60。<b>只用于蒙版、导轨、细线，永不用于文字</b>（见铁律二）。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="semantic">
+  <h2><span class="n">04</span>语义色</h2>
+  <p class="lede">组件只认这一层，不直接引色阶。换品牌色时改的是这些别名指向哪一档，组件一行不动。</p>
+
+  <h3>角色色</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th>指向</th><th class="v">解析值</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-primary</td><td>jacksons-purple</td><td class="v">#2d3782</td><td><span class="sw" style="background:#2d3782"></span></td></tr>
+        <tr><td class="tok">--color-primary-dark</td><td>jacksons-purple-dark</td><td class="v">#242c68</td><td><span class="sw" style="background:#242c68"></span></td></tr>
+        <tr><td class="tok">--color-primary-light</td><td>jacksons-purple-light</td><td class="v">#6c73a7</td><td><span class="sw" style="background:#6c73a7"></span></td></tr>
+        <tr><td class="tok">--color-secondary</td><td>flamingo</td><td class="v">#f2673f</td><td><span class="sw" style="background:#f2673f"></span></td></tr>
+        <tr><td class="tok">--color-secondary-dark</td><td>flamingo-dark</td><td class="v">#b94d2f</td><td><span class="sw" style="background:#b94d2f"></span></td></tr>
+        <tr><td class="tok">--color-secondary-light</td><td>flamingo-light</td><td class="v">#f59478</td><td><span class="sw" style="background:#f59478"></span></td></tr>
+        <tr><td class="tok">--color-accent</td><td>aqua-island</td><td class="v">#a8dadc</td><td><span class="sw" style="background:#a8dadc"></span></td></tr>
+        <tr><td class="tok">--color-accent-wash</td><td>直接值</td><td class="v">#ecf5e8</td><td><span class="sw" style="background:#ecf5e8"></span></td></tr>
+        <tr><td class="tok">--color-accent-wash-hover</td><td>直接值</td><td class="v">#ddedd6</td><td><span class="sw" style="background:#ddedd6"></span></td></tr>
+        <tr><td class="tok">--color-on-primary</td><td>white</td><td class="v">#ffffff</td><td><span class="sw" style="background:#ffffff"></span></td></tr>
+        <tr><td class="tok">--color-on-accent</td><td>neutral-darkest</td><td class="v">#0b0302</td><td><span class="sw" style="background:#0b0302"></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>--color-accent-wash</code> 是导航「Shopify 快装包」的底，色相取自 Shopify 品牌绿 <code>#95bf47</code>（从其 SVG 量得），用板内最接近的 <code>sulu-dark #80bc69</code> 混白 85% 推出，亮度对齐原珊瑚淡底——只换色相，不改轻重。</p>
+
+  <h3>表面与文字</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th>指向</th><th class="v">解析值</th><th></th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-surface</td><td>white</td><td class="v">#ffffff</td><td><span class="sw" style="background:#ffffff"></span></td><td class="note-cell">主底</td></tr>
+        <tr><td class="tok">--color-surface-alt</td><td>aqua-island-lightest</td><td class="v">#f6fbfb</td><td><span class="sw" style="background:#f6fbfb"></span></td><td class="note-cell">交替段落底</td></tr>
+        <tr><td class="tok">--color-surface-hover</td><td>aqua-island-lighter</td><td class="v">#edf7f8</td><td><span class="sw" style="background:#edf7f8"></span></td><td class="note-cell">悬停底</td></tr>
+        <tr><td class="tok">--color-surface-sunken</td><td>neutral-lightest</td><td class="v">#f2f2f2</td><td><span class="sw" style="background:#f2f2f2"></span></td><td class="note-cell">凹陷区</td></tr>
+        <tr><td class="tok">--color-surface-inverse</td><td>jacksons-purple-dark</td><td class="v">#242c68</td><td><span class="sw" style="background:#242c68"></span></td><td class="note-cell">深色区块</td></tr>
+        <tr><td class="tok">--color-content</td><td>neutral-darker</td><td class="v">#231c1b</td><td><span class="sw" style="background:#231c1b"></span></td><td class="note-cell">正文</td></tr>
+        <tr><td class="tok">--color-content-light</td><td>neutral-dark</td><td class="v">#544e4d</td><td><span class="sw" style="background:#544e4d"></span></td><td class="note-cell">次级文字</td></tr>
+        <tr><td class="tok">--color-content-lighter</td><td>直接值</td><td class="v">#6f6b6a</td><td><span class="sw" style="background:#6f6b6a"></span></td><td class="note-cell">说明文字 · 白底 5.43:1</td></tr>
+        <tr><td class="tok">--color-content-faint</td><td>直接值</td><td class="v">#8d8a89</td><td><span class="sw" style="background:#8d8a89"></span></td><td class="note-cell"><b>仅装饰</b>，不承载文字</td></tr>
+        <tr><td class="tok">--color-content-inverse-light</td><td>jacksons-purple-lighter</td><td class="v">#d4d6e6</td><td><span class="sw" style="background:#d4d6e6"></span></td><td class="note-cell">深底次级文字 · 8.90:1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>描边</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">解析值</th><th></th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-outline</td><td class="v">#dad9d9</td><td><span class="sw" style="background:#dad9d9"></span></td><td class="note-cell">常规描边（暖灰）</td></tr>
+        <tr><td class="tok">--color-outline-light</td><td class="v">#f2f2f2</td><td><span class="sw" style="background:#f2f2f2"></span></td><td class="note-cell">最浅分隔线</td></tr>
+        <tr><td class="tok">--color-outline-soft</td><td class="v">ink-10</td><td><span class="sw" style="background:#e6e6e6"></span></td><td class="note-cell">卡片细线，比 outline 冷且浅</td></tr>
+        <tr><td class="tok">--color-outline-hover</td><td class="v">primary 混 75% 透明</td><td><span class="sw" style="background:#cbcde0"></span></td><td class="note-cell">悬停描边，带蓝调</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>状态色与平台色</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>组</th><th>base</th><th>light</th><th>dark</th></tr></thead>
+      <tbody>
+        <tr><td>success</td><td class="v">sulu-dark #80bc69</td><td class="v">sulu-lighter #ecfbe6</td><td class="v">sulu-darker #405e34</td></tr>
+        <tr><td>warning</td><td class="v">flamingo #f2673f</td><td class="v">flamingo-lighter #fce0d8</td><td class="v">flamingo-darker #602919</td></tr>
+        <tr><td>error</td><td class="v">punch #d93730</td><td class="v">punch-lighter #f7d7d5</td><td class="v">punch-darker #561613</td></tr>
+        <tr><td>info</td><td class="v">#2d3782</td><td class="v">#eaebf2</td><td class="v">#121634</td></tr>
+        <tr><td>YouTube</td><td class="v">#ff0033</td><td>—</td><td class="v">#e10032</td></tr>
+        <tr><td>哔哩哔哩</td><td class="v">#fb7299</td><td>—</td><td class="v">#c23b63</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>另有 macOS 窗口点三色（<code>#ff5f57 / #febc2e / #28c840</code>）和两支胶带色，都是插画用途。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="ref">
+  <h2><span class="n">05</span>工具页配色</h2>
+  <p class="lede">工具列表页整套移植自 <code>deals.meticsmedia.com</code>，值读自它自己的 <code>:root</code>。这一组是<b>独立命名空间</b>（<code>--color-ref-*</code>），不与品牌色混用——如果你的设计系统要收，建议单列成一个「列表页」子主题。</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th></th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-ref-bg</td><td class="v">#fbfbfd</td><td><span class="sw" style="background:#fbfbfd"></span></td><td class="note-cell">页面底（相对亮度 0.966）</td></tr>
+        <tr><td class="tok">--color-ref-ink</td><td class="v">#10162b</td><td><span class="sw" style="background:#10162b"></span></td><td class="note-cell">标题、选中 chip 实底</td></tr>
+        <tr><td class="tok">--color-ref-muted</td><td class="v">#5b647a</td><td><span class="sw" style="background:#5b647a"></span></td><td class="note-cell">描述、分类标签</td></tr>
+        <tr><td class="tok">--color-ref-line</td><td class="v">#e8eaf2</td><td><span class="sw" style="background:#e8eaf2"></span></td><td class="note-cell">卡描边、输入框</td></tr>
+        <tr><td class="tok">--color-ref-line-hover</td><td class="v">#d5d9ea</td><td><span class="sw" style="background:#d5d9ea"></span></td><td class="note-cell">卡 hover 描边</td></tr>
+        <tr><td class="tok">--color-ref-chip-hover</td><td class="v">#c9cde2</td><td><span class="sw" style="background:#c9cde2"></span></td><td class="note-cell">chip hover 描边</td></tr>
+        <tr><td class="tok">--color-ref-plate</td><td class="v">#f4f5f9</td><td><span class="sw" style="background:#f4f5f9"></span></td><td class="note-cell">logo 方块底</td></tr>
+        <tr><td class="tok">--color-ref-green</td><td class="v">#0e7c46</td><td><span class="sw" style="background:#0e7c46"></span></td><td class="note-cell">优惠 pill 字</td></tr>
+        <tr><td class="tok">--color-ref-green-soft</td><td class="v">#e9f7f0</td><td><span class="sw" style="background:#e9f7f0"></span></td><td class="note-cell">优惠 pill 底</td></tr>
+        <tr><td class="tok">--color-ref-amber</td><td class="v">#92600a</td><td><span class="sw" style="background:#92600a"></span></td><td class="note-cell">首选 pill 字</td></tr>
+        <tr><td class="tok">--color-ref-amber-soft</td><td class="v">#fdf1d7</td><td><span class="sw" style="background:#fdf1d7"></span></td><td class="note-cell">首选 pill 底</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>底色的教训：</b>页面底试过 <code>#f1f4f5</code>（亮度 0.900）、<code>#eff9fb</code>（0.931）、<code>#f8fcfc</code>（0.966），都被判「太深」。问题在于每次只是<b>从色板里挑一个更淡的色号</b>，亮度只挪一点点。最终按亮度对齐参考站的 0.966 才通过。
+    <br><br><b>方法：底色不要靠挑，要靠算——先定目标相对亮度，再反推色值。</b>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="type">
+  <h2><span class="n">06</span>字号与字重</h2>
+
+  <h3>字族</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th>栈</th><th>用在</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--font-sans</td><td class="note-cell">'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', -apple-system, 'Segoe UI', sans-serif</td><td class="note-cell">正文全部 · <b>系统字体，零下载</b></td></tr>
+        <tr><td class="tok">--font-heading</td><td class="note-cell">'Funnel Display', 'HarmonyOS Sans SC', var(--font-sans)</td><td class="note-cell">h1–h6 · <b>自托管，见下</b></td></tr>
+        <tr><td class="tok">--font-mono</td><td class="note-cell">ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace</td><td class="note-cell">code / kbd / samp / pre</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>字体加载策略</h3>
+  <p>这一节是整套排版里最容易在迁移中丢掉的部分——换个工具重建时只会看到一个字体名，看不到背后的加载方案。</p>
+
+  <div class="spec-card">
+    <h4>HarmonyOS Sans SC <em>标题中文 · 自托管</em></h4>
+    <dl>
+      <dt>来源</dt><dd>官方 HarmonyOS_Sans_SC_Bold.ttf，pyftsubset 切分</dd>
+      <dt>许可</dt><dd>华为许可证，允许商用（public/fonts/LICENSE.txt）</dd>
+      <dt>字重</dt><dd><b>只加载 700 一档</b>。正文不用它，所以不需要 400/500</dd>
+      <dt>分片</dt><dd>95 个 woff2，编号 5–119（非连续，缺的是页面用不到的区段）</dd>
+      <dt>体积</dt><dd>合计 2.2MB · 单片平均 21.6KB</dd>
+      <dt>切分依据</dt><dd>与 Google Fonts 相同的 unicode-range 分区</dd>
+      <dt>实际传输</dt><dd>一页中文标题通常只命中三五片，约一百多 KB，<b>不是 2.2MB</b></dd>
+      <dt>定义位置</dt><dd>src/styles/fonts.css，必须在 theme.css <b>之前</b> import</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>Funnel Display <em>标题拉丁 · 自托管</em></h4>
+    <dl>
+      <dt>位置</dt><dd>排在 HarmonyOS <b>前面</b>，所以优先认领它覆盖的字符</dd>
+      <dt>覆盖</dt><dd>拉丁字母与数字。中文不在其字符集内，直接落到 HarmonyOS</dd>
+      <dt>字重</dt><dd>500 / 700</dd>
+      <dt>分片</dt><dd>4 个 woff2（latin · latin-ext × 两档字重）</dd>
+      <dt>体积</dt><dd>合计 31KB</dd>
+    </dl>
+  </div>
+
+  <div class="note">
+    <b>双语标题的分工，是这套排版的核心手法。</b>一个中英混排的标题——「20 分钟，快速启动 Shopify 店铺」——其中「20」和「Shopify」由 Funnel Display 这个展示体承担，中文整体交给 HarmonyOS。<b>靠的不是手动切分标签，而是字体栈顺序加各自的字符覆盖范围：前一个字体没有的字，浏览器自动向后找。</b><br><br>
+    结果是拉丁部分获得了一个有性格的展示字体，而一个中文字都没有被动过——中文展示体的可选项本来就极少，硬套通常只会更糟。代价是 31KB。
+  </div>
+
+  <div class="note warn">
+    <b>迁移时三条不能丢：</b>
+    <br>① 顺序不能反——Funnel Display 必须在 HarmonyOS 前面，反过来中文会正常但拉丁部分失去展示体。
+    <br>② 只加载 700——把 400/500 也加载进来，体积翻几倍，而正文根本不用它。
+    <br>③ 必须分片——不分片就是单文件 2.2MB，首屏会被字体拖死。
+    <br><br>另：<code>--font-heading</code> 只作用于 <code>h1–h6</code>（在 global.css 的 base 层），按钮、导航、卡片标题走的都是 <code>--font-sans</code>。
+  </div>
+
+  <h3>字重</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--font-weight-regular</td><td class="v">400</td><td class="note-cell">正文、说明、卡片分类标签</td></tr>
+        <tr><td class="tok">--font-weight-medium</td><td class="v">500</td><td class="note-cell">chip、按钮、卡片标题</td></tr>
+        <tr><td class="tok">--font-weight-semibold</td><td class="v">600</td><td class="note-cell">徽章、次级标题、eyebrow</td></tr>
+        <tr><td class="tok">--font-weight-bold</td><td class="v">700</td><td class="note-cell">h1–h6、区标题</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    <b>关键修正：</b>bold 和 semibold 原本<b>同为 600</b>——等于这套系统里没有「粗体」。当时整页 145 个文字节点有 95 个落在 600 上，中文在这个密度下会糊成一块。现已拆成 700 / 600。<b>迁移到新系统时务必确认这四档是四个不同的值。</b>
+  </div>
+
+  <h3>响应式类型标尺</h3>
+  <p>标尺在 <code>lg</code>（992px）断点整体跳一档，通过 <code>--wt-*</code> 中间变量实现。行高各档自带，见铁律一。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">手机</th><th class="v">≥992px</th><th class="v">行高</th><th class="v">字距</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--text-display</td><td class="v">2.375rem</td><td class="v">3.75rem</td><td class="v">1.15</td><td class="v">-0.01em</td></tr>
+        <tr><td class="tok">--text-h1</td><td class="v">2.75rem</td><td class="v">4.5rem</td><td class="v">1.3</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-h2</td><td class="v">2.5rem</td><td class="v">3.25rem</td><td class="v">1.3</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-h3</td><td class="v">2rem</td><td class="v">2.75rem</td><td class="v">1.3</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-h4</td><td class="v">1.5rem</td><td class="v">2.25rem</td><td class="v">1.4</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-h5</td><td class="v">1.25rem</td><td class="v">1.75rem</td><td class="v">1.4</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-h6</td><td class="v">1.125rem</td><td class="v">1.375rem</td><td class="v">1.4</td><td class="v">0</td></tr>
+        <tr><td class="tok">--text-large</td><td class="v">1.125rem</td><td class="v">1.375rem</td><td class="v">1.75</td><td class="v">—</td></tr>
+        <tr><td class="tok">--text-medium</td><td class="v">1rem</td><td class="v">1.125rem</td><td class="v">1.75</td><td class="v">—</td></tr>
+        <tr><td class="tok">--text-regular</td><td class="v">0.75rem</td><td class="v">1rem</td><td class="v">1.75</td><td class="v">—</td></tr>
+        <tr><td class="tok">--text-small</td><td class="v">0.75rem</td><td class="v">0.875rem</td><td class="v">1.75</td><td class="v">—</td></tr>
+        <tr><td class="tok">--text-tiny</td><td class="v">0.625rem</td><td class="v">0.75rem</td><td class="v">1.5</td><td class="v">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>固定字号（不随断点变）</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th class="v">行高</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--text-nav</td><td class="v">1rem</td><td class="v">1.5</td><td class="note-cell">导航项</td></tr>
+        <tr><td class="tok">--text-cardname</td><td class="v">1.0625rem</td><td class="v">1.4</td><td class="note-cell">工具卡标题（17px）</td></tr>
+        <tr><td class="tok">--text-carddesc</td><td class="v">0.9375rem</td><td class="v">1.6</td><td class="note-cell">工具卡描述（15px）</td></tr>
+        <tr><td class="tok">--text-cardlabel</td><td class="v">0.8125rem</td><td class="v">1.5</td><td class="note-cell">工具卡分类（13px）</td></tr>
+        <tr><td class="tok">--text-badge</td><td class="v">0.8125rem</td><td class="v">1.5</td><td class="note-cell">pill 徽章（13px）</td></tr>
+        <tr><td class="tok">--text-quote</td><td class="v">0.875rem</td><td class="v">1.7</td><td class="note-cell">引文</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    卡片四档字号在参考站原值（15.5 / 12 / 13.5 / 11.5px）基础上<b>整体上调约 1.5px</b>——那套值是给拉丁字母排的，同样字号中文要小一号才看得清。<b>迁移时不要把这四个值退回参考站原值。</b>
+  </div>
+
+  <h3>字距</h3>
+  <p><code>--tracking-eyebrow: 0.12em</code>。唯一的字距令牌，只用于全大写/微标签行。中文正文不加字距。</p>
+
+  <h3>样例</h3>
+  <div class="typerow"><div class="spec"><b>text-h2</b>3.25rem / 1.3 / 700</div><div class="sample" style="font-size:2rem;line-height:1.3;font-weight:700;">一把趁手的工具</div></div>
+  <div class="typerow"><div class="spec"><b>text-h4</b>2.25rem / 1.4 / 700</div><div class="sample" style="font-size:1.5rem;line-height:1.4;font-weight:700;">落地枫叶国</div></div>
+  <div class="typerow"><div class="spec"><b>text-medium</b>1.125rem / 1.75 / 400</div><div class="sample" style="font-size:1.125rem;line-height:1.75;">这里没有广告位。每一个工具我都自己在用。</div></div>
+  <div class="typerow"><div class="spec"><b>text-cardname</b>1.0625rem / 1.4 / 500</div><div class="sample" style="font-size:1.0625rem;line-height:1.4;font-weight:500;">Blocksy</div></div>
+  <div class="typerow"><div class="spec"><b>text-carddesc</b>0.9375rem / 1.6 / 400</div><div class="sample" style="font-size:0.9375rem;line-height:1.6;color:var(--ink-soft)">一个主题解决大多数设计需求，免费版就已经很能打。</div></div>
+  <div class="typerow"><div class="spec"><b>tracking-eyebrow</b>0.75rem / 600 / 0.12em</div><div class="sample" style="font-size:0.75rem;font-weight:600;letter-spacing:0.12em;color:var(--ink-faint)">梧桐首选</div></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="radius">
+  <h2><span class="n">07</span>圆角</h2>
+  <p class="lede">卡片圆角 2026-08 从 <code>1.5rem</code>(24px) 收到 <code>1rem</code>(16px)——24px 在小卡上会圆到发胖。这一改动一处生效，影响全站 23 个用到 <code>rounded-card</code> 的地方。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th class="v">px</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--radius-button</td><td class="v">6.25rem</td><td class="v">100</td><td class="note-cell">按钮（胶囊）</td></tr>
+        <tr><td class="tok">--radius-badge</td><td class="v">6.25rem</td><td class="v">100</td><td class="note-cell">徽章 pill</td></tr>
+        <tr><td class="tok">--radius-carousel</td><td class="v">6.25rem</td><td class="v">100</td><td class="note-cell">轮播控件</td></tr>
+        <tr><td class="tok">--radius-card</td><td class="v">1rem</td><td class="v">16</td><td class="note-cell">全站卡片</td></tr>
+        <tr><td class="tok">--radius-image</td><td class="v">1rem</td><td class="v">16</td><td class="note-cell">独立图片、小底板</td></tr>
+        <tr><td class="tok">--radius-plate</td><td class="v">0.8125rem</td><td class="v">13</td><td class="note-cell">卡内 logo 方块（比卡小一档）</td></tr>
+        <tr><td class="tok">--radius-photo</td><td class="v">0.75rem</td><td class="v">12</td><td class="note-cell">照片</td></tr>
+        <tr><td class="tok">--radius-form</td><td class="v">min(6.25rem, 0.75rem)</td><td class="v">12</td><td class="note-cell">输入框</td></tr>
+        <tr><td class="tok">--radius-mark</td><td class="v">0.375rem</td><td class="v">6</td><td class="note-cell">24px 品牌图标方块</td></tr>
+        <tr><td class="tok">--radius-checkbox</td><td class="v">0.25rem</td><td class="v">4</td><td class="note-cell">复选框</td></tr>
+        <tr><td class="tok">--radius-tape</td><td class="v">0.125rem</td><td class="v">2</td><td class="note-cell">胶带装饰</td></tr>
+        <tr><td class="tok">--radius-device</td><td class="v">1.75rem</td><td class="v">28</td><td class="note-cell">手机外框</td></tr>
+        <tr><td class="tok">--radius-device-screen</td><td class="v">1.375rem</td><td class="v">22</td><td class="note-cell">手机屏幕（外框减 6px 边）</td></tr>
+        <tr><td class="tok">--radius-full</td><td class="v">9999px</td><td class="v">∞</td><td class="note-cell">真圆形</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="space">
+  <h2><span class="n">08</span>间距与容器</h2>
+
+  <h3>断点</h3>
+  <p>不是 Tailwind 默认值：<code>sm 480px</code> · <code>md 768px</code> · <code>lg 992px</code>。类型标尺在 <code>lg</code> 跳档，导航在 <code>900px</code> 切换（该值写在组件里，不是令牌）。</p>
+
+  <h3>容器</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th class="v">px</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--container-shell</td><td class="v">80rem</td><td class="v">1280</td><td class="note-cell">常规页面壳</td></tr>
+        <tr><td class="tok">--container-list</td><td class="v">70rem</td><td class="v">1120</td><td class="note-cell">工具列表专用</td></tr>
+        <tr><td class="tok">--container-readable</td><td class="v">48rem</td><td class="v">768</td><td class="note-cell">阅读栏，中文一行约 29 字</td></tr>
+        <tr><td class="tok">--container-narrow</td><td class="v">35rem</td><td class="v">560</td><td class="note-cell">窄栏（表单、收尾块）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>宽度和字号是一套。</b>工具列表用 1120px 而非 1280px：卡内字号是照 347px 宽的卡排的，塞进 1280px 容器后每张卡 416px，字显小、右边空一片。改成 1120px 后卡宽 363px，描述占满可用宽度的 94–99%。<b>换容器宽度就要重检字号。</b>
+  </div>
+
+  <h3>段落节奏</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th class="v">值</th><th class="v">px</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--spacing-gutter</td><td class="v">5%</td><td class="v">—</td><td class="note-cell">页面左右留白</td></tr>
+        <tr><td class="tok">--spacing-section</td><td class="v">3.5rem</td><td class="v">56</td><td class="note-cell">段落上下（手机）</td></tr>
+        <tr><td class="tok">--spacing-section-md</td><td class="v">5rem</td><td class="v">80</td><td class="note-cell">段落上下（≥768）</td></tr>
+        <tr><td class="tok">--spacing-section-lg</td><td class="v">7rem</td><td class="v">112</td><td class="note-cell">段落上下（≥992）</td></tr>
+        <tr><td class="tok">--spacing-section-header-gap</td><td class="v">3rem</td><td class="v">48</td><td class="note-cell">段标题到内容</td></tr>
+        <tr><td class="tok">--spacing-section-header-gap-lg</td><td class="v">4rem</td><td class="v">64</td><td class="note-cell">同上（≥992）</td></tr>
+        <tr><td class="tok">--spacing-logo</td><td class="v">2.5rem</td><td class="v">40</td><td class="note-cell">页头 logo 高</td></tr>
+        <tr><td class="tok">--spacing-logo-footer</td><td class="v">7.5rem</td><td class="v">120</td><td class="note-cell">页脚 logo 高</td></tr>
+        <tr><td class="tok">--spacing-logo-chip</td><td class="v">2.875rem</td><td class="v">46</td><td class="note-cell">卡内 logo 方块</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>数值间距沿用 Tailwind 标尺（<code>p-4</code> = 1rem），未另设令牌。</p>
+  <div class="note">
+    <b>分隔的间隙必须大于内部的间隙。</b>工具列表曾出现分类之间 64px、而分类标题到网格 74px 的情况——分开两组的距离比组内还小，眼睛就分不出段落。现在是组间 104px、组内 32px，约 3:1。
+  </div>
+
+  <h3>描边宽度</h3>
+  <p><code>--border-width-card: 1px</code> · <code>--border-width-divider: 1px</code> · <code>--border-width-control: 1.5px</code>（控件比卡片重一档）。</p>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="shadow">
+  <h2><span class="n">09</span>阴影与动效</h2>
+
+  <h3>阴影</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th>值</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--shadow-card</td><td class="v">0 .625rem 1.875rem ink-5</td><td class="note-cell">卡片静止</td></tr>
+        <tr><td class="tok">--shadow-card-hover</td><td class="v">0 1rem 2.5rem ink-10</td><td class="note-cell">卡片悬停</td></tr>
+        <tr><td class="tok">--shadow-card-ref</td><td class="v">0 12px 32px -12px rgb(16 22 43 / .14)</td><td class="note-cell">工具卡悬停</td></tr>
+        <tr><td class="tok">--shadow-lift</td><td class="v">0 1.25rem 2.5rem -1rem ink-20</td><td class="note-cell">浮起元素</td></tr>
+        <tr><td class="tok">--shadow-glass</td><td class="v">0 1.5rem 3rem -1.25rem primary/72</td><td class="note-cell">玻璃质感</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <code>--shadow-card-ref</code> 的<b>负扩散 -12px 是关键</b>：阴影只在卡正下方收成一小片，不往四周漫，所以二十张卡同时存在也不会糊。
+    <br><br>另：<b>白卡压白底 + 5% 墨阴影等于看不见。</b>要么给底加色，要么给卡加实线细边——阴影撑不起区隔。
+  </div>
+
+  <h3>动效</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>项</th><th class="v">值</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--ease-ds</td><td class="v">cubic-bezier(.4, 0, .2, 1)</td><td class="note-cell">全站唯一缓动曲线</td></tr>
+        <tr><td>快</td><td class="v">150ms</td><td class="note-cell">卡片列表 hover——指针会连着扫过好几张，慢了会变成一串没停就开始的动画</td></tr>
+        <tr><td>标准</td><td class="v">200ms</td><td class="note-cell">按钮、chip、链接颜色过渡</td></tr>
+        <tr><td>慢</td><td class="v">300ms</td><td class="note-cell">卡片阴影与位移</td></tr>
+        <tr><td>位移量</td><td class="v">-2px</td><td class="note-cell">全站统一的 hover 上浮</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>所有位移动效必须包 <code>@media (prefers-reduced-motion: reduce)</code>：关掉位移，保留描边与阴影变化，hover 仍有反馈。</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section id="focus">
+  <h2><span class="n">10</span>焦点态与主题策略</h2>
+  <p class="lede">这一节是全套文档里<b>唯一包含「建议」而非「现状」的部分</b>。焦点态是这个设计系统当前最大的缺口，主题策略则是一个必须写明、否则会被误解的有意决定。</p>
+
+  <h3>现状：焦点态几乎不存在</h3>
+  <p>全站只有三处定义了可见焦点：</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>选择器</th><th>样式</th><th>位置</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">.prose a:focus-visible</td><td class="v">2px solid secondary · offset 2px</td><td class="note-cell">global.css</td></tr>
+        <tr><td class="tok">.link-inline:focus-visible</td><td class="v">同上 + flamingo-lightest 底</td><td class="note-cell">global.css</td></tr>
+        <tr><td class="tok">.code-copy:focus-visible</td><td class="v">white-30 底 + white-50 描边</td><td class="note-cell">global.css</td></tr>
+        <tr><td class="tok">#tool-search:focus</td><td class="v">border 转 brand-blue · outline: none</td><td class="note-cell">ToolFilterBar</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    <b>缺口：</b>主按钮、次按钮、筛选 chip、卡片链接、导航项、页脚链接——<b>全部没有可见焦点环</b>。键盘用户在这个站上无法知道自己停在哪。这不是风格问题，是可用性缺陷。
+  </div>
+
+  <h3>另一个问题：现有焦点环的颜色在两个底上不达标</h3>
+  <p>焦点环属于图形元素，阈值是 <b>3:1</b>（不是文字的 4.5:1）。现用的 <code>--color-secondary</code> #f2673f 实测：</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>环色</th><th class="v">白 #ffffff</th><th class="v">surface-alt #f6fbfb</th><th class="v">ref-bg #fbfbfd</th><th class="v">深底 #242c68</th></tr></thead>
+      <tbody>
+        <tr><td class="v">#f2673f <span class="sw" style="background:#f2673f"></span></td><td class="v">3.09 <span class="pass">✓</span></td><td class="v">2.96 <span class="fail">✗</span></td><td class="v">2.99 <span class="fail">✗</span></td><td class="v">4.15 <span class="pass">✓</span></td></tr>
+        <tr><td class="v">#b94d2f <span class="sw" style="background:#b94d2f"></span></td><td class="v">5.04 <span class="pass">✓</span></td><td class="v">4.83 <span class="pass">✓</span></td><td class="v">4.88 <span class="pass">✓</span></td><td class="v">2.55 <span class="fail">✗</span></td></tr>
+        <tr><td class="v">#2d3782 <span class="sw" style="background:#2d3782"></span></td><td class="v">10.60 <span class="pass">✓</span></td><td class="v">10.15 <span class="pass">✓</span></td><td class="v">10.26 <span class="pass">✓</span></td><td class="v">1.21 <span class="fail">✗</span></td></tr>
+        <tr><td class="v">#ffffff <span class="sw" style="background:#ffffff"></span></td><td class="v">1.00 <span class="fail">✗</span></td><td class="v">—</td><td class="v">—</td><td class="v">12.84 <span class="pass">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>#f2673f 只在纯白上勉强过线（3.09），在这个站实际用得最多的两个浅底上<b>都低于 3:1</b>。这和当初正文链接色以 4.45:1 上线的是同一类错误——只量了白底。</p>
+
+  <h3>建议规范</h3>
+  <p>两个令牌，两条规则，覆盖全站：</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>建议令牌</th><th class="v">值</th><th>用在</th><th class="v">最低对比</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-focus</td><td class="v">#b94d2f</td><td class="note-cell">所有浅色底上的焦点环（白 / surface-alt / ref-bg）</td><td class="v">4.83</td></tr>
+        <tr><td class="tok">--color-focus-inverse</td><td class="v">#ffffff</td><td class="note-cell">深色区块内的焦点环</td><td class="v">12.84</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="spec-card">
+    <h4>焦点环规格 <em>建议</em></h4>
+    <dl>
+      <dt>形式</dt><dd>outline: 2px solid var(--color-focus)</dd>
+      <dt>偏移</dt><dd>outline-offset: 2px</dd>
+      <dt>触发</dt><dd>:focus-visible（不是 :focus——鼠标点击不该出现焦点环）</dd>
+      <dt>圆角</dt><dd>不设——outline 自动跟随元素圆角，胶囊按钮上会是胶囊形</dd>
+      <dt>禁止</dt><dd>outline: none 不带替代样式。搜索框现在就是这么做的，应改为换成焦点环或保留描边变化 + 加 outline</dd>
+      <dt>覆盖</dt><dd>btnPrimary · btnGhost · btn-ref-primary · btn-ref-ghost · .chip · 卡片链接 · 导航项 · 页脚链接 · 所有输入控件</dd>
+    </dl>
+  </div>
+  <div class="states">
+    <span class="lbl">静止</span><span class="demo">访问官网</span>
+    <span class="lbl">focus-visible</span><span class="demo ring">访问官网</span>
+    <span class="lbl">次按钮</span><span class="demo ghost">看教程</span>
+    <span class="lbl">focus-visible</span><span class="demo ghost ring">看教程</span>
+  </div>
+
+  <h3>主题策略：浅色单主题 + 深色区块</h3>
+  <p><b>本站没有深色模式，这是有意的决定，不是待办事项。</b>代码里没有 <code>prefers-color-scheme</code>，也没有 <code>data-theme</code> 或 Tailwind 的 <code>dark:</code> 变体。</p>
+  <p>但站上确实存在深色区块——页脚上方的 CTA、部分卡片。它们靠一组 <code>inverse</code> 令牌实现，这是<b>「深色区块」而不是「深色主题」</b>，两者的区别在于：区块是设计者主动选择放在浅色页面里的一块深色，主题是整页颜色的反转。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌</th><th>指向</th><th class="v">值</th><th></th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--color-surface-inverse</td><td>jacksons-purple-dark</td><td class="v">#242c68</td><td><span class="sw" style="background:#242c68"></span></td><td class="note-cell">深色区块底</td></tr>
+        <tr><td class="tok">--color-content-inverse</td><td>white</td><td class="v">#ffffff</td><td><span class="sw" style="background:#ffffff"></span></td><td class="note-cell">深色区块标题 · 12.84:1</td></tr>
+        <tr><td class="tok">--color-content-inverse-light</td><td>jacksons-purple-lighter</td><td class="v">#d4d6e6</td><td><span class="sw" style="background:#d4d6e6"></span></td><td class="note-cell">深色区块次级文字 · 8.90:1</td></tr>
+        <tr><td class="tok">--color-outline-inverse</td><td>white-20</td><td class="v">白 20%</td><td><span class="sw" style="background:#d0d0d0"></span></td><td class="note-cell">深色区块细线</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>为什么次级文字是一个实色而不是白色降透明：</b>白色 60% 压在 #242c68 上量出来是 5.28:1，过 AA——但中文读不了。一个 14px 的「檀」或「繁」在同样的字框里有十几笔，60% 之后它们不再解析成一个字。<b>这是铁律二在深色区块上的具体落点。</b>
+  </div>
+  <p>如果未来真要做深色主题，需要重新验证的不是颜色数量而是这三件事：正文行高是否仍够（深底上视觉行距会显得更紧）、每个颜色在新底上的比值、以及所有 <code>ink-*</code> 阴影在深底上是否还可见（大概率不可见，需要换成描边）。</p>
+</section>
+
+<!-- ============ 11 ============ -->
+<section id="components">
+  <h2><span class="n">11</span>组件规格</h2>
+  <p class="lede">下面是已定稿、可直接搬进设计系统的组件参数。</p>
+
+  <div class="spec-card">
+    <h4>主按钮 <em>btnPrimary</em></h4>
+    <dl>
+      <dt>底 / 字</dt><dd>--color-primary #2d3782 / 白 · 10.60:1</dd>
+      <dt>hover</dt><dd>--color-primary-dark #242c68 + 上浮 2px</dd>
+      <dt>圆角</dt><dd>--radius-button 100px</dd>
+      <dt>内边距</dt><dd>1.5rem / 0.625rem（24 / 10px）</dd>
+      <dt>描边</dt><dd>1.5px transparent（与次按钮等宽，切换不跳）</dd>
+      <dt>字重</dt><dd>600</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>次按钮 <em>btnGhost</em></h4>
+    <dl>
+      <dt>底 / 字</dt><dd>--color-surface / --color-content</dd>
+      <dt>描边</dt><dd>1.5px --color-outline-hover（带蓝调，不是暖灰）</dd>
+      <dt>hover</dt><dd>描边转 primary，底转 surface-hover</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>工具卡主按钮 <em>btn-ref-primary</em></h4>
+    <dl>
+      <dt>底 / 字</dt><dd>#0e48d6 / 白 · 7.20:1</dd>
+      <dt>hover</dt><dd>#165dfc（提亮，5.24:1）</dd>
+      <dt>圆角</dt><dd>100px 胶囊</dd>
+      <dt>字号</dt><dd>0.9375rem / 600</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>筛选 chip <em>.chip</em></h4>
+    <dl>
+      <dt>常态</dt><dd>白底 + 1px #e8eaf2 + #10162b 字</dd>
+      <dt>选中</dt><dd>#10162b 实底 + 白字</dd>
+      <dt>hover</dt><dd>描边转 #c9cde2</dd>
+      <dt>圆角</dt><dd>999px</dd>
+      <dt>内边距</dt><dd>0.375rem 0.8125rem</dd>
+      <dt>字号</dt><dd>0.875rem / 500</dd>
+      <dt>计数</dt><dd>0.8125rem / 400 / tabular-nums</dd>
+      <dt>空分类</dt><dd>虚线描边 + muted 字，仍可点</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>工具卡 <em>.card-ref</em></h4>
+    <dl>
+      <dt>卡面</dt><dd>白底 · 1px #e8eaf2 · 16px 圆角 · 20px 内边距 · 无阴影</dd>
+      <dt>排列</dt><dd>flex 列 · gap 12px</dd>
+      <dt>hover</dt><dd>上浮 2px · 描边 #d5d9ea · shadow-card-ref · 150ms</dd>
+      <dt>logo</dt><dd>46×46 · 13px 圆角 · #f4f5f9 底 · 与名字同行</dd>
+      <dt>描述</dt><dd>两行截断 · flex-1 把按钮推到同一底线</dd>
+      <dt>网格</dt><dd>3 列 @ 1120px · gap 16px · 卡宽 363px</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>徽章 pill</h4>
+    <dl>
+      <dt>优惠 / 免费</dt><dd>#0e7c46 压 #e9f7f0 · 999px · 5px 11px</dd>
+      <dt>首选</dt><dd>#92600a 压 #fdf1d7 · 绝对定位 top -10px</dd>
+      <dt>字号</dt><dd>--text-badge 0.8125rem / 600</dd>
+      <dt>原则</dt><dd>一张卡只有一个饱和色块，那是主按钮；徽章一律淡底深字</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>导航主推项 <em>navFeature</em></h4>
+    <dl>
+      <dt>底</dt><dd>--color-accent-wash #ecf5e8（Shopify 绿系）</dd>
+      <dt>hover</dt><dd>#ddedd6 + 上浮 2px</dd>
+      <dt>字</dt><dd>--color-content，字色字重都不动</dd>
+      <dt>原则</dt><dd>只改底色不加重字——要被看见，但不能比旁边纯文字项重一截</dd>
+    </dl>
+  </div>
+
+  <div class="spec-card">
+    <h4>共用零件 <em>lib/ui.ts</em></h4>
+    <dl>
+      <dt>sectionRule</dt><dd>12×2px --color-secondary 短横，每个段标题开头</dd>
+      <dt>eyebrow</dt><dd>text-tiny / 600 / tracking-eyebrow / content-lighter</dd>
+      <dt>arrowIcon</dt><dd>16×16，hover 右移 2px</dd>
+      <dt>card</dt><dd>rounded-card + shadow-card，hover 抬 4px 换 shadow-card-hover</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section id="decor">
+  <h2><span class="n">12</span>装饰层</h2>
+  <p class="lede">33 个装饰类。这一层是这个站看起来不像模板的主要原因——纯令牌重建的系统会干净但没有性格，所以它必须一起带走。全部由 CSS 实现，没有图片资源。</p>
+
+  <h3>底纹</h3>
+  <p>两种底纹加三种遮罩，通过 CSS 变量组合，可叠加使用。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>类</th><th>实现</th><th>可调变量 / 参数</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">.pattern-dots</td><td class="note-cell">radial-gradient 点阵</td><td class="v">--pattern-dot-color · gap 1rem · size 1.5px</td></tr>
+        <tr><td class="tok">.pattern-dots-accent</td><td class="note-cell">点色改为 --color-secondary</td><td class="v">—</td></tr>
+        <tr><td class="tok">.pattern-dots-lg</td><td class="note-cell">大号点阵</td><td class="v">gap 1.375rem · size 2px</td></tr>
+        <tr><td class="tok">.pattern-grid</td><td class="note-cell">双向 linear-gradient 网格</td><td class="v">--grid-color（默认 primary 混 92% 透明）</td></tr>
+        <tr><td class="tok">.pattern-grid-inverse</td><td class="note-cell">深底上的网格</td><td class="v">--grid-color: white-10</td></tr>
+        <tr><td class="tok">.pattern-fade</td><td class="note-cell">角落淡出遮罩</td><td class="v">radial 120×120 at 0 0 · 24%→72%</td></tr>
+        <tr><td class="tok">.pattern-fade-soft</td><td class="note-cell">中心淡出遮罩</td><td class="v">closest-side · 40%→100%</td></tr>
+        <tr><td class="tok">.pattern-grid-fade</td><td class="note-cell">中心透出的椭圆遮罩</td><td class="v">ellipse 62%×58% at 50% 46%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>底纹必须带遮罩。</b>点阵铺满整块时，密度最高的地方常常正好落在 logo 或标题后面——那是「脏」，不是「质感」。锚在一个角落、被容器边缘裁掉，它才在做该做的事：让二十个灰色矩形不至于读成二十个灰色矩形。
+  </div>
+
+  <h3>倾斜与胶带</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>令牌 / 类</th><th class="v">值</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">--rotate-card</td><td class="v">1.5deg</td><td class="note-cell">卡片轻微倾斜</td></tr>
+        <tr><td class="tok">.tilt-card / .tilt-card-reverse</td><td class="v">±1.5deg</td><td class="note-cell">成对使用，一正一反</td></tr>
+        <tr><td class="tok">--rotate-tape</td><td class="v">-8deg</td><td class="note-cell">胶带主角度</td></tr>
+        <tr><td class="tok">--rotate-tape-alt</td><td class="v">6deg</td><td class="note-cell">胶带副角度</td></tr>
+        <tr><td class="tok">--radius-tape</td><td class="v">2px</td><td class="note-cell">胶带圆角</td></tr>
+        <tr><td class="tok">--color-tape-blue</td><td class="v">aqua-island 混 40% 透明</td><td class="note-cell">胶带色 A</td></tr>
+        <tr><td class="tok">--color-tape-peach</td><td class="v">flamingo-light 混 55% 透明</td><td class="note-cell">胶带色 B</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>动画</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>类</th><th class="v">时长</th><th>行为</th></tr></thead>
+      <tbody>
+        <tr><td class="tok">.rise-in</td><td class="v">700ms</td><td class="note-cell">入场上移淡入。<code>.rise-1</code>–<code>.rise-5</code> 提供 0 / 90 / 180 / 270 / 360ms 错峰延迟</td></tr>
+        <tr><td class="tok">.rise-slow</td><td class="v">900ms</td><td class="note-cell">同上，慢档</td></tr>
+        <tr><td class="tok">.float-tile</td><td class="v">7.2–10s</td><td class="note-cell">环境漂浮。<code>.float-1</code>–<code>.float-8</code> 各带不同位移(9–14px)、倾角(±0.6deg)、周期与负延迟——错开是为了避免八块同时同相</td></tr>
+        <tr><td class="tok">.underline-draw</td><td class="v">600ms · 延迟 700ms</td><td class="note-cell">SVG 下划线描出，用 stroke-dashoffset</td></tr>
+        <tr><td class="tok">.timeline-rail-fill</td><td class="v">滚动驱动</td><td class="note-cell"><code>animation-timeline: view()</code>，无 JavaScript</td></tr>
+        <tr><td class="tok">.timeline-dot</td><td class="v">滚动驱动</td><td class="note-cell">同上，圆点随导轨点亮</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    <b>所有动画类都必须在 <code>@media (prefers-reduced-motion: reduce)</code> 下关闭。</b>本站已实现：<code>.float-tile</code> 与 <code>.rise-in</code> 在该媒体查询下设为 <code>animation: none</code>，<code>.underline-draw</code> 直接呈现终态。<b>迁移时这一层不能丢——装饰性动画是最容易引发前庭不适的部分。</b>
+  </div>
+
+  <h3>其它</h3>
+  <p><code>.logo-scale-110</code> / <code>.logo-scale-120</code>（<code>scale: 1.1 / 1.2</code>）：给画得偏窄的品牌图标做视觉补正。同一个方框里不同商标的视觉大小并不相等，这是纯光学修正，没有语义。</p>
+</section>
+
+<!-- ============ 13 ============ -->
+<section id="layers">
+  <h2><span class="n">13</span>图标与层级</h2>
+  <p class="lede">这两组目前都是散在组件里的裸数字，没有令牌化。设计系统正好该把它们收进来。</p>
+
+  <h3>图标</h3>
+  <p>图标库是 <b>@lucide/astro</b>，规则是<b>逐个按需引入</b>（<code>import Mail from '@lucide/astro/icons/mail'</code>），不从 barrel 导入——后者会明显拖慢开发时的热更新。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th class="v">类</th><th class="v">px</th><th class="v">用量</th><th>用在</th></tr></thead>
+      <tbody>
+        <tr><td class="v">w-3</td><td class="v">12</td><td class="v">5</td><td class="note-cell">徽章内星标、微型标记</td></tr>
+        <tr><td class="v">w-3.5</td><td class="v">14</td><td class="v">3</td><td class="note-cell">小按钮箭头、pill 内图标</td></tr>
+        <tr><td class="v">w-4</td><td class="v">16</td><td class="v">9</td><td class="note-cell"><b>默认档</b>——按钮箭头、行内图标</td></tr>
+        <tr><td class="v">w-5</td><td class="v">20</td><td class="v">6</td><td class="note-cell">导航图标、搜索框图标</td></tr>
+        <tr><td class="v">w-6</td><td class="v">24</td><td class="v">2</td><td class="note-cell">下拉菜单品牌牌</td></tr>
+        <tr><td class="v">w-7</td><td class="v">28</td><td class="v">2</td><td class="note-cell">汉堡菜单</td></tr>
+        <tr><td class="v">w-10</td><td class="v">40</td><td class="v">2</td><td class="note-cell">下拉菜单图标底板</td></tr>
+        <tr><td class="v">w-16</td><td class="v">64</td><td class="v">4</td><td class="note-cell">空状态占位图标</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>lucide 已移除品牌图标。</b>YouTube、Shopify、哔哩哔哩这类必须自备 SVG。本站的处理是：方形品牌标（哔哩哔哩，1024×1024）直接用文件；非方形的（YouTube 是 800×524 横牌）用「品牌色实底方块 + 白色 lucide 图形」自己拼，尺寸才能与邻居对齐。<br><br>
+    <b>推论：</b>一排并列的品牌图标要<b>统一高度，不是统一宽高</b>。把 800×524 的横牌锁进正方形会渲染成 24×15.7px，比旁边 24×24 的矮一截。
+  </div>
+  <p>建议令牌化：<code>--size-icon-xs 12</code> · <code>-sm 14</code> · <code>-md 16</code> · <code>-lg 20</code> · <code>-xl 24</code> · <code>-2xl 28</code>。</p>
+
+  <h3>层级（z-index）</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th class="v">值</th><th>用在</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="v">0</td><td class="note-cell">时间线导轨</td><td class="note-cell">压在卡片之下</td></tr>
+        <tr><td class="v">10</td><td class="note-cell">卡片角标、时间线左栏</td><td class="note-cell">同一组件内的上层</td></tr>
+        <tr><td class="v">20</td><td class="note-cell">时间线圆点</td><td class="note-cell">要压过导轨</td></tr>
+        <tr><td class="v">40</td><td class="note-cell">（曾用于吸顶筛选条）</td><td class="note-cell">现已不吸顶，该档空出</td></tr>
+        <tr><td class="v">50</td><td class="note-cell">页头</td><td class="note-cell">全站最高，吸顶</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>建议令牌化为 <code>--z-base 0</code> · <code>--z-raised 10</code> · <code>--z-overlay 20</code> · <code>--z-sticky 40</code> · <code>--z-header 50</code>，并规定<b>组件内部不允许出现裸数字</b>。当前的 0/10/20 表达的是同一组件内部的相对关系，只有 50 是真正的全局层级——两者不分开，以后加弹层会没有依据判断该给多少。</p>
+</section>
+
+<!-- ============ 14 ============ -->
+<section id="contrast">
+  <h2><span class="n">14</span>对比度实测</h2>
+  <p class="lede">这些组合都实际量过。迁移时不要凭感觉换任一侧的颜色。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>底</th><th>字</th><th class="v">比值</th><th></th><th>场景</th></tr></thead>
+      <tbody>
+        <tr><td class="v">#2d3782</td><td class="v">#ffffff</td><td class="v">10.60</td><td class="pass">✓</td><td class="note-cell">主按钮</td></tr>
+        <tr><td class="v">#0e48d6</td><td class="v">#ffffff</td><td class="v">7.20</td><td class="pass">✓</td><td class="note-cell">工具卡按钮静止</td></tr>
+        <tr><td class="v">#165dfc</td><td class="v">#ffffff</td><td class="v">5.24</td><td class="pass">✓</td><td class="note-cell">工具卡按钮 hover</td></tr>
+        <tr><td class="v">#f2673f</td><td class="v">#231c1b</td><td class="v">5.42</td><td class="pass">✓</td><td class="note-cell">珊瑚徽章配深墨字</td></tr>
+        <tr><td class="v">#f2673f</td><td class="v">#ffffff</td><td class="v">3.09</td><td class="fail">✗</td><td class="note-cell"><b>珊瑚永远不配白字</b></td></tr>
+        <tr><td class="v">#b94d2f</td><td class="v">#ffffff</td><td class="v">5.04</td><td class="pass">✓</td><td class="note-cell">这就是「棕色」的来源，见坑 01</td></tr>
+        <tr><td class="v">#fdefeb</td><td class="v">#b94d2f</td><td class="v">4.49</td><td class="fail">✗</td><td class="note-cell">差 0.01，必须降到 #602919（10.24）</td></tr>
+        <tr><td class="v">#e9f7f0</td><td class="v">#0e7c46</td><td class="v">4.77</td><td class="pass">✓</td><td class="note-cell">优惠 pill</td></tr>
+        <tr><td class="v">#242c68</td><td class="v">#d4d6e6</td><td class="v">8.90</td><td class="pass">✓</td><td class="note-cell">深底次级文字</td></tr>
+        <tr><td class="v">#242c68</td><td class="v">白 60%</td><td class="v">5.28</td><td class="fail">✗</td><td class="note-cell">过了 AA 但中文读不了，见铁律二</td></tr>
+        <tr><td class="v">#ffffff</td><td class="v">#6f6b6a</td><td class="v">5.43</td><td class="pass">✓</td><td class="note-cell">说明文字下限</td></tr>
+        <tr><td class="v">#ecf5e8</td><td class="v">#231c1b</td><td class="v">14.99</td><td class="pass">✓</td><td class="note-cell">导航主推项</td></tr>
+        <tr><td class="v">#00dc82</td><td class="v">#231c1b</td><td class="v">9.22</td><td class="pass">✓</td><td class="note-cell">亮翠绿必须配深字</td></tr>
+        <tr><td class="v">#00dc82</td><td class="v">#ffffff</td><td class="v">1.82</td><td class="fail">✗</td><td class="note-cell">亮翠绿永远不配白字</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 15 ============ -->
+<section id="traps">
+  <h2><span class="n">15</span>四个坑</h2>
+  <p class="lede">这四条比色值更值得带走——它们是这套系统里最容易被重新踩一遍的地方。</p>
+
+  <h3>01 · AA 规则会自己生出一个新颜色</h3>
+  <p>品牌珊瑚 <code>#f2673f</code> 配白字只有 3.09:1。系统为了让它过 AA，自动把承载文字的 flamingo 一律压深到 <code>#b94d2f</code>——那是一个<b>棕色</b>，从来没有人挑过它，它是「珊瑚 + 白字」这个组合逼出来的。<br><b>解法：改配色而不是改色号。</b>珊瑚配深墨字 5.42:1，珊瑚就能以原色出现。</p>
+
+  <h3>02 · 语义别名要成套定义</h3>
+  <p><code>--color-secondary-lightest</code> / <code>-darker</code> 这类别名在初版中不存在，用到时才发现缺失。<b>迁移时把六条色阶的七档全部建立对应的语义别名</b>，而不是用到哪档补哪档——补出来的会散落在各处，也容易在「清理死代码」时被误删（本项目就发生过两次）。</p>
+
+  <h3>03 · 「重」是亮度问题，不是色相问题</h3>
+  <p>一个色块压在浅底上有多沉，等于它的相对亮度。深海军蓝 <code>#2d3782</code> 的相对亮度是 <b>0.049</b>，浅底 <code>#f1f4f5</code> 是 <b>0.900</b>——差了近 20 倍。当反馈是「太重」时，先量亮度再决定换色相还是换明度，从色板里挑「感觉浅一点」的色号通常只能挪 0.03。</p>
+
+  <h3>04 · 字重阶梯要真的是阶梯</h3>
+  <p>bold 与 semibold 同为 600 时，整套系统失去粗体这一档，页面上三分之二的文字节点会落在同一个字重上。中文在这个密度下会糊成一块。<b>四档字重必须是四个不同的值</b>，且用途要分开写明（见第 06 节）。</p>
+</section>
+
+<footer class="end">
+  导出自 <code>wutong.org</code> 的 <code>src/styles/theme.css</code>（Tailwind v4 <code>@theme</code>）、<code>src/lib/ui.ts</code> 与各组件规格注释 · 2026-08-28<br>
+  文中所有对比度均为实测值，非估算。
+</footer>
+
+</div>
