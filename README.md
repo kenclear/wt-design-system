@@ -17,6 +17,12 @@ tokens/
   tokens.json     平台无关导出，给 Figma / Style Dictionary 这类工具读。
                   由脚本生成，不要手改。
 
+brand/
+  logo/           字标（页头）与浮雕锁形（页脚）
+  favicon/        favicon.svg + 512 PNG + apple-touch-icon
+  photo/          人物照、首页主视觉
+  README.md       尺寸、留白、使用规则 —— 数值都是线上实测的
+
 fonts/            Funnel Display 四个切片 + OFL 许可证。40KB。
 
 docs/
@@ -62,6 +68,15 @@ npm run build:tokens     # 重新生成 tokens.json
 | 某一页专属的令牌和组件（工具卡、筛选 chip、某个导航项的底色） | 各站的 `site.css` |
 
 `core.css` 不该出现任何只有一个页面会用的东西。
+
+## 品牌资产
+
+logo、favicon、照片在 [`brand/`](brand/)，用法规则见 [brand/README.md](brand/README.md)。
+
+三个已知缺口：**没有 SVG 字标**（页头现在用 2560px 的 PNG 缩到 165px）、
+**没有深底变体**、**favicon 与字标的关系没有定义**。
+
+YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别家公司的商标。
 
 ## 三条铁律
 
