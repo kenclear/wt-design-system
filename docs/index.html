@@ -437,9 +437,9 @@
 <header class="top">
   <p class="kicker">wutong.org · 设计令牌全量</p>
   <h1>梧桐设计系统</h1>
-  <p>这份文档是从代码全量导出的，不是凭记忆写的：核心层 <code>tokens/core.css</code>、站点层 <code>site.css</code>、字体 <code>fonts.css</code>，每一个数值都可以逐字对上。改版过程中定下的规则和踩过的坑一并记在这里——它们比数值本身更难重建。</p>
+  <p>梧桐小讲堂（wutong.org）的设计规范。颜色、字号、间距、组件的完整参数，以及每一条约束背后的理由。所有数值与代码一一对应：核心层 <code>tokens/core.css</code>、站点层 <code>site.css</code>、字体 <code>fonts.css</code>。</p>
   <div class="meta">
-    <span>导出日期 <b>2026-08-31</b></span>
+    <span>版本 <b>1.1.0</b></span>
     <span>颜色令牌 <b>130</b></span>
     <span>字号令牌 <b>22</b></span>
     <span>圆角 <b>14</b></span>
@@ -451,29 +451,29 @@
 </header>
 
 <div class="brief">
-  <h2>给设计系统工具的说明</h2>
-  <p>如果这份文档是交给自动化工具重建设计系统的，先读这一段。有些东西必须原样保留，有些是历史遗留、不能当成规范。</p>
+  <h2>接入须知</h2>
+  <p>把这套系统接进其它产品或设计工具之前，先读这一段。左边是不可改的约束，右边是不属于本规范、不要一并带走的东西。</p>
   <div class="cols">
     <div class="col keep">
-      <h3>必须原样保留</h3>
+      <h3>不可改的约束</h3>
       <ul>
-        <li><b>四档字重是四个不同值</b>（400/500/600/700）。曾经 bold 与 semibold 同为 600，那是缺陷不是风格。</li>
-        <li><b>正文行高 1.75</b>。中文专用值，不要按拉丁排版惯例压到 1.5。</li>
-        <li><b>卡内四档字号</b>（17/15/13/13px）。已在拉丁参考值上加过 1.5px，不要退回。</li>
+        <li><b>四档字重必须是四个不同值</b>（400 / 500 / 600 / 700）。合并任意两档会让整页三分之二的文字落在同一个字重上，中文在这个密度下会糊成一块。</li>
+        <li><b>正文行高 1.75。</b>中文专用值，不可按拉丁排版惯例压到 1.5。</li>
+        <li><b>卡内四档字号 17 / 15 / 13 / 13px。</b>比同版式的拉丁值高约 1.5px —— 同样字号中文要小一号才看得清。</li>
         <li><b>颜色只能从语义别名引用</b>，组件永不直接引色阶。</li>
-        <li><b>标题字体是「Funnel Display 在前、系统黑体在后」</b>的双语分工，顺序不能反 —— 反过来中文正常但拉丁部分失去展示体。见第 07 节。</li>
+        <li><b>标题字体栈的顺序不能反</b> —— Funnel Display 在前、系统黑体在后。反过来中文正常，但拉丁部分会失去展示体。见第 07 节。</li>
         <li><b>不透明度阶梯只用于蒙版与细线</b>，任何情况下不用于文字。</li>
       </ul>
     </div>
     <div class="col drop">
-      <h3>不要带走 / 不要推导</h3>
+      <h3>不属于本规范</h3>
       <ul>
-        <li><b><code>.scheme-1</code> 到 <code>.scheme-4</code> 是死代码</b>。Relume 模板遗留，全站零使用。不要重建成「区块配色方案」。</li>
-        <li><b><code>--color-ref-*</code> 与品牌色不要合并</b>。前者是列表页从外部移植的独立体系，两组不能互相推导，也不能统一成一条色阶。</li>
+        <li><b>没有「区块配色方案」这一层。</b>页面靠语义色令牌直接取色，不存在 scheme 抽象，不要为它生成一套。</li>
+        <li><b><code>--color-ref-*</code> 是独立体系。</b>它是工具列表页专用的一组颜色，与品牌色板并行存在，两组不能互相推导，也不能合并成一条色阶。</li>
         <li><b>不要生成深色主题</b>。本站是浅色单主题，见第 11 节。</li>
-        <li><b><code>#b94d2f</code> 不是品牌色</b>。它是 AA 规则从珊瑚身上压出来的产物，见坑 01。</li>
-        <li><b>色板以 logo 为准</b>。2026-08-31 起主色 #003a89、punch #e63946、steel #457b9d 都直接取自 logo 源文件，不要再换回口述值。</li>
-        <li><b><code>--color-error</code> 指向 punch-dark 不是基色</b>。白字压 logo 红 #e63946 只有 4.17:1，过不了 AA。</li>
+        <li><b><code>#b94d2f</code> 不是品牌色。</b>它是珊瑚 #f2673f 为满足对比度而压深的派生值，只用于承载文字的场合。</li>
+        <li><b>色板以 logo 为准。</b>主色 #003a89、punch #e63946、steel #457b9d 直接取自 logo 源文件，是这三支颜色的唯一权威来源。</li>
+        <li><b><code>--color-error</code> 指向 punch-dark，不是基色。</b>白字压 punch 基色只有 4.17:1，过不了 AA。</li>
       </ul>
     </div>
   </div>
@@ -497,7 +497,7 @@
     <li><a href="#decor">装饰层</a></li>
     <li><a href="#layers">图标与层级</a></li>
     <li><a href="#contrast">对比度实测</a></li>
-    <li><a href="#traps">四个坑</a></li>
+    <li><a href="#traps">四条容易违反的规则</a></li>
   </ol>
 </ol>
 </nav>
@@ -508,9 +508,7 @@
   <p class="lede">logo、favicon、照片。下面所有尺寸和留白都是从线上实测的，不是凭感觉定的。</p>
 
   <div class="note warn">
-    <b>先读这一条：logo 的颜色和站点色板不是一套。</b>
-    <code>wordmark-landscape.svg</code> 里只有三个颜色，<b>一个都不在站点品牌色板里</b> ——
-    见下面「logo 的实际用色」。这是一个待决定的事，不是 bug；<b>在你决定之前，不要让任何工具自动「统一」这两组颜色</b>。
+    <b>logo 是颜色的权威来源。</b>字标 SVG 里的三个颜色即品牌色板中对应的三支，色板从 logo 推导而来。修改品牌色须先改 logo 源文件。
   </div>
 
   <h3>主资产 · 横版矢量字标</h3>
@@ -523,29 +521,16 @@
     </div>
   </div>
 
-  <h3>logo 的实际用色</h3>
+  <h3>logo 的三色</h3>
   <div class="brand" style="grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))">
-    <figure><span class="sw-lg" style="background:#003A89"></span><figcaption><span class="hex">#003A89</span><span class="who">深蓝 · 叶片左半 + 全部文字</span></figcaption></figure>
-    <figure><span class="sw-lg" style="background:#E63946"></span><figcaption><span class="hex">#E63946</span><span class="who">红 · 叶片右半</span></figcaption></figure>
-    <figure><span class="sw-lg" style="background:#457B9D"></span><figcaption><span class="hex">#457B9D</span><span class="who">青灰 · 叶柄</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#003a89"></span><figcaption><span class="hex">#003a89</span><span class="who">深蓝 · 叶片左半 + 全部文字<br>= <code>--color-jacksons-purple</code></span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#e63946"></span><figcaption><span class="hex">#e63946</span><span class="who">红 · 叶片右半<br>= <code>--color-punch</code></span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#457b9d"></span><figcaption><span class="hex">#457b9d</span><span class="who">青灰 · 叶柄<br>= <code>--color-steel</code></span></figcaption></figure>
   </div>
-  <div class="scroll">
-    <table>
-      <thead><tr><th>logo 用色</th><th>站点最接近的</th><th class="v">色距</th><th>判定</th></tr></thead>
-      <tbody>
-        <tr><td class="v">#003A89 <span class="sw" style="background:#003A89"></span></td><td class="v">#003a89 主色 <span class="sw" style="background:#003a89"></span></td><td class="v">45.6</td><td class="note-cell">同族但明显不同</td></tr>
-        <tr><td class="v">#E63946 <span class="sw" style="background:#E63946"></span></td><td class="v">#e63946 punch <span class="sw" style="background:#e63946"></span></td><td class="v">25.6</td><td class="note-cell">接近但不相等</td></tr>
-        <tr><td class="v">#457B9D <span class="sw" style="background:#457B9D"></span></td><td class="v">无对应</td><td class="v">≥84.8</td><td class="note-cell">色板里没有这一支</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="gap-note">
-    <b>已决定（2026-08-31）：站点向 logo 靠拢。</b>logo 是品牌里最固定的一环，UI 色板应该从它推导，而不是反过来。
-    <br><br>已执行：<code>--color-jacksons-purple</code> 基色改为 <b>#003a89</b>、<code>--color-punch</code> 改为 <b>#e63946</b>、
-    新增 <code>--color-steel</code> 一条完整色阶（<b>#457b9d</b>）。三条色阶都按这套设计原有的步长重算，明暗关系不变，只有色相位移。
-    <br><br><b>连带处理一处：</b>白字压新的 punch 基色 #e63946 只有 <span class="fail">4.17:1</span>，过不了 AA（原来的 #e63946 是 4.63）。
-    所以语义别名 <code>--color-error</code> 改为指向 <code>punch-dark #b72d38</code>（6.09:1），基色本身留作图形填充 —— 它是 logo 的真实颜色，要保留。
-    这跟珊瑚配白字压出 #b94d2f 是同一类处理，见坑 01。
+  <p>这三支各自在色板里展开成完整色阶（见第 04 节），构造比例与其余色阶一致。<code>#457b9d</code> / <code>#e63946</code> / <code>#a8dadc</code> 本就是一套成组的配色，色板里的 <code>--color-aqua-island</code> 即 <code>#a8dadc</code>。</p>
+  <div class="note">
+    <b>一处必须遵守的派生规则：</b>白字压 punch 基色 <code>#e63946</code> 只有 <span class="fail">4.17:1</span>，过不了 AA。
+    因此语义别名 <code>--color-error</code> 指向 <code>punch-dark #b72d38</code>（6.09:1），<b>基色本身只用于图形填充</b> —— 它是 logo 的真实颜色，不可更改。
   </div>
 
   <h3>单色变体</h3>
@@ -613,7 +598,7 @@
 <!-- ============ 02 ============ -->
 <section id="rules">
   <h2><span class="n">02</span>中文排版三条铁律</h2>
-  <p class="lede">这三条是这个项目上用错误换来的，不是通用建议。它们约束的是所有后续改动——任何一次「让它更紧凑一点」的尝试，都要先过这三条。</p>
+  <p class="lede">本系统服务中文界面，下面三条是不可协商的排版约束。任何一次「让它更紧凑一点」的改动都必须先过这三条。</p>
 
   <h3>行高是字号的一部分</h3>
   <p>类型标尺里每一档都自带行高：正文 <code>1.75</code>，标题 <code>1.3–1.4</code>。<b>不要用 <code>leading-snug</code> / <code>leading-tight</code> 覆盖正文字号</b>——那是拉丁字母的值。同样一个字框里，中文字的笔画密度是字母的好几倍，行距一压，行与行之间的空隙就没了，整段灰成一块。紧行距只给两行以内的卡片标题用。</p>
@@ -622,7 +607,7 @@
   <p>正文和次级文字取颜色令牌，<b>绝不用白/墨加透明度</b>（<code>text-white-60</code> 之类）。透明度会等比削薄每一笔，拉丁字母扛得住，中文扛不住。深色底上用 <code>--color-content-inverse-light</code>。透明度阶梯是给蒙版、导轨、细线用的，不给文字。</p>
 
   <h3>AA 是地板，不是及格线</h3>
-  <p>每个文字颜色要在 <b>两个底</b> 上都过 4.5:1——<code>--color-surface</code>（#ffffff）和 <code>--color-surface-alt</code>（#f6fbfb）。只量白底，是当初正文链接色以 4.45:1 上线到半个站的原因。而且过了比例也不等于可读：上面两条描述的正是「过了 AA 却读不了」的情况。拿不准就去量渲染出来的页面，别在脑子里推。</p>
+  <p>每个文字颜色要在 <b>两个底</b> 上都过 4.5:1——<code>--color-surface</code>（#ffffff）和 <code>--color-surface-alt</code>（#f6fbfb）。只量白底不够 —— 一个在白底上达标的颜色，压到 surface-alt 上会掉到 4.5 以下。而且过了比例也不等于可读：上面两条描述的正是「过了 AA 却读不了」的情况。拿不准就去量渲染出来的页面，别在脑子里推。</p>
 
   <div class="note">
     <b>推论：</b><code>--text-tiny</code> 在手机上是 <code>0.625rem</code>（10px）。那是徽章或说明文字的尺寸，永远不能拿来做需要读者去操作的标签。
@@ -632,11 +617,11 @@
 <!-- ============ 2 ============ -->
 <section id="brand">
   <h2><span class="n">03</span>品牌色板</h2>
-  <p class="lede">客户提供的九色板，加上 logo 源文件里的三色。2026-08-31 起<b>以 logo 为准</b>：海军蓝和红都换成了 logo 里的实际值，青灰 #457b9d 补进色板。</p>
+  <p class="lede">十一支品牌色。其中海军蓝、红、青灰三支取自 logo 源文件，是这三个颜色的权威来源；其余八支构成完整的品牌调色板。</p>
 
   <div class="brand">
-    <figure><span class="sw-lg" style="background:#003a89"></span><figcaption><span class="hex">#003a89</span><span class="who">海军蓝 · 全站主色<br><b>取自 logo</b>，取代口述的 #003a89</span></figcaption></figure>
-    <figure><span class="sw-lg" style="background:#e63946"></span><figcaption><span class="hex">#e63946</span><span class="who">红 · punch<br><b>取自 logo</b>，取代 #e63946</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#003a89"></span><figcaption><span class="hex">#003a89</span><span class="who">海军蓝 · 全站主色<br><b>取自 logo</b></span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#e63946"></span><figcaption><span class="hex">#e63946</span><span class="who">红 · punch<br><b>取自 logo</b></span></figcaption></figure>
     <figure><span class="sw-lg" style="background:#a8dadc"></span><figcaption><span class="hex">#a8dadc</span><span class="who">浅青 · aqua island</span></figcaption></figure>
     <figure><span class="sw-lg" style="background:#eff9fb"></span><figcaption><span class="hex">#eff9fb</span><span class="who">淡青底</span></figcaption></figure>
     <figure><span class="sw-lg" style="background:#a1ec84"></span><figcaption><span class="hex">#a1ec84</span><span class="who">浅绿 · sulu</span></figcaption></figure>
@@ -644,32 +629,29 @@
     <figure><span class="sw-lg" style="background:#f1f4f5"></span><figcaption><span class="hex">#f1f4f5</span><span class="who">浅灰</span></figcaption></figure>
     <figure><span class="sw-lg" style="background:#ffffff"></span><figcaption><span class="hex">#ffffff</span><span class="who">白</span></figcaption></figure>
     <figure><span class="sw-lg" style="background:#00dc82"></span><figcaption><span class="hex">#00dc82</span><span class="who">亮翠绿</span></figcaption></figure>
-    <figure><span class="sw-lg" style="background:#457b9d"></span><figcaption><span class="hex">#457b9d</span><span class="who">青灰 · steel<br><b>取自 logo</b>，2026-08 新增</span></figcaption></figure>
+    <figure><span class="sw-lg" style="background:#457b9d"></span><figcaption><span class="hex">#457b9d</span><span class="who">青灰 · steel<br><b>取自 logo</b></span></figcaption></figure>
   </div>
 
-  <h3>板外新增色</h3>
+  <h3>交互蓝</h3>
   <p>唯一一支不在品牌板上的颜色，来源明确记录：取自 <code>deals.meticsmedia.com</code> 的 <code>--indigo</code>（读它自己的 <code>:root</code>，不是截图取色）。</p>
   <div class="scroll">
     <table>
       <thead><tr><th>令牌</th><th class="v">值</th><th></th><th>用途</th></tr></thead>
       <tbody>
-        <tr><td class="tok">--color-brand-blue</td><td class="v">#165dfc</td><td><span class="sw" style="background:#165dfc"></span></td><td class="note-cell">工具卡主按钮底；白字 5.24:1</td></tr>
-        <tr><td class="tok">--color-brand-blue-deep</td><td class="v">#0e48d6</td><td><span class="sw" style="background:#0e48d6"></span></td><td class="note-cell">同上 hover；白字 7.20:1</td></tr>
+        <tr><td class="tok">--color-brand-blue</td><td class="v">#165dfc</td><td><span class="sw" style="background:#165dfc"></span></td><td class="note-cell">工具卡主按钮 hover 底 · 白字 5.24:1</td></tr>
+        <tr><td class="tok">--color-brand-blue-deep</td><td class="v">#0e48d6</td><td><span class="sw" style="background:#0e48d6"></span></td><td class="note-cell">工具卡主按钮静止底 · 白字 7.20:1</td></tr>
       </tbody>
     </table>
-  </div>
-  <div class="note warn">
-    <b>删过两次的令牌：</b><code>--color-brand-blue-soft</code>（#e8eefe）。两次因「当时无人使用」被清理，第三次又被需要。如果你的设计系统要保留完整三档，就把它固定下来：#165dfc / #0e48d6 / #e8eefe。
   </div>
 </section>
 
 <!-- ============ 3 ============ -->
 <section id="ramps">
   <h2><span class="n">04</span>七条色阶</h2>
-  <p class="lede">七条色阶，每条七档，命名一致：<code>lightest · lighter · light · (base) · dark · darker · darkest</code>。jacksons-purple 与 punch 两条 2026-08-31 按 logo 换过基色，steel 是同期新增，上下六档一律按原有步长重算：浅三档是基色混白 <b>89.8% / 79.7% / 29.9%</b>，深三档是基色乘 <b>0.797 / 0.399 / 0.297</b>。要新增色阶，沿用这组比例。</p>
+  <p class="lede">七条色阶，每条七档，命名一致：<code>lightest · lighter · light · (base) · dark · darker · darkest</code>。所有色阶由基色按同一组比例推出 —— 浅三档是基色混白 <b>89.8% / 79.7% / 29.9%</b>，深三档是基色乘 <b>0.797 / 0.399 / 0.297</b>。新增色阶沿用这组比例。</p>
 
   <div class="ramp">
-    <div class="name">jacksons-purple <span>主色 · 基色 #003a89（取自 logo，2026-08-31 从 #003a89 换来；更早是 #1e3a8a）</span></div>
+    <div class="name">jacksons-purple <span>主色 · 基色 #003a89，取自 logo</span></div>
     <div class="steps">
       <div style="background:#e5ebf3"><b>e5ebf3</b></div><div style="background:#cbd7e7"><b>cbd7e7</b></div><div style="background:#4c75ac"><b>4c75ac</b></div><div style="background:#003a89"><b>003a89</b></div><div style="background:#002e6d"><b>002e6d</b></div><div style="background:#001737"><b>001737</b></div><div style="background:#001129"><b>001129</b></div>
     </div>
@@ -697,14 +679,14 @@
   </div>
 
   <div class="ramp">
-    <div class="name">punch <span>错误态 · 基色 #e63946（取自 logo，从 #e63946 换来）</span></div>
+    <div class="name">punch <span>错误态 · 基色 #e63946，取自 logo</span></div>
     <div class="steps">
       <div style="background:#fcebec"><b>fcebec</b></div><div style="background:#fad7d9"><b>fad7d9</b></div><div style="background:#ed747d"><b>ed747d</b></div><div style="background:#e63946"><b>e63946</b></div><div style="background:#b72d38"><b>b72d38</b></div><div style="background:#5c171c"><b>5c171c</b></div><div style="background:#441115"><b>441115</b></div>
     </div>
   </div>
 
   <div class="ramp">
-    <div class="name">steel <span>基色 #457b9d（logo 叶柄，2026-08-31 新增）</span></div>
+    <div class="name">steel <span>基色 #457b9d，取自 logo 叶柄</span></div>
     <div class="steps">
       <div style="background:#ecf2f5"><b>ecf2f5</b></div><div style="background:#d9e4eb"><b>d9e4eb</b></div><div style="background:#7da2ba"><b>7da2ba</b></div><div style="background:#457b9d"><b>457b9d</b></div><div style="background:#37627d"><b>37627d</b></div><div style="background:#1c313f"><b>1c313f</b></div><div style="background:#14252f"><b>14252f</b></div>
     </div>
@@ -799,7 +781,7 @@
 <!-- ============ 5 ============ -->
 <section id="ref">
   <h2><span class="n">06</span>工具页配色</h2>
-  <p class="lede">工具列表页整套移植自 <code>deals.meticsmedia.com</code>，值读自它自己的 <code>:root</code>。这一组是<b>独立命名空间</b>（<code>--color-ref-*</code>），不与品牌色混用——如果你的设计系统要收，建议单列成一个「列表页」子主题。</p>
+  <p class="lede">工具列表页使用一组独立的颜色，命名空间为 <code>--color-ref-*</code>，与品牌色板并行存在、不混用。接入时应单列为「列表页」子主题，不要与品牌色合并或互相推导。</p>
 
   <div class="scroll">
     <table>
@@ -819,10 +801,9 @@
       </tbody>
     </table>
   </div>
-
   <div class="note">
-    <b>底色的教训：</b>页面底试过 <code>#f1f4f5</code>（亮度 0.900）、<code>#eff9fb</code>（0.931）、<code>#f8fcfc</code>（0.966），都被判「太深」。问题在于每次只是<b>从色板里挑一个更淡的色号</b>，亮度只挪一点点。最终按亮度对齐参考站的 0.966 才通过。
-    <br><br><b>方法：底色不要靠挑，要靠算——先定目标相对亮度，再反推色值。</b>
+    <b>底色按相对亮度定，不按色相挑。</b>页面底 <code>#fbfbfd</code> 的相对亮度是 <b>0.966</b>；白卡压在上面靠 <code>#e8eaf2</code> 的一条细边分开（对比 1.16），不靠填充色差。
+    要换底色，先定目标亮度再反推色值 —— 从色板里挑「感觉浅一点」的色号通常只能挪 0.03。
   </div>
 </section>
 
@@ -836,51 +817,46 @@
       <thead><tr><th>令牌</th><th>栈</th><th>用在</th></tr></thead>
       <tbody>
         <tr><td class="tok">--font-sans</td><td class="note-cell">'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', -apple-system, 'Segoe UI', sans-serif</td><td class="note-cell">正文全部 · <b>系统字体，零下载</b></td></tr>
-        <tr><td class="tok">--font-heading</td><td class="note-cell">'Funnel Display', 'HarmonyOS Sans SC', var(--font-sans)</td><td class="note-cell">h1–h6 · <b>自托管，见下</b></td></tr>
+        <tr><td class="tok">--font-heading</td><td class="note-cell">'Funnel Display', var(--font-sans)</td><td class="note-cell">h1–h6 · <b>自托管，见下</b></td></tr>
         <tr><td class="tok">--font-mono</td><td class="note-cell">ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace</td><td class="note-cell">code / kbd / samp / pre</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>字体加载策略</h3>
-  <p>这一节是整套排版里最容易在迁移中丢掉的部分——换个工具重建时只会看到一个字体名，看不到背后的加载方案。</p>
+  <p>字体栈只说明用哪个字体，说明不了怎么加载。这一节是完整的加载方案。</p>
 
   <div class="spec-card">
-    <h4>HarmonyOS Sans SC <em>标题中文 · 自托管</em></h4>
+    <h4>中文标题 <em>系统字体 · 零下载</em></h4>
     <dl>
-      <dt>来源</dt><dd>官方 HarmonyOS_Sans_SC_Bold.ttf，pyftsubset 切分</dd>
-      <dt>许可</dt><dd>华为许可证，允许商用（public/fonts/LICENSE.txt）</dd>
-      <dt>字重</dt><dd><b>只加载 700 一档</b>。正文不用它，所以不需要 400/500</dd>
-      <dt>分片</dt><dd>95 个 woff2，编号 5–119（非连续，缺的是页面用不到的区段）</dd>
-      <dt>体积</dt><dd>合计 2.2MB · 单片平均 21.6KB</dd>
-      <dt>切分依据</dt><dd>与 Google Fonts 相同的 unicode-range 分区</dd>
-      <dt>实际传输</dt><dd>一页中文标题通常只命中三五片，约一百多 KB，<b>不是 2.2MB</b></dd>
-      <dt>定义位置</dt><dd>src/styles/fonts.css，必须在 theme.css <b>之前</b> import</dd>
+      <dt>字体</dt><dd>落到 --font-sans 的系统栈：Mac 苹方 Bold / Win 微软雅黑 Bold</dd>
+      <dt>下载量</dt><dd><b>0 KB</b> —— 中文不加载任何网络字体</dd>
+      <dt>理由</dt><dd>一页中文标题只有几十个字，而一套中文网络字体按 unicode-range 分片后<br>实测仍需下载约 250KB。标题的性格来自拉丁展示体，<br>中文黑体之间的差异抵不上这个体积</dd>
+      <dt>代价</dt><dd>跨平台字形不完全一致 —— 但正文本就如此，标题跟随正文即可</dd>
     </dl>
   </div>
 
   <div class="spec-card">
-    <h4>Funnel Display <em>标题拉丁 · 自托管</em></h4>
+    <h4>Funnel Display <em>标题拉丁 · 自托管 · 站上唯一的网络字体</em></h4>
     <dl>
-      <dt>位置</dt><dd>排在 HarmonyOS <b>前面</b>，所以优先认领它覆盖的字符</dd>
-      <dt>覆盖</dt><dd>拉丁字母与数字。中文不在其字符集内，直接落到 HarmonyOS</dd>
+      <dt>位置</dt><dd>排在系统栈<b>前面</b>，优先认领它覆盖的字符</dd>
+      <dt>覆盖</dt><dd>拉丁字母与数字。中文不在其字符集内，直接落到系统黑体</dd>
       <dt>字重</dt><dd>500 / 700</dd>
       <dt>分片</dt><dd>4 个 woff2（latin · latin-ext × 两档字重）</dd>
       <dt>体积</dt><dd>合计 33KB（磁盘）· 34KB（实际传输，含 HTTP 头）</dd>
     </dl>
   </div>
-
   <div class="note">
-    <b>双语标题的分工，是这套排版的核心手法。</b>一个中英混排的标题——「20 分钟，快速启动 Shopify 店铺」——其中「20」和「Shopify」由 Funnel Display 这个展示体承担，中文整体交给 HarmonyOS。<b>靠的不是手动切分标签，而是字体栈顺序加各自的字符覆盖范围：前一个字体没有的字，浏览器自动向后找。</b><br><br>
-    结果是拉丁部分获得了一个有性格的展示字体，而一个中文字都没有被动过——中文展示体的可选项本来就极少，硬套通常只会更糟。代价是 33KB。
+    <b>双语标题的分工是这套排版的核心手法。</b>一个中英混排的标题 ——「20 分钟，快速启动 Shopify 店铺」—— 其中「20」和「Shopify」由 Funnel Display 承担，中文整体交给系统黑体。
+    <b>靠的是字体栈顺序加各自的字符覆盖范围，不是手动切分标签：前一个字体没有的字，浏览器自动向后找。</b><br><br>
+    结果是拉丁部分获得一个有性格的展示字体，而中文一个字都没有被动过 —— 中文展示体的可选项本就极少，硬套通常只会更糟。全站字体开销 33KB。
   </div>
-
   <div class="note warn">
-    <b>迁移时三条不能丢：</b>
-    <br>① 顺序不能反——Funnel Display 必须在 HarmonyOS 前面，反过来中文会正常但拉丁部分失去展示体。
-    <br>② 只加载 700——把 400/500 也加载进来，体积翻几倍，而正文根本不用它。
-    <br>③ 必须分片——不分片就是单文件 2.2MB，首屏会被字体拖死。
-    <br><br>另：<code>--font-heading</code> 只作用于 <code>h1–h6</code>（在 global.css 的 base 层），按钮、导航、卡片标题走的都是 <code>--font-sans</code>。
+    <b>三条接入约束：</b>
+    <br>① <b>栈的顺序不能反</b> —— Funnel Display 必须在系统黑体之前，反过来中文正常但拉丁部分失去展示体。
+    <br>② <b>只加载 700 一档</b> —— 正文走系统字体，不需要其余字重。
+    <br>③ <b>必须按 unicode-range 分片</b> —— 浏览器只下载页面上实际出现的字符所在的切片。
+    <br><br><code>--font-heading</code> 只作用于 <code>h1</code>–<code>h6</code>；按钮、导航、卡片标题走 <code>--font-sans</code>。
   </div>
 
   <h3>字重</h3>
@@ -896,7 +872,7 @@
     </table>
   </div>
   <div class="note warn">
-    <b>关键修正：</b>bold 和 semibold 原本<b>同为 600</b>——等于这套系统里没有「粗体」。当时整页 145 个文字节点有 95 个落在 600 上，中文在这个密度下会糊成一块。现已拆成 700 / 600。<b>迁移到新系统时务必确认这四档是四个不同的值。</b>
+    <b>四档必须是四个不同的值。</b>若 bold 与 semibold 取同一个值，这套系统就没有「粗体」这一档 —— 页面上约三分之二的文字节点会落在同一个字重上，中文在这个密度下会糊成一块。
   </div>
 
   <h3>响应式类型标尺</h3>
@@ -936,7 +912,7 @@
     </table>
   </div>
   <div class="note">
-    卡片四档字号在参考站原值（15.5 / 12 / 13.5 / 11.5px）基础上<b>整体上调约 1.5px</b>——那套值是给拉丁字母排的，同样字号中文要小一号才看得清。<b>迁移时不要把这四个值退回参考站原值。</b>
+    卡片四档字号在参考站原值（15.5 / 12 / 13.5 / 11.5px）基础上<b>整体上调约 1.5px</b>——那套值是给拉丁字母排的，同样字号中文要小一号才看得清。<b>这四个值不可下调。</b>
   </div>
 
   <h3>字距</h3>
@@ -1068,10 +1044,10 @@
 <!-- ============ 10 ============ -->
 <section id="focus">
   <h2><span class="n">11</span>焦点态与主题策略</h2>
-  <p class="lede">这一节是全套文档里<b>唯一包含「建议」而非「现状」的部分</b>。焦点态是这个设计系统当前最大的缺口，主题策略则是一个必须写明、否则会被误解的有意决定。</p>
+  <p class="lede">键盘焦点的视觉规范，以及本系统的主题策略 —— 浅色单主题加深色区块，两者不是一回事。</p>
 
-  <h3>现状：焦点态几乎不存在</h3>
-  <p>全站只有三处定义了可见焦点：</p>
+  <h3>实现状态</h3>
+  <p>下列位置已实现可见焦点，<b>其余控件尚未实现</b>，接入时须按下面的规范补齐：</p>
   <div class="scroll">
     <table>
       <thead><tr><th>选择器</th><th>样式</th><th>位置</th></tr></thead>
@@ -1084,11 +1060,11 @@
     </table>
   </div>
   <div class="note warn">
-    <b>缺口：</b>主按钮、次按钮、筛选 chip、卡片链接、导航项、页脚链接——<b>全部没有可见焦点环</b>。键盘用户在这个站上无法知道自己停在哪。这不是风格问题，是可用性缺陷。
+    <b>待补齐：</b>主按钮、次按钮、筛选 chip、卡片链接、导航项、页脚链接目前没有可见焦点环。键盘操作时无法判断焦点位置，属于可用性缺陷，接入新产品时应一并实现。
   </div>
 
-  <h3>另一个问题：现有焦点环的颜色在两个底上不达标</h3>
-  <p>焦点环属于图形元素，阈值是 <b>3:1</b>（不是文字的 4.5:1）。现用的 <code>--color-secondary</code> #f2673f 实测：</p>
+  <h3>焦点环的颜色选择</h3>
+  <p>焦点环属于图形元素，阈值是 <b>3:1</b>（不是文字的 4.5:1）。候选色在四种底上的实测值：</p>
   <div class="scroll">
     <table>
       <thead><tr><th>环色</th><th class="v">白 #ffffff</th><th class="v">surface-alt #f6fbfb</th><th class="v">ref-bg #fbfbfd</th><th class="v">深底 #002e6d</th></tr></thead>
@@ -1100,27 +1076,27 @@
       </tbody>
     </table>
   </div>
-  <p>#f2673f 只在纯白上勉强过线（3.09），在这个站实际用得最多的两个浅底上<b>都低于 3:1</b>。这和当初正文链接色以 4.45:1 上线的是同一类错误——只量了白底。</p>
+  <p><code>#f2673f</code> 只在纯白上勉强过线（3.09），在系统实际使用最多的两个浅底上<b>都低于 3:1</b>，因此不作为焦点环颜色。<b>焦点环必须在全部四种底上验证，只量白底不够。</b></p>
 
-  <h3>建议规范</h3>
+  <h3>规范</h3>
   <p>两个令牌，两条规则，覆盖全站：</p>
   <div class="scroll">
     <table>
-      <thead><tr><th>建议令牌</th><th class="v">值</th><th>用在</th><th class="v">最低对比</th></tr></thead>
+      <thead><tr><th>令牌</th><th class="v">值</th><th>用在</th><th class="v">最低对比</th></tr></thead>
       <tbody>
-        <tr><td class="tok">--color-focus</td><td class="v">#b94d2f</td><td class="note-cell">所有浅色底上的焦点环（白 / surface-alt / ref-bg）</td><td class="v">4.83</td></tr>
+        <tr><td class="tok">--color-focus</td><td class="v">#b94d2f</td><td class="note-cell">浅色底上的焦点环（白 / surface-alt / ref-bg）</td><td class="v">4.83</td></tr>
         <tr><td class="tok">--color-focus-inverse</td><td class="v">#ffffff</td><td class="note-cell">深色区块内的焦点环</td><td class="v">12.84</td></tr>
       </tbody>
     </table>
   </div>
   <div class="spec-card">
-    <h4>焦点环规格 <em>建议</em></h4>
+    <h4>焦点环 <em>规范</em></h4>
     <dl>
       <dt>形式</dt><dd>outline: 2px solid var(--color-focus)</dd>
       <dt>偏移</dt><dd>outline-offset: 2px</dd>
       <dt>触发</dt><dd>:focus-visible（不是 :focus——鼠标点击不该出现焦点环）</dd>
       <dt>圆角</dt><dd>不设——outline 自动跟随元素圆角，胶囊按钮上会是胶囊形</dd>
-      <dt>禁止</dt><dd>outline: none 不带替代样式。搜索框现在就是这么做的，应改为换成焦点环或保留描边变化 + 加 outline</dd>
+      <dt>禁止</dt><dd>outline: none 而不提供替代样式</dd>
       <dt>覆盖</dt><dd>btnPrimary · btnGhost · btn-ref-primary · btn-ref-ghost · .chip · 卡片链接 · 导航项 · 页脚链接 · 所有输入控件</dd>
     </dl>
   </div>
@@ -1132,8 +1108,8 @@
   </div>
 
   <h3>主题策略：浅色单主题 + 深色区块</h3>
-  <p><b>本站没有深色模式，这是有意的决定，不是待办事项。</b>代码里没有 <code>prefers-color-scheme</code>，也没有 <code>data-theme</code> 或 Tailwind 的 <code>dark:</code> 变体。</p>
-  <p>但站上确实存在深色区块——页脚上方的 CTA、部分卡片。它们靠一组 <code>inverse</code> 令牌实现，这是<b>「深色区块」而不是「深色主题」</b>，两者的区别在于：区块是设计者主动选择放在浅色页面里的一块深色，主题是整页颜色的反转。</p>
+  <p><b>本系统没有深色主题</b>，且不打算有。代码中不存在 <code>prefers-color-scheme</code>、<code>data-theme</code> 或 Tailwind 的 <code>dark:</code> 变体。</p>
+  <p>但系统中存在深色区块 —— 页脚上方的行动区、部分卡片。它们由一组 <code>inverse</code> 令牌实现。<b>「深色区块」与「深色主题」是两件事</b>：区块是设计者主动放在浅色页面里的一块深色，主题是整页颜色的反转。</p>
   <div class="scroll">
     <table>
       <thead><tr><th>令牌</th><th>指向</th><th class="v">值</th><th></th><th>用途</th></tr></thead>
@@ -1148,7 +1124,7 @@
   <div class="note">
     <b>为什么次级文字是一个实色而不是白色降透明：</b>白色 60% 压在 #002e6d 上量出来是 5.28:1，过 AA——但中文读不了。一个 14px 的「檀」或「繁」在同样的字框里有十几笔，60% 之后它们不再解析成一个字。<b>这是铁律二在深色区块上的具体落点。</b>
   </div>
-  <p>如果未来真要做深色主题，需要重新验证的不是颜色数量而是这三件事：正文行高是否仍够（深底上视觉行距会显得更紧）、每个颜色在新底上的比值、以及所有 <code>ink-*</code> 阴影在深底上是否还可见（大概率不可见，需要换成描边）。</p>
+  <p>若要新增深色主题，须重新验证三件事：正文行高是否仍够（深底上视觉行距会显得更紧）、每个颜色在新底上的对比度、以及所有 <code>ink-*</code> 阴影在深底上是否还可见（通常不可见，需改用描边）。</p>
 </section>
 
 <!-- ============ 12 ============ -->
@@ -1288,7 +1264,7 @@
 <div class="cmp">
   <header><h4>搜索框</h4><code>ToolFilterBar.astro</code></header>
   <div class="demo-row"><div class="unit"><div><div class="d-inwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="d-input" value="" placeholder="搜索 17 个工具…（主机、收款、主题、SEO）" readonly></div></div><span class="state">静止</span></div><div class="unit"><div><div class="d-inwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="d-input foc" value="主机" readonly></div></div><span class="state">focus</span></div></div>
-  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line</td></tr><tr><td class="tok">border:focus</td><td class="v">#165dfc</td><td class="note-cell">--color-brand-blue</td></tr><tr><td class="tok">border-radius</td><td class="v">999px</td><td class="note-cell">胶囊，不是 --radius-form</td></tr><tr><td class="tok">padding</td><td class="v">0.75rem 1.25rem 0.75rem 3.25rem</td><td class="note-cell">左侧留给图标</td></tr><tr><td class="tok">font</td><td class="v">1rem / --text-regular</td><td class="note-cell"></td></tr><tr><td class="tok">color / placeholder</td><td class="v">#10162b / #5b647a</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">20×20 放大镜，绝对定位 left:1.25rem</td><td class="note-cell"></td></tr><tr><td class="tok">⚠ 缺口</td><td class="v">focus 时 outline: none 且无替代焦点环</td><td class="note-cell">见第 11 节 —— 应改为保留描边变化并补 outline</td></tr></tbody></table></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line</td></tr><tr><td class="tok">border:focus</td><td class="v">#165dfc</td><td class="note-cell">--color-brand-blue</td></tr><tr><td class="tok">border-radius</td><td class="v">999px</td><td class="note-cell">胶囊，不是 --radius-form</td></tr><tr><td class="tok">padding</td><td class="v">0.75rem 1.25rem 0.75rem 3.25rem</td><td class="note-cell">左侧留给图标</td></tr><tr><td class="tok">font</td><td class="v">1rem / --text-regular</td><td class="note-cell"></td></tr><tr><td class="tok">color / placeholder</td><td class="v">#10162b / #5b647a</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">20×20 放大镜，绝对定位 left:1.25rem</td><td class="note-cell"></td></tr><tr><td class="tok">⚠ 待补</td><td class="v">focus 时 outline: none，无替代焦点环</td><td class="note-cell">应保留描边变化并按第 11 节补 outline</td></tr></tbody></table></div></div>
   <pre>.search {
   <span class="k">width</span>:<span class="v">100%</span>;
   <span class="k">border</span>:<span class="v">1px solid #e8eaf2</span>; <span class="k">border-radius</span>:<span class="v">999px</span>;
@@ -1356,7 +1332,7 @@
 <div class="cmp">
   <header><h4>站内通用卡</h4><code>card · lib/ui.ts</code></header>
   <div class="demo-row  grey"><div class="unit"><div><div class="d-card-site"><div class="d-eyebrow" style="margin-bottom:.5rem">教程</div><div style="font-weight:700;font-size:1.125rem;color:#231c1b">一个简单的承诺</div><p style="margin:.5rem 0 0;font-size:.875rem;line-height:1.75;color:#544e4d">我只推荐自己真正用过的工具。</p></div></div><span class="state">静止</span></div><div class="unit"><div><div class="d-card-site hov"><div class="d-eyebrow" style="margin-bottom:.5rem">教程</div><div style="font-weight:700;font-size:1.125rem;color:#231c1b">一个简单的承诺</div><p style="margin:.5rem 0 0;font-size:.875rem;line-height:1.75;color:#544e4d">我只推荐自己真正用过的工具。</p></div></div><span class="state">hover</span></div></div>
-  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v"><b>无</b> —— 靠阴影，不靠描边</td><td class="note-cell">与工具卡相反</td></tr><tr><td class="tok">box-shadow</td><td class="v">0 .625rem 1.875rem rgb(11 3 2 /.05)</td><td class="note-cell">--shadow-card</td></tr><tr><td class="tok">box-shadow:hover</td><td class="v">0 1rem 2.5rem rgb(11 3 2 /.10)</td><td class="note-cell">--shadow-card-hover</td></tr><tr><td class="tok">transform:hover</td><td class="v">translateY(-4px)</td><td class="note-cell"><b>比工具卡多一倍</b> —— 这里卡更大更少</td></tr><tr><td class="tok">transition</td><td class="v">box-shadow / translate 各 300ms</td><td class="note-cell">慢档</td></tr><tr><td class="tok">border-radius</td><td class="v">1rem</td><td class="note-cell">--radius-card</td></tr><tr><td class="tok">⚠ 注意</td><td class="v">白卡压白底时这个阴影看不见</td><td class="note-cell">要么给底加色，要么改用描边 —— 见坑记录</td></tr></tbody></table></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v"><b>无</b> —— 靠阴影，不靠描边</td><td class="note-cell">与工具卡相反</td></tr><tr><td class="tok">box-shadow</td><td class="v">0 .625rem 1.875rem rgb(11 3 2 /.05)</td><td class="note-cell">--shadow-card</td></tr><tr><td class="tok">box-shadow:hover</td><td class="v">0 1rem 2.5rem rgb(11 3 2 /.10)</td><td class="note-cell">--shadow-card-hover</td></tr><tr><td class="tok">transform:hover</td><td class="v">translateY(-4px)</td><td class="note-cell"><b>比工具卡多一倍</b> —— 这里卡更大更少</td></tr><tr><td class="tok">transition</td><td class="v">box-shadow / translate 各 300ms</td><td class="note-cell">慢档</td></tr><tr><td class="tok">border-radius</td><td class="v">1rem</td><td class="note-cell">--radius-card</td></tr><tr><td class="tok">⚠ 注意</td><td class="v">白卡压白底时这个阴影不可见</td><td class="note-cell">此时须给底加色，或改用描边分隔</td></tr></tbody></table></div></div>
   <pre>.card {
   <span class="k">background</span>:<span class="v">#fff</span>;
   <span class="k">border-radius</span>:<span class="v">1rem</span>;
@@ -1460,7 +1436,7 @@
     </table>
   </div>
   <div class="note warn">
-    <b>所有动画类都必须在 <code>@media (prefers-reduced-motion: reduce)</code> 下关闭。</b>本站已实现：<code>.float-tile</code> 与 <code>.rise-in</code> 在该媒体查询下设为 <code>animation: none</code>，<code>.underline-draw</code> 直接呈现终态。<b>迁移时这一层不能丢——装饰性动画是最容易引发前庭不适的部分。</b>
+    <b>所有动画类都必须在 <code>@media (prefers-reduced-motion: reduce)</code> 下关闭。</b>本站已实现：<code>.float-tile</code> 与 <code>.rise-in</code> 在该媒体查询下设为 <code>animation: none</code>，<code>.underline-draw</code> 直接呈现终态。<b>这一层是强制的 —— 装饰性动画是最容易引发前庭不适的部分。</b>
   </div>
 
   <h3>其它</h3>
@@ -1503,7 +1479,7 @@
         <tr><td class="v">0</td><td class="note-cell">时间线导轨</td><td class="note-cell">压在卡片之下</td></tr>
         <tr><td class="v">10</td><td class="note-cell">卡片角标、时间线左栏</td><td class="note-cell">同一组件内的上层</td></tr>
         <tr><td class="v">20</td><td class="note-cell">时间线圆点</td><td class="note-cell">要压过导轨</td></tr>
-        <tr><td class="v">40</td><td class="note-cell">（曾用于吸顶筛选条）</td><td class="note-cell">现已不吸顶，该档空出</td></tr>
+        <tr><td class="v">40</td><td class="note-cell">保留档</td><td class="note-cell">当前未占用</td></tr>
         <tr><td class="v">50</td><td class="note-cell">页头</td><td class="note-cell">全站最高，吸顶</td></tr>
       </tbody>
     </table>
@@ -1514,7 +1490,7 @@
 <!-- ============ 14 ============ -->
 <section id="contrast">
   <h2><span class="n">15</span>对比度实测</h2>
-  <p class="lede">这些组合都实际量过。迁移时不要凭感觉换任一侧的颜色。</p>
+  <p class="lede">下列组合均为实测值。任一侧的颜色都不可凭感觉替换。</p>
   <div class="scroll">
     <table>
       <thead><tr><th>底</th><th>字</th><th class="v">比值</th><th></th><th>场景</th></tr></thead>
@@ -1524,7 +1500,7 @@
         <tr><td class="v">#165dfc</td><td class="v">#ffffff</td><td class="v">5.24</td><td class="pass">✓</td><td class="note-cell">工具卡按钮 hover</td></tr>
         <tr><td class="v">#f2673f</td><td class="v">#231c1b</td><td class="v">5.42</td><td class="pass">✓</td><td class="note-cell">珊瑚徽章配深墨字</td></tr>
         <tr><td class="v">#f2673f</td><td class="v">#ffffff</td><td class="v">3.09</td><td class="fail">✗</td><td class="note-cell"><b>珊瑚永远不配白字</b></td></tr>
-        <tr><td class="v">#b94d2f</td><td class="v">#ffffff</td><td class="v">5.04</td><td class="pass">✓</td><td class="note-cell">这就是「棕色」的来源，见坑 01</td></tr>
+        <tr><td class="v">#b94d2f</td><td class="v">#ffffff</td><td class="v">5.04</td><td class="pass">✓</td><td class="note-cell">珊瑚承载文字时的派生值，见第 16 节</td></tr>
         <tr><td class="v">#fdefeb</td><td class="v">#b94d2f</td><td class="v">4.49</td><td class="fail">✗</td><td class="note-cell">差 0.01，必须降到 #602919（10.24）</td></tr>
         <tr><td class="v">#e9f7f0</td><td class="v">#0e7c46</td><td class="v">4.77</td><td class="pass">✓</td><td class="note-cell">优惠 pill</td></tr>
         <tr><td class="v">#002e6d</td><td class="v">#cbd7e7</td><td class="v">8.94</td><td class="pass">✓</td><td class="note-cell">深底次级文字</td></tr>
@@ -1544,20 +1520,29 @@
 
 <!-- ============ 15 ============ -->
 <section id="traps">
-  <h2><span class="n">16</span>四个坑</h2>
-  <p class="lede">这四条比色值更值得带走——它们是这套系统里最容易被重新踩一遍的地方。</p>
+  <h2><span class="n">16</span>四条容易违反的规则</h2>
+  <p class="lede">这四条描述的都是「看起来没问题、实际会出错」的情形。它们比色值更难从代码里读出来，接入本系统时必须一并遵守。</p>
 
-  <h3>01 · AA 规则会自己生出一个新颜色</h3>
-  <p>品牌珊瑚 <code>#f2673f</code> 配白字只有 3.09:1。系统为了让它过 AA，自动把承载文字的 flamingo 一律压深到 <code>#b94d2f</code>——那是一个<b>棕色</b>，从来没有人挑过它，它是「珊瑚 + 白字」这个组合逼出来的。<br><b>解法：改配色而不是改色号。</b>珊瑚配深墨字 5.42:1，珊瑚就能以原色出现。</p>
+  <h3>01 · 承载文字的颜色，与它的品牌值可以不是同一个</h3>
+  <p>品牌珊瑚 <code>#f2673f</code> 配白字只有 <span class="fail">3.09:1</span>，品牌红 <code>#e63946</code> 配白字只有 <span class="fail">4.17:1</span>，都过不了 AA。
+  因此凡是承载文字的场合，它们各自降到深一档：<code>#b94d2f</code>（5.04:1）与 <code>#b72d38</code>（6.09:1）。</p>
+  <p><b>这些深色值不是品牌色</b>，是为满足对比度而派生的。品牌基色本身只用于图形填充，不可更改。反过来说，
+  <b>想让品牌基色出现在按钮上，办法是给它配深色文字而不是白色文字</b> —— 珊瑚配 <code>#231c1b</code> 是 5.42:1。</p>
 
-  <h3>02 · 语义别名要成套定义</h3>
-  <p><code>--color-secondary-lightest</code> / <code>-darker</code> 这类别名在初版中不存在，用到时才发现缺失。<b>迁移时把六条色阶的七档全部建立对应的语义别名</b>，而不是用到哪档补哪档——补出来的会散落在各处，也容易在「清理死代码」时被误删（本项目就发生过两次）。</p>
+  <h3>02 · 语义别名要成套建立</h3>
+  <p>六条色阶的七档都应有对应的语义别名，而不是用到哪档补哪档。零散补出来的别名会散落在文件各处，
+  也容易在清理未引用代码时被误删。</p>
 
   <h3>03 · 「重」是亮度问题，不是色相问题</h3>
-  <p>一个色块压在浅底上有多沉，等于它的相对亮度。深海军蓝 <code>#003a89</code> 的相对亮度是 <b>0.049</b>，浅底 <code>#f1f4f5</code> 是 <b>0.900</b>——差了近 20 倍。当反馈是「太重」时，先量亮度再决定换色相还是换明度，从色板里挑「感觉浅一点」的色号通常只能挪 0.03。</p>
+  <p>一个色块压在浅底上有多沉，等于它的相对亮度。主色 <code>#003a89</code> 的相对亮度是 <b>0.048</b>，
+  浅底 <code>#f1f4f5</code> 是 <b>0.900</b> —— 差了近 20 倍。</p>
+  <p>当反馈是「太重」时，<b>先量亮度再决定换色相还是换明度</b>。从色板里挑一个「感觉浅一点」的色号通常只能挪 0.03，
+  远不足以改变观感。底色一类的决定应当先定目标亮度，再反推色值。</p>
 
-  <h3>04 · 字重阶梯要真的是阶梯</h3>
-  <p>bold 与 semibold 同为 600 时，整套系统失去粗体这一档，页面上三分之二的文字节点会落在同一个字重上。中文在这个密度下会糊成一块。<b>四档字重必须是四个不同的值</b>，且用途要分开写明（见第 07 节）。</p>
+  <h3>04 · 字重阶梯必须是四个不同的值</h3>
+  <p>400 / 500 / 600 / 700 四档缺一不可，且用途要分开写明（见第 07 节）。
+  任意两档合并，整页就会有三分之二的文字节点落在同一个字重上 —— 中文在这个密度下会糊成一块，
+  拉丁字母则不会。这是本系统与拉丁排版差异最大的一处。</p>
 </section>
 
 <footer class="end">
