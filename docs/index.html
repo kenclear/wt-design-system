@@ -342,15 +342,15 @@
 <header class="top">
   <p class="kicker">wutong.org · 设计令牌全量</p>
   <h1>梧桐设计系统</h1>
-  <p>这份文档是从 <code>src/styles/theme.css</code> 全量导出的，不是凭记忆写的。每一个数值都可以在代码里逐字对上。改版过程中定下的规则和踩过的坑一并记在这里——它们比数值本身更难重建。</p>
+  <p>这份文档是从代码全量导出的，不是凭记忆写的：核心层 <code>tokens/core.css</code>、站点层 <code>site.css</code>、字体 <code>fonts.css</code>，每一个数值都可以逐字对上。改版过程中定下的规则和踩过的坑一并记在这里——它们比数值本身更难重建。</p>
   <div class="meta">
-    <span>导出日期 <b>2026-08-28</b></span>
+    <span>导出日期 <b>2026-08-31</b></span>
     <span>颜色令牌 <b>123</b></span>
     <span>字号令牌 <b>22</b></span>
     <span>圆角 <b>14</b></span>
     <span>品牌资产 <b>7</b></span>
     <span>装饰类 <b>33</b></span>
-    <span>自托管字体分片 <b>99</b></span>
+    <span>网络字体 <b>34 KB</b></span>
     <span>Tailwind <b>v4 @theme</b></span>
   </div>
 </header>
@@ -366,7 +366,7 @@
         <li><b>正文行高 1.75</b>。中文专用值，不要按拉丁排版惯例压到 1.5。</li>
         <li><b>卡内四档字号</b>（17/15/13/13px）。已在拉丁参考值上加过 1.5px，不要退回。</li>
         <li><b>颜色只能从语义别名引用</b>，组件永不直接引色阶。</li>
-        <li><b>标题字体是「Funnel Display 在前、HarmonyOS Sans SC 在后」</b>的双语分工，顺序不能反，见第 06 节。</li>
+        <li><b>标题字体是「Funnel Display 在前、系统黑体在后」</b>的双语分工，顺序不能反 —— 反过来中文正常但拉丁部分失去展示体。见第 07 节。</li>
         <li><b>不透明度阶梯只用于蒙版与细线</b>，任何情况下不用于文字。</li>
       </ul>
     </div>
@@ -375,7 +375,7 @@
       <ul>
         <li><b><code>.scheme-1</code> 到 <code>.scheme-4</code> 是死代码</b>。Relume 模板遗留，全站零使用。不要重建成「区块配色方案」。</li>
         <li><b><code>--color-ref-*</code> 与品牌色不要合并</b>。前者是列表页从外部移植的独立体系，两组不能互相推导，也不能统一成一条色阶。</li>
-        <li><b>不要生成深色主题</b>。本站是浅色单主题，见第 10 节。</li>
+        <li><b>不要生成深色主题</b>。本站是浅色单主题，见第 11 节。</li>
         <li><b><code>#b94d2f</code> 不是品牌色</b>。它是 AA 规则从珊瑚身上压出来的产物，见坑 01。</li>
       </ul>
     </div>
@@ -1252,11 +1252,11 @@
   <p>一个色块压在浅底上有多沉，等于它的相对亮度。深海军蓝 <code>#2d3782</code> 的相对亮度是 <b>0.049</b>，浅底 <code>#f1f4f5</code> 是 <b>0.900</b>——差了近 20 倍。当反馈是「太重」时，先量亮度再决定换色相还是换明度，从色板里挑「感觉浅一点」的色号通常只能挪 0.03。</p>
 
   <h3>04 · 字重阶梯要真的是阶梯</h3>
-  <p>bold 与 semibold 同为 600 时，整套系统失去粗体这一档，页面上三分之二的文字节点会落在同一个字重上。中文在这个密度下会糊成一块。<b>四档字重必须是四个不同的值</b>，且用途要分开写明（见第 06 节）。</p>
+  <p>bold 与 semibold 同为 600 时，整套系统失去粗体这一档，页面上三分之二的文字节点会落在同一个字重上。中文在这个密度下会糊成一块。<b>四档字重必须是四个不同的值</b>，且用途要分开写明（见第 07 节）。</p>
 </section>
 
 <footer class="end">
-  导出自 <code>wutong.org</code> 的 <code>src/styles/theme.css</code>（Tailwind v4 <code>@theme</code>）、<code>src/lib/ui.ts</code> 与各组件规格注释 · 2026-08-28<br>
+  导出自设计系统仓库 <code>wt-design-system</code>（<code>tokens/core.css</code>、<code>tokens/fonts.css</code>、<code>brand/</code>）与 wutong.org 的 <code>site.css</code> / <code>lib/ui.ts</code> · 2026-08-31<br>
   文中所有对比度均为实测值，非估算。
 </footer>
 
