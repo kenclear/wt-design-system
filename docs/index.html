@@ -254,6 +254,101 @@
   :root[data-theme="dark"] .pass { color: #58d69a; }
   :root[data-theme="dark"] .fail { color: #ff8a7a; }
 
+
+  /* ---------- 组件画廊 ---------- */
+  .cmp { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; margin: 1.25rem 0 2rem; }
+  .cmp > header {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    padding: 0.75rem 1.125rem; background: var(--ground-alt); border-bottom: 1px solid var(--rule);
+  }
+  .cmp > header h4 { margin: 0; font-size: 0.9375rem; font-weight: 700; }
+  .cmp > header code { font-size: 0.6875rem; color: var(--ink-faint); }
+  .cmp .demo-row {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2rem;
+    padding: 1.75rem 1.125rem; background: #ffffff;
+  }
+  .cmp .demo-row.tinted { background: #fbfbfd; }
+  .cmp .demo-row.grey { background: #f1f4f5; }
+  .cmp .unit { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .cmp .unit .state {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.625rem;
+    letter-spacing: 0.06em; color: #5b647a;
+  }
+  .cmp .spec { border-top: 1px solid var(--rule); }
+  .cmp .spec table { min-width: 0; font-size: 0.8125rem; }
+  .cmp .spec th, .cmp .spec td { padding-left: 1.125rem; }
+  .cmp .spec th:last-child, .cmp .spec td:last-child { padding-right: 1.125rem; }
+  .cmp pre {
+    margin: 0; padding: 1rem 1.125rem; background: #10162b; color: #d5d9ea;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; line-height: 1.7;
+    overflow-x: auto; border-top: 1px solid var(--rule);
+  }
+  .cmp pre .k { color: #8fb8ff; }
+  .cmp pre .v { color: #a5e8c0; }
+  .cmp pre .c { color: #6b7590; }
+
+  /* 组件实体 —— 全部用文档记录的字面值渲染，不引用外部样式 */
+  .d-btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    border-radius:6.25rem; border:1.5px solid transparent; background:#2d3782;
+    padding:.625rem 1.5rem; font-weight:600; color:#fff; font-size:1rem; }
+  .d-btn-primary.hov { background:#242c68; }
+  .d-btn-primary.foc { outline:2px solid #b94d2f; outline-offset:2px; }
+  .d-btn-ghost { display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    border-radius:6.25rem; border:1.5px solid #cbcde0; background:#fff;
+    padding:.625rem 1.5rem; font-weight:600; color:#231c1b; font-size:1rem; }
+  .d-btn-ghost.hov { border-color:#2d3782; background:#edf7f8; }
+  .d-link { display:inline-flex; align-items:center; gap:.5rem; font-weight:600; color:#231c1b; font-size:1rem; }
+  .d-link.hov { color:#2d3782; }
+  .d-link .ar { transition:none; }
+  .d-link.hov .ar { transform:translateX(2px); }
+  .d-refp { display:inline-flex; align-items:center; justify-content:center; gap:.375rem;
+    border-radius:6.25rem; background:#0e48d6; padding:.625rem 1.25rem;
+    font-size:.9375rem; line-height:1.55; font-weight:600; color:#fff; }
+  .d-refp.hov { background:#165dfc; }
+  .d-refg { display:inline-flex; align-items:center; justify-content:center;
+    border-radius:6.25rem; border:1px solid #e8eaf2; background:#fff;
+    padding:.625rem 1.125rem; font-size:.9375rem; line-height:1.55; font-weight:600; color:#10162b; }
+  .d-refg.hov { border-color:#c9cde2; }
+  .d-chip { display:inline-flex; align-items:center; gap:.375rem; white-space:nowrap;
+    border-radius:999px; border:1px solid #e8eaf2; background:#fff;
+    padding:.375rem .8125rem; font-size:.875rem; line-height:1.55; font-weight:500; color:#10162b; }
+  .d-chip .cnt { font-size:.8125rem; font-weight:400; color:#5b647a; font-variant-numeric:tabular-nums; }
+  .d-chip.hov { border-color:#c9cde2; }
+  .d-chip.on { border-color:#10162b; background:#10162b; color:#fff; }
+  .d-chip.on .cnt { color:#e8eaf2; }
+  .d-chip.empty { border-style:dashed; color:#5b647a; }
+  .d-pill-green { display:inline-flex; align-items:center; gap:.375rem; border-radius:999px;
+    background:#e9f7f0; padding:.25rem .625rem; font-size:.8125rem; line-height:1.5;
+    font-weight:600; color:#0e7c46; }
+  .d-pill-amber { display:inline-flex; align-items:center; gap:.25rem; border-radius:999px;
+    background:#fdf1d7; padding:.125rem .625rem; font-size:.8125rem; line-height:1.5;
+    font-weight:600; color:#92600a; }
+  .d-eyebrow { font-size:.75rem; font-weight:600; letter-spacing:.12em; color:#6f6b6a; }
+  .d-rule { display:block; width:3rem; height:2px; background:#f2673f; }
+  .d-navfeat { display:inline-flex; align-items:center; justify-content:center;
+    border-radius:6.25rem; font-size:1rem; font-weight:500; color:#231c1b;
+    background:#ecf5e8; padding:.375rem 1.25rem; }
+  .d-navfeat.hov { background:#ddedd6; transform:translateY(-2px); }
+  .d-input { width:100%; max-width:26rem; border-radius:999px; border:1px solid #e8eaf2;
+    background:#fff; padding:.75rem 1.25rem .75rem 3.25rem; font-size:1rem; color:#10162b; }
+  .d-input.foc { border-color:#165dfc; }
+  .d-inwrap { position:relative; width:100%; max-width:26rem; }
+  .d-inwrap svg { position:absolute; left:1.25rem; top:50%; transform:translateY(-50%);
+    width:1.25rem; height:1.25rem; color:#5b647a; }
+  .d-card-site { border-radius:1rem; background:#fff; padding:1.25rem 1.375rem;
+    box-shadow:0 .625rem 1.875rem rgb(11 3 2 / .05); width:15rem; }
+  .d-card-site.hov { box-shadow:0 1rem 2.5rem rgb(11 3 2 / .10); transform:translateY(-4px); }
+  .d-card-ref { position:relative; background:#fff; border:1px solid #e8eaf2; border-radius:1rem;
+    padding:1.25rem; display:flex; flex-direction:column; gap:.75rem; width:20rem; }
+  .d-card-ref.hov { transform:translateY(-2px); border-color:#d5d9ea;
+    box-shadow:0 12px 32px -12px rgb(16 22 43 / .14); }
+  .d-plate { display:grid; place-items:center; flex:none; width:2.875rem; height:2.875rem;
+    border-radius:.8125rem; border:1px solid #e8eaf2; background:#f4f5f9;
+    font-weight:600; color:#5b647a; font-size:1.125rem; }
+  .d-cardname { font-size:1.0625rem; line-height:1.4; font-weight:500; color:#10162b; }
+  .d-cardlabel { font-size:.8125rem; line-height:1.5; color:#5b647a; margin-top:.125rem; }
+  .d-carddesc { font-size:.9375rem; line-height:1.6; color:#5b647a; }
+
   /* 品牌资产 */
   .asset {
     border: 1px solid var(--rule); border-radius: 12px; overflow: hidden;
@@ -396,7 +491,7 @@
     <li><a href="#space">间距与容器</a></li>
     <li><a href="#shadow">阴影与动效</a></li>
     <li><a href="#focus">焦点态与主题策略</a></li>
-    <li><a href="#components">组件规格</a></li>
+    <li><a href="#components">组件画廊</a></li>
     <li><a href="#decor">装饰层</a></li>
     <li><a href="#layers">图标与层级</a></li>
     <li><a href="#contrast">对比度实测</a></li>
@@ -1009,96 +1104,255 @@
   <p>如果未来真要做深色主题，需要重新验证的不是颜色数量而是这三件事：正文行高是否仍够（深底上视觉行距会显得更紧）、每个颜色在新底上的比值、以及所有 <code>ink-*</code> 阴影在深底上是否还可见（大概率不可见，需要换成描边）。</p>
 </section>
 
-<!-- ============ 11 ============ -->
+<!-- ============ 12 ============ -->
 <section id="components">
-  <h2><span class="n">12</span>组件规格</h2>
-  <p class="lede">下面是已定稿、可直接搬进设计系统的组件参数。</p>
-
-  <div class="spec-card">
-    <h4>主按钮 <em>btnPrimary</em></h4>
-    <dl>
-      <dt>底 / 字</dt><dd>--color-primary #2d3782 / 白 · 10.60:1</dd>
-      <dt>hover</dt><dd>--color-primary-dark #242c68 + 上浮 2px</dd>
-      <dt>圆角</dt><dd>--radius-button 100px</dd>
-      <dt>内边距</dt><dd>1.5rem / 0.625rem（24 / 10px）</dd>
-      <dt>描边</dt><dd>1.5px transparent（与次按钮等宽，切换不跳）</dd>
-      <dt>字重</dt><dd>600</dd>
-    </dl>
+  <h2><span class="n">12</span>组件画廊</h2>
+  <p class="lede">每个组件都在下面<b>实际渲染出来</b>，用的全是本文档记录的字面值 —— 没有引用站点样式表。这既是样例，也是对规格完整性的验证：如果这里画得出来，说明规格足够别的软件照着重建。</p>
+  <div class="note">
+    <b>三种底色的用意：</b>白底演示站内组件，<code>#fbfbfd</code> 底演示工具页组件（那是它们实际所在的底），<code>#f1f4f5</code> 演示需要底色衬托的卡片。hover 态是把 hover 样式直接画出来的静态复本 —— 纸上和截图里都看得见。
   </div>
 
-  <div class="spec-card">
-    <h4>次按钮 <em>btnGhost</em></h4>
-    <dl>
-      <dt>底 / 字</dt><dd>--color-surface / --color-content</dd>
-      <dt>描边</dt><dd>1.5px --color-outline-hover（带蓝调，不是暖灰）</dd>
-      <dt>hover</dt><dd>描边转 primary，底转 surface-hover</dd>
-    </dl>
-  </div>
+  <h3>按钮</h3>
+<div class="cmp">
+  <header><h4>主按钮</h4><code>btnPrimary · lib/ui.ts</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-btn-primary">看工具推荐<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-btn-primary hov">看工具推荐<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div><span class="state">hover</span></div><div class="unit"><div><span class="d-btn-primary foc">看工具推荐<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div><span class="state">focus-visible（建议）</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#2d3782</td><td class="note-cell">--color-primary</td></tr><tr><td class="tok">background:hover</td><td class="v">#242c68</td><td class="note-cell">--color-primary-dark</td></tr><tr><td class="tok">color</td><td class="v">#ffffff</td><td class="note-cell">--color-on-primary · 10.60:1</td></tr><tr><td class="tok">border</td><td class="v">1.5px solid transparent</td><td class="note-cell">与次按钮等宽，两者切换时尺寸不跳</td></tr><tr><td class="tok">border-radius</td><td class="v">6.25rem (100px)</td><td class="note-cell">--radius-button，胶囊</td></tr><tr><td class="tok">padding</td><td class="v">0.625rem 1.5rem</td><td class="note-cell">10 / 24px</td></tr><tr><td class="tok">font</td><td class="v">1rem / 600</td><td class="note-cell">--text-nav 档，semibold</td></tr><tr><td class="tok">gap</td><td class="v">0.5rem</td><td class="note-cell">图标与文字</td></tr><tr><td class="tok">transition</td><td class="v">background-color 200ms</td><td class="note-cell">ease-ds</td></tr><tr><td class="tok">图标</td><td class="v">16×16，hover 右移 2px</td><td class="note-cell">arrowIcon</td></tr></tbody></table></div></div>
+  <pre><span class="c">/* 主按钮 */</span>
+.btn-primary {
+  <span class="k">display</span>: <span class="v">inline-flex</span>; <span class="k">align-items</span>: <span class="v">center</span>; <span class="k">gap</span>: <span class="v">.5rem</span>;
+  <span class="k">border</span>: <span class="v">1.5px solid transparent</span>;
+  <span class="k">border-radius</span>: <span class="v">6.25rem</span>;
+  <span class="k">background</span>: <span class="v">#2d3782</span>;
+  <span class="k">padding</span>: <span class="v">.625rem 1.5rem</span>;
+  <span class="k">font-size</span>: <span class="v">1rem</span>; <span class="k">font-weight</span>: <span class="v">600</span>;
+  <span class="k">color</span>: <span class="v">#fff</span>;
+  <span class="k">transition</span>: <span class="v">background-color 200ms cubic-bezier(.4,0,.2,1)</span>;
+}
+.btn-primary:hover { <span class="k">background</span>: <span class="v">#242c68</span>; }
+.btn-primary:focus-visible { <span class="k">outline</span>: <span class="v">2px solid #b94d2f</span>; <span class="k">outline-offset</span>: <span class="v">2px</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>工具卡主按钮 <em>btn-ref-primary</em></h4>
-    <dl>
-      <dt>底 / 字</dt><dd>#0e48d6 / 白 · 7.20:1</dd>
-      <dt>hover</dt><dd>#165dfc（提亮，5.24:1）</dd>
-      <dt>圆角</dt><dd>100px 胶囊</dd>
-      <dt>字号</dt><dd>0.9375rem / 600</dd>
-    </dl>
-  </div>
+<div class="cmp">
+  <header><h4>次按钮</h4><code>btnGhost · lib/ui.ts</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-btn-ghost">订阅邮件</span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-btn-ghost hov">订阅邮件</span></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell">--color-surface</td></tr><tr><td class="tok">background:hover</td><td class="v">#edf7f8</td><td class="note-cell">--color-surface-hover</td></tr><tr><td class="tok">border</td><td class="v">1.5px solid #cbcde0</td><td class="note-cell">--color-outline-hover = primary 混 75% 透明</td></tr><tr><td class="tok">border:hover</td><td class="v">#2d3782</td><td class="note-cell">--color-primary</td></tr><tr><td class="tok">color</td><td class="v">#231c1b</td><td class="note-cell">--color-content</td></tr><tr><td class="tok">其余</td><td class="v">同主按钮</td><td class="note-cell">圆角、内边距、字重一致</td></tr></tbody></table></div></div>
+  <pre><span class="c">/* 次按钮。描边是带蓝调的 #cbcde0，不是暖灰 —— 
+   白卡上的暖灰细线在一臂距离外看不见。 */</span>
+.btn-ghost {
+  <span class="k">border</span>: <span class="v">1.5px solid #cbcde0</span>;
+  <span class="k">background</span>: <span class="v">#fff</span>;
+  <span class="k">color</span>: <span class="v">#231c1b</span>;
+  <span class="c">/* 圆角 / 内边距 / 字重同 .btn-primary */</span>
+}
+.btn-ghost:hover { <span class="k">border-color</span>: <span class="v">#2d3782</span>; <span class="k">background</span>: <span class="v">#edf7f8</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>筛选 chip <em>.chip</em></h4>
-    <dl>
-      <dt>常态</dt><dd>白底 + 1px #e8eaf2 + #10162b 字</dd>
-      <dt>选中</dt><dd>#10162b 实底 + 白字</dd>
-      <dt>hover</dt><dd>描边转 #c9cde2</dd>
-      <dt>圆角</dt><dd>999px</dd>
-      <dt>内边距</dt><dd>0.375rem 0.8125rem</dd>
-      <dt>字号</dt><dd>0.875rem / 500</dd>
-      <dt>计数</dt><dd>0.8125rem / 400 / tabular-nums</dd>
-      <dt>空分类</dt><dd>虚线描边 + muted 字，仍可点</dd>
-    </dl>
-  </div>
+<div class="cmp">
+  <header><h4>文字链</h4><code>linkArrow · lib/ui.ts</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-link">看往期视频<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-link hov">看往期视频<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">color</td><td class="v">#231c1b → #2d3782</td><td class="note-cell">hover 转主色</td></tr><tr><td class="tok">font</td><td class="v">1rem / 600</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">16×16，hover 右移 2px</td><td class="note-cell"></td></tr><tr><td class="tok">用途</td><td class="v">导航性链接（返回、查看全部）</td><td class="note-cell"><b>不用于行动号召</b> —— 满屏卡片时它读不出可点</td></tr></tbody></table></div></div>
+  <pre>.link-arrow { <span class="k">display</span>:<span class="v">inline-flex</span>; <span class="k">gap</span>:<span class="v">.5rem</span>; <span class="k">font-weight</span>:<span class="v">600</span>; <span class="k">color</span>:<span class="v">#231c1b</span>; }
+.link-arrow:hover { <span class="k">color</span>: <span class="v">#2d3782</span>; }
+.link-arrow:hover svg { <span class="k">transform</span>: <span class="v">translateX(2px)</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>工具卡 <em>.card-ref</em></h4>
-    <dl>
-      <dt>卡面</dt><dd>白底 · 1px #e8eaf2 · 16px 圆角 · 20px 内边距 · 无阴影</dd>
-      <dt>排列</dt><dd>flex 列 · gap 12px</dd>
-      <dt>hover</dt><dd>上浮 2px · 描边 #d5d9ea · shadow-card-ref · 150ms</dd>
-      <dt>logo</dt><dd>46×46 · 13px 圆角 · #f4f5f9 底 · 与名字同行</dd>
-      <dt>描述</dt><dd>两行截断 · flex-1 把按钮推到同一底线</dd>
-      <dt>网格</dt><dd>3 列 @ 1120px · gap 16px · 卡宽 363px</dd>
-    </dl>
-  </div>
+<div class="cmp">
+  <header><h4>工具卡主按钮</h4><code>.btn-ref-primary · site.css</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-refp">访问官网<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-refp hov">访问官网<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#0e48d6</td><td class="note-cell">--color-brand-blue-deep · 白字 7.20:1</td></tr><tr><td class="tok">background:hover</td><td class="v">#165dfc</td><td class="note-cell">--color-brand-blue · 白字 5.24:1</td></tr><tr><td class="tok"></td><td class="v"></td><td class="note-cell"><b>hover 提亮不压深</b> —— 与站内主按钮方向相反，是刻意的</td></tr><tr><td class="tok">border-radius</td><td class="v">6.25rem</td><td class="note-cell">胶囊，与站内按钮一致</td></tr><tr><td class="tok">padding</td><td class="v">0.625rem 1.25rem</td><td class="note-cell">10 / 20px</td></tr><tr><td class="tok">font</td><td class="v">0.9375rem / 600 / 1.55</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">↗ 16×16，hover 右上移</td><td class="note-cell">站外链接用斜箭头，站内用直箭头</td></tr></tbody></table></div></div>
+  <pre>.btn-ref-primary {
+  <span class="k">border-radius</span>: <span class="v">6.25rem</span>;
+  <span class="k">background</span>: <span class="v">#0e48d6</span>;
+  <span class="k">padding</span>: <span class="v">.625rem 1.25rem</span>;
+  <span class="k">font-size</span>: <span class="v">.9375rem</span>; <span class="k">font-weight</span>: <span class="v">600</span>; <span class="k">line-height</span>: <span class="v">1.55</span>;
+  <span class="k">color</span>: <span class="v">#fff</span>;
+  <span class="k">transition</span>: <span class="v">background-color 200ms</span>;
+}
+.btn-ref-primary:hover { <span class="k">background</span>: <span class="v">#165dfc</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>徽章 pill</h4>
-    <dl>
-      <dt>优惠 / 免费</dt><dd>#0e7c46 压 #e9f7f0 · 999px · 5px 11px</dd>
-      <dt>首选</dt><dd>#92600a 压 #fdf1d7 · 绝对定位 top -10px</dd>
-      <dt>字号</dt><dd>--text-badge 0.8125rem / 600</dd>
-      <dt>原则</dt><dd>一张卡只有一个饱和色块，那是主按钮；徽章一律淡底深字</dd>
-    </dl>
-  </div>
+<div class="cmp">
+  <header><h4>工具卡次按钮</h4><code>.btn-ref-ghost · site.css</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-refg">看教程</span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-refg hov">看教程</span></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line。注意是 1px，不是站内的 1.5px</td></tr><tr><td class="tok">border:hover</td><td class="v">#c9cde2</td><td class="note-cell">--color-ref-chip-hover</td></tr><tr><td class="tok">color</td><td class="v">#10162b</td><td class="note-cell">--color-ref-ink</td></tr><tr><td class="tok">padding</td><td class="v">0.625rem 1.125rem</td><td class="note-cell">比主按钮窄，因为没有图标</td></tr></tbody></table></div></div>
+  <pre>.btn-ref-ghost {
+  <span class="k">border</span>: <span class="v">1px solid #e8eaf2</span>;
+  <span class="k">background</span>: <span class="v">#fff</span>;
+  <span class="k">color</span>: <span class="v">#10162b</span>;
+  <span class="k">padding</span>: <span class="v">.625rem 1.125rem</span>;
+  <span class="k">border-radius</span>: <span class="v">6.25rem</span>;
+  <span class="k">font-size</span>: <span class="v">.9375rem</span>; <span class="k">font-weight</span>: <span class="v">600</span>;
+}
+.btn-ref-ghost:hover { <span class="k">border-color</span>: <span class="v">#c9cde2</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>导航主推项 <em>navFeature</em></h4>
-    <dl>
-      <dt>底</dt><dd>--color-accent-wash #ecf5e8（Shopify 绿系）</dd>
-      <dt>hover</dt><dd>#ddedd6 + 上浮 2px</dd>
-      <dt>字</dt><dd>--color-content，字色字重都不动</dd>
-      <dt>原则</dt><dd>只改底色不加重字——要被看见，但不能比旁边纯文字项重一截</dd>
-    </dl>
-  </div>
+  <h3>控件与徽章</h3>
+<div class="cmp">
+  <header><h4>筛选 chip</h4><code>.chip · site.css</code></header>
+  <div class="demo-row  tinted"><div class="unit"><div><span class="d-chip">WordPress<span class="cnt">4</span></span></div><span class="state">默认</span></div><div class="unit"><div><span class="d-chip hov">主机<span class="cnt">3</span></span></div><span class="state">hover</span></div><div class="unit"><div><span class="d-chip on">全部<span class="cnt">17</span></span></div><span class="state">选中 .is-active</span></div><div class="unit"><div><span class="d-chip empty">AI 工具<span class="cnt">0</span></span></div><span class="state">空分类 .is-empty</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background / color</td><td class="v">#ffffff / #10162b</td><td class="note-cell">默认</td></tr><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line</td></tr><tr><td class="tok">border:hover</td><td class="v">#c9cde2</td><td class="note-cell">--color-ref-chip-hover</td></tr><tr><td class="tok">选中态</td><td class="v">#10162b 实底 + #fff 字</td><td class="note-cell">边框同时转 #10162b</td></tr><tr><td class="tok">计数 .chip-count</td><td class="v">0.8125rem / 400 / #5b647a</td><td class="note-cell">tabular-nums 让数字等宽</td></tr><tr><td class="tok">计数（选中）</td><td class="v">#e8eaf2</td><td class="note-cell"></td></tr><tr><td class="tok">空分类</td><td class="v">border-style: dashed + #5b647a 字</td><td class="note-cell"><b>仍然可点</b> —— 读者要看得见这一类在整理</td></tr><tr><td class="tok">border-radius</td><td class="v">999px</td><td class="note-cell"></td></tr><tr><td class="tok">padding</td><td class="v">0.375rem 0.8125rem</td><td class="note-cell">6 / 13px</td></tr><tr><td class="tok">font</td><td class="v">0.875rem / 500 / 1.55</td><td class="note-cell"><b>500 不是 600</b> —— 它是控件不是内容</td></tr><tr><td class="tok">transition</td><td class="v">background / border / color 各 200ms</td><td class="note-cell"></td></tr></tbody></table></div></div>
+  <pre>.chip {
+  <span class="k">display</span>:<span class="v">inline-flex</span>; <span class="k">align-items</span>:<span class="v">center</span>; <span class="k">gap</span>:<span class="v">.375rem</span>;
+  <span class="k">border</span>:<span class="v">1px solid #e8eaf2</span>; <span class="k">border-radius</span>:<span class="v">999px</span>;
+  <span class="k">background</span>:<span class="v">#fff</span>; <span class="k">color</span>:<span class="v">#10162b</span>;
+  <span class="k">padding</span>:<span class="v">.375rem .8125rem</span>;
+  <span class="k">font-size</span>:<span class="v">.875rem</span>; <span class="k">font-weight</span>:<span class="v">500</span>; <span class="k">line-height</span>:<span class="v">1.55</span>;
+  <span class="k">transition</span>:<span class="v">background-color 200ms, border-color 200ms, color 200ms</span>;
+}
+.chip:hover      { <span class="k">border-color</span>:<span class="v">#c9cde2</span>; }
+.chip.is-active  { <span class="k">background</span>:<span class="v">#10162b</span>; <span class="k">border-color</span>:<span class="v">#10162b</span>; <span class="k">color</span>:<span class="v">#fff</span>; }
+.chip.is-empty   { <span class="k">border-style</span>:<span class="v">dashed</span>; <span class="k">color</span>:<span class="v">#5b647a</span>; }
+.chip-count      { <span class="k">font-size</span>:<span class="v">.8125rem</span>; <span class="k">font-weight</span>:<span class="v">400</span>; <span class="k">color</span>:<span class="v">#5b647a</span>;
+                   <span class="k">font-variant-numeric</span>:<span class="v">tabular-nums</span>; }
+.chip.is-active .chip-count { <span class="k">color</span>:<span class="v">#e8eaf2</span>; }</pre>
+</div>
 
-  <div class="spec-card">
-    <h4>共用零件 <em>lib/ui.ts</em></h4>
-    <dl>
-      <dt>sectionRule</dt><dd>12×2px --color-secondary 短横，每个段标题开头</dd>
-      <dt>eyebrow</dt><dd>text-tiny / 600 / tracking-eyebrow / content-lighter</dd>
-      <dt>arrowIcon</dt><dd>16×16，hover 右移 2px</dd>
-      <dt>card</dt><dd>rounded-card + shadow-card，hover 抬 4px 换 shadow-card-hover</dd>
-    </dl>
+<div class="cmp">
+  <header><h4>徽章 pill</h4><code>ToolCardCompact.astro</code></header>
+  <div class="demo-row  tinted"><div class="unit"><div><span class="d-pill-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.6 2.6a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.6 8.6a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> 9折码 WUTONG10</span></div><span class="state">优惠 / 券码 / 免费</span></div><div class="unit"><div><span class="d-pill-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.6 2.6a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.6 8.6a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> 前 3 个月每月 $1</span></div><span class="state"></span></div><div class="unit"><div><span class="d-pill-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.6 2.6a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.6 8.6a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> 免费</span></div><span class="state"></span></div><div class="unit"><div><span class="d-pill-amber"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg> 梧桐首选</span></div><span class="state">梧桐首选</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">绿 pill</td><td class="v">#0e7c46 压 #e9f7f0</td><td class="note-cell">4.77:1 · --color-ref-green / -soft</td></tr><tr><td class="tok">琥珀 pill</td><td class="v">#92600a 压 #fdf1d7</td><td class="note-cell">--color-ref-amber / -soft</td></tr><tr><td class="tok">font</td><td class="v">0.8125rem / 600 / 1.5</td><td class="note-cell">--text-badge</td></tr><tr><td class="tok">padding</td><td class="v">绿 0.25rem 0.625rem · 琥珀 0.125rem 0.625rem</td><td class="note-cell"></td></tr><tr><td class="tok">border-radius</td><td class="v">999px</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">绿 14×14 标签 · 琥珀 12×12 实心星</td><td class="note-cell"></td></tr><tr><td class="tok">定位</td><td class="v">绿 inline · 琥珀 absolute top:-10px right:14px</td><td class="note-cell">首选徽章压在卡片上边缘</td></tr><tr><td class="tok">规则</td><td class="v">券码 / 优惠 / 免费<b>共用同一个绿 pill</b></td><td class="note-cell">读者的问题是「有没有便宜占」，不是「便宜分几类」</td></tr><tr><td class="tok">规则</td><td class="v">一张卡只有一个饱和色块 —— 主按钮</td><td class="note-cell">徽章一律淡底深字</td></tr></tbody></table></div></div>
+  <pre><span class="c">/* 三种优惠共用一个 pill */</span>
+.pill-deal  { <span class="k">background</span>:<span class="v">#e9f7f0</span>; <span class="k">color</span>:<span class="v">#0e7c46</span>; <span class="k">padding</span>:<span class="v">.25rem .625rem</span>; }
+<span class="c">/* 每类唯一的首选标，绝对定位压在卡片上沿 */</span>
+.pill-pick  { <span class="k">background</span>:<span class="v">#fdf1d7</span>; <span class="k">color</span>:<span class="v">#92600a</span>; <span class="k">padding</span>:<span class="v">.125rem .625rem</span>;
+              <span class="k">position</span>:<span class="v">absolute</span>; <span class="k">top</span>:<span class="v">-10px</span>; <span class="k">right</span>:<span class="v">14px</span>; }
+.pill-deal, .pill-pick {
+  <span class="k">display</span>:<span class="v">inline-flex</span>; <span class="k">align-items</span>:<span class="v">center</span>; <span class="k">gap</span>:<span class="v">.375rem</span>;
+  <span class="k">border-radius</span>:<span class="v">999px</span>;
+  <span class="k">font-size</span>:<span class="v">.8125rem</span>; <span class="k">font-weight</span>:<span class="v">600</span>; <span class="k">line-height</span>:<span class="v">1.5</span>;
+}</pre>
+</div>
+
+<div class="cmp">
+  <header><h4>导航主推项</h4><code>navFeature · Header.astro</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-navfeat">Shopify 快装包</span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-navfeat hov">Shopify 快装包</span></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ecf5e8</td><td class="note-cell">--color-accent-wash。色相取自 Shopify 品牌绿 #95bf47</td></tr><tr><td class="tok">background:hover</td><td class="v">#ddedd6</td><td class="note-cell">--color-accent-wash-hover</td></tr><tr><td class="tok">color</td><td class="v">#231c1b</td><td class="note-cell"><b>字色字重都不动</b> —— 只靠底色分出来</td></tr><tr><td class="tok">font</td><td class="v">1rem / 500</td><td class="note-cell">跟旁边的纯文字导航项一致</td></tr><tr><td class="tok">padding</td><td class="v">0.375rem 1.25rem</td><td class="note-cell">桌面。抽屉里是 0.625rem 1.5rem</td></tr><tr><td class="tok">hover 位移</td><td class="v">translateY(-2px)</td><td class="note-cell">与工具卡同一位移量</td></tr><tr><td class="tok">对比度</td><td class="v">14.99:1</td><td class="note-cell"></td></tr><tr><td class="tok">设计意图</td><td class="v">要被看见，但不能比旁边纯文字项重一截</td><td class="note-cell">所以不做实心按钮</td></tr></tbody></table></div></div>
+  <pre>.nav-feature {
+  <span class="k">border-radius</span>:<span class="v">6.25rem</span>;
+  <span class="k">background</span>:<span class="v">#ecf5e8</span>;
+  <span class="k">color</span>:<span class="v">#231c1b</span>;
+  <span class="k">font-size</span>:<span class="v">1rem</span>; <span class="k">font-weight</span>:<span class="v">500</span>;
+  <span class="k">padding</span>:<span class="v">.375rem 1.25rem</span>;
+  <span class="k">transition</span>:<span class="v">background-color 200ms, translate 200ms</span>;
+}
+.nav-feature:hover { <span class="k">background</span>:<span class="v">#ddedd6</span>; <span class="k">translate</span>:<span class="v">0 -2px</span>; }</pre>
+</div>
+
+<div class="cmp">
+  <header><h4>搜索框</h4><code>ToolFilterBar.astro</code></header>
+  <div class="demo-row"><div class="unit"><div><div class="d-inwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="d-input" value="" placeholder="搜索 17 个工具…（主机、收款、主题、SEO）" readonly></div></div><span class="state">静止</span></div><div class="unit"><div><div class="d-inwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="d-input foc" value="主机" readonly></div></div><span class="state">focus</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line</td></tr><tr><td class="tok">border:focus</td><td class="v">#165dfc</td><td class="note-cell">--color-brand-blue</td></tr><tr><td class="tok">border-radius</td><td class="v">999px</td><td class="note-cell">胶囊，不是 --radius-form</td></tr><tr><td class="tok">padding</td><td class="v">0.75rem 1.25rem 0.75rem 3.25rem</td><td class="note-cell">左侧留给图标</td></tr><tr><td class="tok">font</td><td class="v">1rem / --text-regular</td><td class="note-cell"></td></tr><tr><td class="tok">color / placeholder</td><td class="v">#10162b / #5b647a</td><td class="note-cell"></td></tr><tr><td class="tok">图标</td><td class="v">20×20 放大镜，绝对定位 left:1.25rem</td><td class="note-cell"></td></tr><tr><td class="tok">⚠ 缺口</td><td class="v">focus 时 outline: none 且无替代焦点环</td><td class="note-cell">见第 11 节 —— 应改为保留描边变化并补 outline</td></tr></tbody></table></div></div>
+  <pre>.search {
+  <span class="k">width</span>:<span class="v">100%</span>;
+  <span class="k">border</span>:<span class="v">1px solid #e8eaf2</span>; <span class="k">border-radius</span>:<span class="v">999px</span>;
+  <span class="k">background</span>:<span class="v">#fff</span>; <span class="k">color</span>:<span class="v">#10162b</span>;
+  <span class="k">padding</span>:<span class="v">.75rem 1.25rem .75rem 3.25rem</span>;
+  <span class="k">font-size</span>:<span class="v">1rem</span>;
+  <span class="k">transition</span>:<span class="v">border-color 200ms</span>;
+}
+.search::placeholder { <span class="k">color</span>:<span class="v">#5b647a</span>; }
+.search:focus { <span class="k">border-color</span>:<span class="v">#165dfc</span>; }</pre>
+</div>
+
+  <h3>卡片与零件</h3>
+<div class="cmp">
+  <header><h4>工具卡（完整组装）</h4><code>.card-ref + ToolCardCompact.astro</code></header>
+  <div class="demo-row  tinted"><div class="unit"><div><article class="d-card-ref">
+  <span class="d-pill-amber" style="position:absolute;top:-10px;right:14px"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg> 梧桐首选</span>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <span class="d-plate">B</span>
+    <div style="min-width:0;flex:1">
+      <div class="d-cardname">Blocksy</div>
+      <div class="d-cardlabel">主题</div>
+    </div>
+  </div>
+  <p class="d-carddesc" style="margin:0;flex:1">一个主题解决大多数设计需求，免费版就已经很能打。</p>
+  <div><span class="d-pill-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.6 2.6a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.6 8.6a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> 9折码 WUTONG10</span></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <span class="d-refp">访问官网<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span><span class="d-refg">看教程</span>
+  </div>
+</article></div><span class="state">静止</span></div><div class="unit"><div><article class="d-card-ref hov">
+  <span class="d-pill-amber" style="position:absolute;top:-10px;right:14px"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg> 梧桐首选</span>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <span class="d-plate">B</span>
+    <div style="min-width:0;flex:1">
+      <div class="d-cardname">Blocksy</div>
+      <div class="d-cardlabel">主题</div>
+    </div>
+  </div>
+  <p class="d-carddesc" style="margin:0;flex:1">一个主题解决大多数设计需求，免费版就已经很能打。</p>
+  <div><span class="d-pill-green"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.6 2.6a2 2 0 0 0-1.4-.6H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.6 8.6a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg> 9折码 WUTONG10</span></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <span class="d-refp">访问官网<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span><span class="d-refg">看教程</span>
+  </div>
+</article></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v">1px solid #e8eaf2</td><td class="note-cell">--color-ref-line</td></tr><tr><td class="tok">border:hover</td><td class="v">#d5d9ea</td><td class="note-cell">--color-ref-line-hover</td></tr><tr><td class="tok">box-shadow</td><td class="v">无 → 0 12px 32px -12px rgb(16 22 43 /.14)</td><td class="note-cell"><b>负扩散 -12px 是关键</b> —— 阴影只在卡正下方收成一小片，二十张卡同时存在也不会糊</td></tr><tr><td class="tok">transform:hover</td><td class="v">translateY(-2px)</td><td class="note-cell"></td></tr><tr><td class="tok">transition</td><td class="v">transform / box-shadow / border-color 各 150ms</td><td class="note-cell"><b>150ms 不是 200ms</b> —— 指针会连着扫过好几张卡</td></tr><tr><td class="tok">border-radius</td><td class="v">1rem (16px)</td><td class="note-cell">--radius-card</td></tr><tr><td class="tok">padding</td><td class="v">1.25rem (20px)</td><td class="note-cell"></td></tr><tr><td class="tok">布局</td><td class="v">flex column · gap 0.75rem (12px)</td><td class="note-cell"></td></tr><tr><td class="tok">logo 方块</td><td class="v">46×46 · 圆角 13px · #f4f5f9 底 · 1px #e8eaf2 边</td><td class="note-cell">--spacing-logo-chip / --radius-plate / --color-ref-plate</td></tr><tr><td class="tok">标题</td><td class="v">1.0625rem / 500 / 1.4 / #10162b</td><td class="note-cell">--text-cardname。<b>500 不是 600</b> —— 一屏二十张卡全粗就是一片黑</td></tr><tr><td class="tok">分类标签</td><td class="v">0.8125rem / 400 / 1.5 / #5b647a</td><td class="note-cell">--text-cardlabel</td></tr><tr><td class="tok">描述</td><td class="v">0.9375rem / 400 / 1.6 / #5b647a · 两行截断</td><td class="note-cell">--text-carddesc。flex:1 把按钮推到同一底线</td></tr><tr><td class="tok">网格</td><td class="v">3 列 @ 1120px 容器 · gap 16px · 卡宽 363px</td><td class="note-cell">--container-list</td></tr></tbody></table></div></div>
+  <pre>.card-ref {
+  <span class="k">position</span>:<span class="v">relative</span>; <span class="k">display</span>:<span class="v">flex</span>; <span class="k">flex-direction</span>:<span class="v">column</span>; <span class="k">gap</span>:<span class="v">.75rem</span>;
+  <span class="k">background</span>:<span class="v">#fff</span>;
+  <span class="k">border</span>:<span class="v">1px solid #e8eaf2</span>;
+  <span class="k">border-radius</span>:<span class="v">1rem</span>;
+  <span class="k">padding</span>:<span class="v">1.25rem</span>;
+  <span class="k">transition</span>:<span class="v">transform 150ms, box-shadow 150ms, border-color 150ms</span>;
+}
+.card-ref:hover {
+  <span class="k">transform</span>:<span class="v">translateY(-2px)</span>;
+  <span class="k">border-color</span>:<span class="v">#d5d9ea</span>;
+  <span class="k">box-shadow</span>:<span class="v">0 12px 32px -12px rgb(16 22 43 / .14)</span>;
+}
+<span class="c">/* 关掉动效时保留描边与阴影，只去掉位移 */</span>
+@media (prefers-reduced-motion: reduce) {
+  .card-ref:hover { <span class="k">transform</span>:<span class="v">none</span>; }
+}</pre>
+</div>
+
+<div class="cmp">
+  <header><h4>站内通用卡</h4><code>card · lib/ui.ts</code></header>
+  <div class="demo-row  grey"><div class="unit"><div><div class="d-card-site"><div class="d-eyebrow" style="margin-bottom:.5rem">教程</div><div style="font-weight:700;font-size:1.125rem;color:#231c1b">一个简单的承诺</div><p style="margin:.5rem 0 0;font-size:.875rem;line-height:1.75;color:#544e4d">我只推荐自己真正用过的工具。</p></div></div><span class="state">静止</span></div><div class="unit"><div><div class="d-card-site hov"><div class="d-eyebrow" style="margin-bottom:.5rem">教程</div><div style="font-weight:700;font-size:1.125rem;color:#231c1b">一个简单的承诺</div><p style="margin:.5rem 0 0;font-size:.875rem;line-height:1.75;color:#544e4d">我只推荐自己真正用过的工具。</p></div></div><span class="state">hover</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ffffff</td><td class="note-cell"></td></tr><tr><td class="tok">border</td><td class="v"><b>无</b> —— 靠阴影，不靠描边</td><td class="note-cell">与工具卡相反</td></tr><tr><td class="tok">box-shadow</td><td class="v">0 .625rem 1.875rem rgb(11 3 2 /.05)</td><td class="note-cell">--shadow-card</td></tr><tr><td class="tok">box-shadow:hover</td><td class="v">0 1rem 2.5rem rgb(11 3 2 /.10)</td><td class="note-cell">--shadow-card-hover</td></tr><tr><td class="tok">transform:hover</td><td class="v">translateY(-4px)</td><td class="note-cell"><b>比工具卡多一倍</b> —— 这里卡更大更少</td></tr><tr><td class="tok">transition</td><td class="v">box-shadow / translate 各 300ms</td><td class="note-cell">慢档</td></tr><tr><td class="tok">border-radius</td><td class="v">1rem</td><td class="note-cell">--radius-card</td></tr><tr><td class="tok">⚠ 注意</td><td class="v">白卡压白底时这个阴影看不见</td><td class="note-cell">要么给底加色，要么改用描边 —— 见坑记录</td></tr></tbody></table></div></div>
+  <pre>.card {
+  <span class="k">background</span>:<span class="v">#fff</span>;
+  <span class="k">border-radius</span>:<span class="v">1rem</span>;
+  <span class="k">box-shadow</span>:<span class="v">0 .625rem 1.875rem rgb(11 3 2 / .05)</span>;
+  <span class="k">transition</span>:<span class="v">box-shadow 300ms, translate 300ms</span>;
+}
+.card:hover {
+  <span class="k">box-shadow</span>:<span class="v">0 1rem 2.5rem rgb(11 3 2 / .10)</span>;
+  <span class="k">translate</span>:<span class="v">0 -4px</span>;
+}</pre>
+</div>
+
+<div class="cmp">
+  <header><h4>零件</h4><code>sectionRule / eyebrow / logo 方块</code></header>
+  <div class="demo-row"><div class="unit"><div><span class="d-rule"></span></div><span class="state">段落起首横线</span></div><div class="unit"><div><span class="d-eyebrow">梧桐首选</span></div><span class="state">微标签 eyebrow</span></div><div class="unit"><div><span class="d-plate">B</span></div><span class="state">logo 方块（有图）</span></div><div class="unit"><div><span class="d-plate">W</span></div><span class="state">logo 方块（兜底首字母）</span></div></div>
+  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">sectionRule</td><td class="v">48 × 2px · #f2673f</td><td class="note-cell">--color-secondary。每个段标题开头一条</td></tr><tr><td class="tok">eyebrow</td><td class="v">0.75rem / 600 / letter-spacing .12em / #6f6b6a</td><td class="note-cell">--text-tiny + --tracking-eyebrow</td></tr><tr><td class="tok">logo 方块</td><td class="v">46×46 · 圆角 13px · #f4f5f9 底 · 1px #e8eaf2 边 · padding 6px</td><td class="note-cell"></td></tr><tr><td class="tok">兜底</td><td class="v">无图时显示名称首字母，1.125rem / 600 / #5b647a</td><td class="note-cell"><b>方块尺寸不变</b>，网格不会跳</td></tr></tbody></table></div></div>
+  <pre>.section-rule { <span class="k">display</span>:<span class="v">block</span>; <span class="k">width</span>:<span class="v">3rem</span>; <span class="k">height</span>:<span class="v">2px</span>; <span class="k">background</span>:<span class="v">#f2673f</span>; }
+.eyebrow { <span class="k">font-size</span>:<span class="v">.75rem</span>; <span class="k">font-weight</span>:<span class="v">600</span>; <span class="k">letter-spacing</span>:<span class="v">.12em</span>; <span class="k">color</span>:<span class="v">#6f6b6a</span>; }
+.logo-plate {
+  <span class="k">display</span>:<span class="v">grid</span>; <span class="k">place-items</span>:<span class="v">center</span>; <span class="k">flex</span>:<span class="v">none</span>;
+  <span class="k">width</span>:<span class="v">2.875rem</span>; <span class="k">height</span>:<span class="v">2.875rem</span>;
+  <span class="k">border</span>:<span class="v">1px solid #e8eaf2</span>; <span class="k">border-radius</span>:<span class="v">.8125rem</span>;
+  <span class="k">background</span>:<span class="v">#f4f5f9</span>; <span class="k">padding</span>:<span class="v">.375rem</span>;
+}</pre>
+</div>
+
+  <h3>两套按钮体系的区别</h3>
+  <p>站内和工具页各有一套按钮，参数不同，不要混用：</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>站内 btnPrimary / btnGhost</th><th>工具页 btn-ref-*</th></tr></thead>
+      <tbody>
+        <tr><td>主色</td><td class="v">#2d3782 品牌靛蓝</td><td class="v">#0e48d6 新增蓝</td></tr>
+        <tr><td>hover 方向</td><td class="v">压深 → #242c68</td><td class="v"><b>提亮 → #165dfc</b></td></tr>
+        <tr><td>描边宽度</td><td class="v">1.5px</td><td class="v">1px</td></tr>
+        <tr><td>字号</td><td class="v">1rem</td><td class="v">0.9375rem</td></tr>
+        <tr><td>内边距</td><td class="v">.625rem 1.5rem</td><td class="v">.625rem 1.25rem</td></tr>
+        <tr><td>圆角</td><td class="v" colspan="2">6.25rem —— 两套一致</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    工具页那套是移植自 deals.meticsmedia.com 的独立体系（见第 06 节）。<b>两套不要合并，也不要互相推导。</b>
   </div>
 </section>
 
