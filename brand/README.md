@@ -1,54 +1,84 @@
 # 品牌资产
 
-logo、favicon、人物照。所有尺寸和留白数值都是从 wutong.org 线上实测的，不是
-凭感觉定的。
+logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.org 线上实测的。
+
+---
+
+## ⚠ 先读这一条：logo 的颜色和站点色板不是一套
+
+`logo/wordmark-landscape.svg` 里只有三个颜色，**一个都不在站点的品牌色板里**：
+
+| logo 用色 | | 站点最接近的色 | 色距 |
+|---|---|---|---|
+| `#003A89` | 深蓝（叶片左半 + 全部文字） | `#2d3782` 主色 | 45.6 |
+| `#E63946` | 红（叶片右半） | `#d93730` punch | 25.6 |
+| `#457B9D` | 青灰（叶柄） | 无对应 | ≥84.8 |
+
+`#457B9D` / `#E63946` / `#A8DADC` 是一套成组的配色，而站点的 `--color-aqua-island`
+**正好就是 `#a8dadc`**。也就是说 logo 用的是那一套，站点的蓝和红后来漂走了。
+
+**这是一个需要决定的事，不是一个 bug。** 三条路：
+
+1. **站点向 logo 靠拢** —— `--color-primary` 改为 `#003A89`，`punch` 改为 `#E63946`，
+   并把 `#457B9D` 补进色板。代价是要重算 ramp 并复验所有对比度。
+2. **logo 向站点靠拢** —— 改 SVG 的三个 fill。代价是印刷品、mockup、第三方平台上
+   已经在用的 logo 会和网站不一致。
+3. **维持现状，明确记下来** —— logo 是品牌资产，UI 是产品色板，两者各自成立。
+   很多品牌确实这么做，但必须是有意的，不能是忘了。
+
+在做出决定之前，**不要让任何工具自动"统一"这两组颜色**。
 
 ---
 
 ## Logo
 
-### 字标 — `logo/wordmark-light.png`
+### 横版 — 页头、名片、视频片头
 
-横向字标，用于页头。**只用在浅色底上。**
+| 文件 | 用途 |
+|---|---|
+| `logo/wordmark-landscape.svg` | **主资产。** 矢量，1500×1500 viewBox，三色 |
+| `logo/wordmark-landscape.pdf` | 印刷 |
+| `logo/wordmark-landscape.png` | 位图导出 |
+| `logo/wordmark-landscape-black.png` | 单色黑 —— 浅底、单色印刷 |
+| `logo/wordmark-landscape-white.png` | 单色白 —— **深底用这个** |
+
+### 竖版 — 头像、方形版位、印刷封面
+
+`logo/wordmark-portrait.{pdf,png}` + `-black` / `-white` 变体。叶片在上、文字在下。
+**没有 SVG**，源文件是 `.ai`（在 Zoho 的 Marketing/Logo 目录里）。
+
+### 纯图标 — 无字标形态
+
+`icon/icon.{pdf,png}` + `-black` / `-white`。只有叶片，用于头像、应用图标、
+需要正方形且不放文字的地方。**同样没有 SVG。**
+
+### 站点当前在用的导出品
+
+带 `_` 前缀的两个是**派生物**，不是主资产：
+
+- `logo/_site-header-export.png` — 页头在用的 2560×619 PNG
+- `logo/_site-footer-export.webp` — 页脚在用的浮雕锁形
+
+**页头那个应该换成 `wordmark-landscape.svg`。** 现在是把 2560px 宽的 PNG 缩到
+165px 显示，矢量才是对的做法。
+
+### 站上的实测尺寸
 
 | | |
 |---|---|
-| 源文件 | 2560 × 619 px（PNG，透明底） |
-| 站上实际渲染 | **165 × 40 px** |
-| 高度令牌 | `--spacing-logo` = `2.5rem` (40px) |
-| 用法 | 锁高度，宽度自适应（`h-logo w-auto`） |
-| 底色 | `--color-surface` #ffffff |
-| 左侧留白 | 页面 gutter，5%（1500px 视口下约 75px） |
-| 上下留白 | header 高 73px，字标 40px，即上下各 16px 余量 |
-
-### 锁形 — `logo/lockup-embossed.webp`
-
-浮雕质感的完整锁形，用于页脚。同一个品牌，到页面底部换一种语气。
-
-| | |
-|---|---|
-| 站上实际渲染 | **297 × 120 px** |
-| 高度令牌 | `--spacing-logo-footer` = `7.5rem` (120px) |
-| 底色 | `--color-surface-alt` #f6fbfb |
-| 交互 | hover 时上浮 4px、亮度 105%，500ms。**不加阴影**——投影会让金属质感发闷 |
-
-这个文件的画布自带较多留白，所以它按 `--spacing-logo-footer` 定尺寸，而不是
-复用 `--spacing-logo`。
+| 页头字标渲染 | **165 × 40 px**，高度令牌 `--spacing-logo` = `2.5rem` |
+| 页脚锁形渲染 | **297 × 120 px**，高度令牌 `--spacing-logo-footer` = `7.5rem` |
+| 页头左侧留白 | 页面 gutter 5%（1500px 视口下约 75px） |
+| 页头上下余量 | header 73px − 字标 40px = 上下各 16px |
+| 页脚 hover | 上浮 4px、亮度 105%、500ms。**不加阴影** —— 投影会让金属质感发闷 |
 
 ### 使用规则
 
-1. **不要拉伸。** 两个 logo 都锁高度、宽度自适应。
+1. **不要拉伸。** 锁高度，宽度自适应。
 2. **不要改色、不要加描边或阴影。**
-3. **留白至少等于字标高度的 40%**（约 16px @ 40px 高）。页头目前就是这个值。
-4. 字标只用于浅色底。深色底目前**没有对应变体**，见下面的缺口。
-
-### 缺口
-
-- **没有 SVG 版本。** 页头现在用的是 2560px 宽的 PNG，缩到 165px 显示。矢量
-  字标应该是这套系统的主资产，PNG 只该是导出产物。
-- **没有深底变体。** 文件名叫 `wordmark-light` 是因为它用在浅色底上，但配套的
-  深底版本并不存在。站上目前没有深色页头，所以还没暴露问题。
-- **没有纯图标形态。** favicon 是独立画的，跟字标之间的关系没有定义。
+3. **留白至少等于字标高度的 40%**（40px 高时约 16px）。
+4. **深底用 `-white` 变体**，不要给彩色版加滤镜。
+5. 单色场合用 `-black` / `-white`，不要自己去饱和。
 
 ---
 
@@ -56,18 +86,21 @@ logo、favicon、人物照。所有尺寸和留白数值都是从 wutong.org 线
 
 | 文件 | 尺寸 | 用途 |
 |---|---|---|
-| `favicon/favicon.svg` | 矢量 | 浏览器标签页。BaseLayout 里唯一声明的那个 |
-| `favicon/favicon-512.png` | 512 × 512 | PWA / 高分屏回退 |
-| `favicon/apple-touch-icon.png` | — | iOS 主屏图标 |
+| `favicon/favicon.svg` | 矢量 | 浏览器标签页。站上唯一声明的那个 |
+| `favicon/favicon-96x96.png` | 96 | 传统 favicon 回退 |
+| `favicon/apple-touch-icon.png` | — | iOS 主屏 |
+| `favicon/web-app-manifest-192x192.png` | 192 | PWA |
+| `favicon/web-app-manifest-512x512.png` | 512 | PWA |
+| `favicon/favicon-512.png` | 512 | 站点现有导出 |
 
-站上只声明了 SVG 那一个：
+站上 `BaseLayout.astro` 只声明了 SVG 一个：
 
 ```html
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 ```
 
-另外两个文件在 `public/` 里但没有 `<link>` 指向它们——**它们目前不生效**。要用
-的话需要在 BaseLayout 补声明。
+**其余文件目前不生效** —— 它们在 `public/` 里但没有 `<link>` 指向。要用需要补声明，
+PWA 那两个还需要一个 `manifest.json`。
 
 ---
 
@@ -78,20 +111,21 @@ logo、favicon、人物照。所有尺寸和留白数值都是从 wutong.org 线
 | `photo/kenny.png` | 567 × 614 | 人物照，关于页 |
 | `photo/hero.png` | 600 × 600 | 首页主视觉 |
 
-照片在站上放进 `ShotFrame` 或圆角容器里，圆角走 `--radius-photo` (12px) 或
-`--radius-full`（头像）。
+放进 `ShotFrame` 或圆角容器，圆角走 `--radius-photo`（12px）或 `--radius-full`（头像）。
 
 ---
 
-## 不在这里的东西
+## 源文件不在这里
 
-YouTube、哔哩哔哩、Shopify 等第三方标**不放进这个仓库**。它们是别家公司的商标，
-放进一个 MIT 许可的公开仓库不合适。这些文件留在站点的 `src/media/brand/`。
+`.ai` / `.eps` 源文件留在 Zoho 的 `Marketing/Logo/梧桐小讲堂/`，本仓库只收可直接
+使用的导出格式。要改 logo 本身，回源文件改，再重新导出到这里。
 
-站上用到它们的地方有两条规则值得记下来：
+## 第三方标不在这里
 
-1. **一排并列的品牌图标要统一高度，不是统一宽高。** YouTube 的官方标是
-   800×524 的横牌，锁进正方形会渲染成 24×15.7px，比旁边 24×24 的方标矮一截。
-2. **非方形的品牌标，自己拼一个方块。** 站上导航下拉里的 YouTube 图标是
-   「品牌红 `#ff0033` 实底 + 白色播放三角」，不是原始文件——这样三个平台的
-   图标才是同一个轮廓。
+YouTube、哔哩哔哩、Shopify 等是别家公司的商标，不放进 MIT 许可的公开仓库，
+文件留在站点的 `src/media/brand/`。站上用它们时有两条规则：
+
+1. **一排并列的品牌图标要统一高度，不是统一宽高。** YouTube 官方标是 800×524 的
+   横牌，锁进正方形会渲染成 24×15.7px，比旁边 24×24 的方标矮一截。
+2. **非方形的品牌标自己拼一个方块。** 导航下拉里的 YouTube 图标是「品牌红
+   `#ff0033` 实底 + 白色播放三角」，不是原始文件 —— 这样三个平台的图标才是同一个轮廓。

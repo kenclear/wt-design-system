@@ -18,8 +18,9 @@ tokens/
                   由脚本生成，不要手改。
 
 brand/
-  logo/           字标（页头）与浮雕锁形（页脚）
-  favicon/        favicon.svg + 512 PNG + apple-touch-icon
+  logo/           横版矢量字标（主资产）+ 竖版 + 黑/白单色变体
+  icon/           纯图标形态（只有叶片）
+  favicon/        favicon.svg + 96/192/512 PNG + apple-touch-icon
   photo/          人物照、首页主视觉
   README.md       尺寸、留白、使用规则 —— 数值都是线上实测的
 
@@ -28,7 +29,7 @@ fonts/            Funnel Display 四个切片 + OFL 许可证。40KB。
 docs/
   index.html      完整规范文档（16 节，含组件画廊）。
                   在线版：https://kenclear.github.io/wt-design-system/
-  梧桐设计系统.pdf  同一份文档的 A4 打印版，43 页。
+  梧桐设计系统.pdf  同一份文档的 A4 打印版，45 页。
 
 scripts/
   build-tokens.mjs  从 core.css 生成 tokens.json
@@ -91,8 +92,12 @@ npm run build:tokens     # 重新生成 tokens.json
 
 logo、favicon、照片在 [`brand/`](brand/)，用法规则见 [brand/README.md](brand/README.md)。
 
-三个已知缺口：**没有 SVG 字标**（页头现在用 2560px 的 PNG 缩到 165px）、
-**没有深底变体**、**favicon 与字标的关系没有定义**。
+⚠ **logo 的三个颜色一个都不在站点色板里** —— `#003A89` / `#E63946` / `#457B9D`
+对应站点的 `#2d3782` / `#d93730` / 无。这是待决定的事，不是 bug；在决定之前
+不要让任何工具自动「统一」这两组颜色。详见 [brand/README.md](brand/README.md)。
+
+矢量字标、深底白版、纯图标形态**都已齐备**。唯一还缺的是竖版和纯图标的 SVG
+（源文件是 .ai，留在 Zoho）。站点页头目前仍在用 2560px 的 PNG，应换成 SVG。
 
 YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别家公司的商标。
 
