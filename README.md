@@ -34,6 +34,7 @@ docs/
 scripts/
   build-tokens.mjs  从 core.css 生成 tokens.json
   build-brand.mjs   从 icon.svg + 文字路径生成全部字标（SVG/PNG/PDF + 黑白）
+  build-kit.mjs     生成日常取用的「常用包」（各底色 PNG/JPG、头像），输出到 dist/
 ```
 
 ## 怎么用
