@@ -18,9 +18,9 @@ tokens/
                   由脚本生成，不要手改。
 
 brand/
-  logo/           横版 / 竖版矢量字标 + pdf/png + 黑白单色变体
-  icon/           纯图标形态（只有叶片），含 SVG
-  favicon/        favicon.svg + 96/192/512 PNG + apple-touch-icon
+  icon/           纯图标（只有叶片）—— 品牌资产的源头。SVG/PDF + 16–2048 PNG/WebP 阶梯
+  logo/           横版 / 竖版字标，由 icon + 文字路径生成 + 黑白单色变体
+  favicon/        favicon.svg/.ico + 16–48 PNG + apple-touch-icon + PWA 图标 + manifest
   photo/          人物照、首页主视觉
   README.md       尺寸、留白、使用规则 —— 数值都是线上实测的
 
@@ -33,6 +33,7 @@ docs/
 
 scripts/
   build-tokens.mjs  从 core.css 生成 tokens.json
+  build-brand.mjs   从 icon.svg + 文字路径生成全部字标（SVG/PNG/PDF + 黑白）
 ```
 
 ## 怎么用
@@ -55,6 +56,7 @@ scripts/
 
 ```bash
 npm run build:tokens     # 重新生成 tokens.json
+npm run build:brand      # 改了 icon 之后：重新生成字标与单色变体（需要本机 Chrome）
 # 提交，在 CHANGELOG.md 记一行「改了什么 + 为什么」
 ```
 
@@ -92,11 +94,12 @@ npm run build:tokens     # 重新生成 tokens.json
 
 logo、favicon、照片在 [`brand/`](brand/)，用法规则见 [brand/README.md](brand/README.md)。
 
-**色板以 logo 为准。** 主色 `#003a89`、punch `#e63946`、steel `#457b9d` 均直接取自
-logo 源文件；UI 色板从 logo 推导，不是反过来。详见 [brand/README.md](brand/README.md)。
+**色板是标准，icon 是它的渐变表现。** 主色 `#003a89`、punch `#e63946`、steel `#457b9d`
+以令牌为准；icon（2026-09 起为渐变版）里的色值只属于 icon，不要吸色当品牌色用。
+详见 [brand/README.md](brand/README.md)。
 
-三种形态都有 SVG —— 横版（官方导出）、竖版与纯图标（由横版路径重排/裁切，
-与官方 PNG 像素比对吻合 99.29%）。深底白版、黑版、favicon 齐备。
+纯图标 `brand/icon/icon.svg` 是源头；横版、竖版字标由它和字标文字路径拼合生成。
+三种形态都有 SVG / PDF / PNG，深底白版、黑版、favicon、PWA 图标齐备。
 
 YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别家公司的商标。
 
@@ -123,7 +126,7 @@ YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别
 
 ## 品牌色板
 
-取自 logo 源文件（`brand/logo/wordmark-landscape.svg`）：
+三支品牌标准色（icon 以渐变表现前两支）：
 
 ```
 #003a89  海军蓝（主色）    #e63946  红        #457b9d  青灰
@@ -139,8 +142,7 @@ YouTube / 哔哩哔哩 / Shopify 等第三方标不在这里 —— 它们是别
 交互蓝（板外，用于工具页按钮）：`#165dfc` / `#0e48d6` / `#e8eefe`。
 
 ⚠ **白字压 punch 基色 `#e63946` 只有 4.17:1，过不了 AA。** 因此语义别名
-`--color-error` 指向 `punch-dark #b72d38`（6.09:1）；基色只作图形填充，
-不可更改 —— 它是 logo 的真实颜色。
+`--color-error` 指向 `punch-dark #b72d38`（6.09:1）；基色只作图形填充。
 
 ## 字体
 

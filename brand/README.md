@@ -4,61 +4,86 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 
 ---
 
-## 色板以 logo 为准
+## 色板与 icon 的关系
 
-logo 源文件里只有三个颜色，它们是色板的权威来源：
+**色板是品牌标准色的权威来源，icon 用渐变来表现它。** 2026-09 起叶片换成渐变版
+（左蓝右红、多层色面），渐变里的每一个色值都只属于 icon，不进色板。需要品牌蓝、
+品牌红的地方一律取令牌，不要从 icon 吸色。
 
-| logo 用色 | 位置 | 对应令牌 |
+| 标准色 | 在 logo 里 | 对应令牌 |
 |---|---|---|
-| `#003a89` | 叶片左半 + 全部文字 | `--color-jacksons-purple`（主色） |
-| `#e63946` | 叶片右半 | `--color-punch` |
-| `#457b9d` | 叶柄 | `--color-steel` |
-
-**方向是单向的：UI 色板从 logo 推导，不是反过来。** logo 是品牌里最固定的一环 ——
-印刷品、mockup、第三方平台上都在用，改它的代价远大于改 UI。
+| `#003a89` | 字标文字；叶片蓝色渐变（`#04347f`–`#073a8a`）的中心色调 | `--color-jacksons-purple`（主色） |
+| `#e63946` | 叶片红色渐变（`#e9232d`–`#ff432e`）更饱和，不取代它 | `--color-punch` |
+| `#457b9d` | 不再出现（叶柄已改为蓝色） | `--color-steel`，保留为 UI 辅助色 |
 
 三条色阶按系统统一的步长展开（浅三档混白 89.8 / 79.7 / 29.9%，深三档乘
 0.797 / 0.399 / 0.297）。
 
 **⚠ 派生规则：** 白字压 `#e63946` 只有 4.17:1，过不了 AA。因此语义别名
-`--color-error` 指向 `punch-dark #b72d38`（6.09:1）。**基色本身不可更改** ——
-它是 logo 的真实颜色，只作图形填充。
+`--color-error` 指向 `punch-dark #b72d38`（6.09:1）。基色本身只作图形填充。
 
 `#457b9d` / `#e63946` / `#a8dadc` 是一套成组的配色，`--color-aqua-island`
 即其中的 `#a8dadc`。
 
 ---
 
+## 纯图标 — 主资产
+
+`icon/icon.svg` 是整套品牌资产的**源头**：只有叶片，用于头像、应用图标、需要
+正方形且不放文字的地方。横版、竖版字标都由它拼出来（见下）。
+
+| 文件 | 用途 |
+|---|---|
+| `icon/icon.svg` | **主资产。** 矢量，真实贝塞尔路径 + 线性渐变，非内嵌位图 |
+| `icon/icon.pdf` | 印刷，矢量，渐变保留为原生渐变 |
+| `icon/icon.png` | 2048² 位图 |
+| `icon/icon-black.svg` / `.png` | 单色黑，整片剪影 |
+| `icon/icon-white.svg` / `.png` | 单色白，整片剪影 —— **深底用这个** |
+| `icon/png/icon-{16…2048}.png` | 14 档透明 PNG，按显示尺寸取，高密度屏取 2 倍 |
+| `icon/webp/icon-{128…2048}.webp` | 5 档无损透明 WebP |
+| `icon/_source-raster.png` | 精修原图（位图），SVG 据此重建；仅作比对参考 |
+
+画布 1254 × 1254，**自带留白**（叶片约占 79%）。所有尺寸留白一致，不要裁切、
+拉伸或再旋转。SVG 内所有 id 带 `wt-` 前缀，内联进页面时不会与别的 SVG 冲突。
+
+- **深底：** 彩色叶片的蓝色部分在深底上对比度不足（压 `#0b1220` 仅 1.77:1），
+  用 `-white` 或白底应用图标。
+- **小尺寸：** 16–32px 下色面细节自然合并，轮廓仍可辨认，未另做简化版。
+- **单色版：** 渐变色块拆不成单色层次，单色版是叶片外轮廓的整片剪影。
+
+---
+
 ## Logo
+
+横版、竖版都由 `npm run build:brand`（`scripts/build-brand.mjs`）生成：
+`icon/icon.svg` 的叶片 + `logo/_text-paths.svg` 的字标文字。**不要手改产物。**
+叶片换了就重跑一遍，SVG / PNG / PDF 与黑白变体全部重新生成。
+
+排布沿用上一版官方字标实测的位置：新叶片高度 = 旧叶片高度；横版右缘贴旧叶片右缘，
+与文字的间隙不变；竖版叶片水平居中。
+
+`.ai` 源文件里的字标仍是旧叶子。设计师从 `.ai` 导出新版正式字标后，直接覆盖
+`logo/` 下的产物，并停用脚本的字标部分。
 
 ### 横版 — 页头、名片、视频片头
 
 | 文件 | 用途 |
 |---|---|
-| `logo/wordmark-landscape.svg` | **主资产。** 矢量，1500×1500 viewBox，三色 |
+| `logo/wordmark-landscape.svg` | **主资产。** 矢量，画布贴合内容（1071 × 255） |
 | `logo/wordmark-landscape.pdf` | 印刷 |
-| `logo/wordmark-landscape.png` | 位图导出 |
-| `logo/wordmark-landscape-black.png` | 单色黑 —— 浅底、单色印刷 |
-| `logo/wordmark-landscape-white.png` | 单色白 —— **深底用这个** |
+| `logo/wordmark-landscape.png` | 位图导出，4463 × 1062 |
+| `logo/wordmark-landscape-black.svg` / `.png` | 单色黑 —— 浅底、单色印刷 |
+| `logo/wordmark-landscape-white.svg` / `.png` | 单色白 —— **深底用这个** |
 
 ### 竖版 — 头像、方形版位、印刷封面
 
-`logo/wordmark-portrait.svg` 是主资产，另有 `.pdf` / `.png` + `-black` / `-white` 变体。
-叶片在上、文字在下。
+`logo/wordmark-portrait.svg` 是主资产（761.1 × 590.3），另有 `.pdf` / `.png` +
+`-black` / `-white` 的 SVG 与 PNG。叶片在上、文字在下。
 
-**这个 SVG 由横版重新组合而来，不是从 `.ai` 直接导出的**：路径取自
-`wordmark-landscape.svg`，逐字未改，只按官方 `wordmark-portrait.png` 实测的比例
-重新排布 —— 叶子相对文字放大 1.595 倍、间隙为文字高度的 26.77%。
-跟官方 PNG 做过像素比对：**形状吻合 99.29%、颜色吻合 99.92%**，差异全在边缘抗锯齿。
-要绝对权威的版本，从 `.ai` 源文件重新导出覆盖它。
+### 字标文字
 
-### 纯图标 — 无字标形态
-
-`icon/icon.svg` 是主资产，另有 `.pdf` / `.png` + `-black` / `-white`。只有叶片，
-用于头像、应用图标、需要正方形且不放文字的地方。
-
-viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白由使用方决定。
-同样由 landscape SVG 的 `#_x35_` 组裁出，路径逐字未改。
+`logo/_text-paths.svg` 是「梧桐小讲堂」五个字的路径，逐字取自官方 Illustrator
+导出的横版字标（1.1.0）。它是生成字标的输入，不单独使用。
 
 ### 站点当前在用的导出品
 
@@ -67,6 +92,9 @@ viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白
 - `logo/_site-header-export.png` — 页头在用的 2560×619 PNG
 - `logo/_site-footer-export.webp` — 页脚在用的浮雕锁形
 
+⚠ **这两个仍是旧叶子**（1.1.0），与现行 icon 不一致。页头换成 `wordmark-landscape.svg`
+即可；页脚浮雕锁形需要设计师按新叶片重做，重做前保留旧版。
+
 **页头应使用 `wordmark-landscape.svg`。** 把 2560px 宽的 PNG 缩到 165px 显示是
 错误做法，字标必须走矢量。
 
@@ -74,7 +102,7 @@ viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白
 
 | | |
 |---|---|
-| 页头字标渲染 | **165 × 40 px**，高度令牌 `--spacing-logo` = `2.5rem` |
+| 页头字标渲染 | **165 × 40 px**（旧 PNG），高度令牌 `--spacing-logo` = `2.5rem`；换新 SVG 后为 168 × 40 |
 | 页脚锁形渲染 | **297 × 120 px**，高度令牌 `--spacing-logo-footer` = `7.5rem` |
 | 页头左侧留白 | 页面 gutter 5%（1500px 视口下约 75px） |
 | 页头上下余量 | header 73px − 字标 40px = 上下各 16px |
@@ -95,11 +123,13 @@ viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白
 | 文件 | 尺寸 | 用途 |
 |---|---|---|
 | `favicon/favicon.svg` | 矢量 | 浏览器标签页。站上唯一声明的那个 |
-| `favicon/favicon-96x96.png` | 96 | 传统 favicon 回退 |
-| `favicon/apple-touch-icon.png` | — | iOS 主屏 |
-| `favicon/web-app-manifest-192x192.png` | 192 | PWA |
-| `favicon/web-app-manifest-512x512.png` | 512 | PWA |
-| `favicon/favicon-512.png` | 512 | 站点现有导出 |
+| `favicon/favicon.ico` | 16/32/48 | 老浏览器回退 |
+| `favicon/favicon-16.png` / `-32` / `-48` | 16–48 | PNG 回退 |
+| `favicon/apple-touch-icon.png` | 180，白底 | iOS 主屏，不预裁圆角 |
+| `favicon/android-chrome-192x192.png` | 192，白底 | PWA |
+| `favicon/android-chrome-512x512.png` | 512，白底 | PWA |
+| `favicon/app-icon-1024.png` | 1024，白底 | 应用商店等大图 |
+| `favicon/site.webmanifest` | — | 示例清单，引用 192/512 两张 |
 
 站上 `BaseLayout.astro` 只声明了 SVG 一个：
 
@@ -107,7 +137,16 @@ viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 ```
 
-其余文件需要各自的 `<link>` 声明才会生效；PWA 那两个还需要一个 `manifest.json`。
+其余文件需要各自的声明才会生效：
+
+```html
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+```
+
+`site.webmanifest` 的路径相对于清单文件本身，部署时按实际目录调整。PWA 图标声明为
+`any`，不是 maskable。
 
 ---
 
@@ -127,8 +166,9 @@ viewBox 紧贴图形（237.8 × 254.94），**没有内建留白** —— 留白
 `.ai` / `.eps` 源文件留在 Zoho 的 `Marketing/Logo/梧桐小讲堂/`，本仓库只收可直接
 使用的导出格式。要改 logo 本身，回源文件改，再重新导出到这里。
 
-`.ai` 实际是 PDF 1.5 容器，可用 `pdf2svg` / `mutool` / `inkscape` 转换。竖版与图标的
-SVG 目前由横版重新组合而来（见上），有条件时应从 `.ai` 直接导出覆盖。
+纯图标的交付包（含 favicon / 应用图标）在 `Marketing/Logo/梧桐小讲堂/icon/`。
+`.ai` 实际是 PDF 1.5 容器，可用 `pdf2svg` / `mutool` / `inkscape` 转换。字标目前由
+脚本拼合（见上），`.ai` 更新后应直接导出覆盖。
 
 ## 第三方标不在这里
 

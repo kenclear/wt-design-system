@@ -119,7 +119,9 @@
        上下六档按这套设计原有的步长推出来，明暗关系不变：
          lightest/lighter/light = 基色混白 89.8% / 79.7% / 29.9%
          dark/darker/darkest    = 基色乘 0.797 / 0.399 / 0.297
-       白字压基色 10.68:1（原 10.60）。 */
+       白字压基色 10.68:1（原 10.60）。
+       2026-09 icon 改为渐变版后，它仍是字标文字的颜色，也是叶片蓝色渐变
+       （#04347f–#073a8a）的中心色调。色板是标准，icon 是它的渐变表现。 */
     --color-jacksons-purple-lightest: #e5ebf3;
     --color-jacksons-purple-lighter: #cbd7e7;
     --color-jacksons-purple-light: #4c75ac;
@@ -162,7 +164,9 @@
        换来，同一次向 logo 对齐。
        ⚠ 白字压这个基色只有 4.17:1，过不了 AA（原来的 #d93730 是 4.63）。
        所以语义别名 --color-error 指向 -dark 那一档而不是基色，见下面。
-       基色本身留作图形/填充用，它是 logo 的真实颜色。 */
+       基色本身留作图形/填充用。
+       2026-09 起 icon 的红是更饱和的渐变（#e9232d–#ff432e），只属于 icon；
+       品牌红仍以这个基色为准，不要从 icon 吸色。 */
     --color-punch-lightest: #fcebec;
     --color-punch-lighter: #fad7d9;
     --color-punch-light: #ed747d;
@@ -176,7 +180,9 @@
        84.8 的色距。
        #457b9d / #e63946 / #a8dadc 本就是一套成组的配色，而 --color-aqua-island
        正好就是 #a8dadc —— 说明 logo 用的是这一套，站点的蓝和红后来漂走了。
-       白字压基色 4.59:1，刚过 AA；要承载文字优先用 -dark（6.55:1）。 */
+       白字压基色 4.59:1，刚过 AA；要承载文字优先用 -dark（6.55:1）。
+       2026-09 起渐变版 icon 的叶柄改为蓝色，steel 不再出现在 logo 里，
+       保留为 UI 辅助色，与 #a8dadc / #e63946 的成组关系不变。 */
     --color-steel-lightest: #ecf2f5;
     --color-steel-lighter: #d9e4eb;
     --color-steel-light: #7da2ba;
