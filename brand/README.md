@@ -62,8 +62,8 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 排布沿用上一版官方字标实测的位置：新叶片高度 = 旧叶片高度；横版右缘贴旧叶片右缘，
 与文字的间隙不变；竖版叶片水平居中。
 
-`.ai` 源文件里的字标仍是旧叶子。设计师从 `.ai` 导出新版正式字标后，直接覆盖
-`logo/` 下的产物，并停用脚本的字标部分。
+**这就是正式字标，没有别的源文件。** 要改 logo，改 `icon/icon.svg`（或
+`_text-paths.svg`）再重跑脚本；不需要 Illustrator。
 
 ### 横版 — 页头、名片、视频片头
 
@@ -160,14 +160,28 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 
 ---
 
-## 源文件不在这里
+## 源文件
 
-`.ai` / `.eps` 源文件留在 Zoho 的 `Marketing/Logo/梧桐小讲堂/`，本仓库只收可直接
-使用的导出格式。要改 logo 本身，回源文件改，再重新导出到这里。
+**本仓库的 SVG 就是源文件。** `icon/icon.svg` 是一切的起点，字标由它生成。
+SVG 可以在 Figma、Inkscape、Affinity Designer、Illustrator 中打开编辑。
 
-纯图标的交付包（含 favicon / 应用图标）在 `Marketing/Logo/梧桐小讲堂/icon/`。
-`.ai` 实际是 PDF 1.5 容器，可用 `pdf2svg` / `mutool` / `inkscape` 转换。字标目前由
-脚本拼合（见上），`.ai` 更新后应直接导出覆盖。
+`.ai` 已停用。旧版（三色扁平叶片）的 `.ai` / `.eps` 存档在 Zoho 的
+`Marketing/Logo/梧桐小讲堂/存档/`，只作历史参考。
+
+对外交付给 PDF：矢量，渐变保留为原生渐变，印刷厂普遍接受。对方坚持要 `.ai` 的，
+把 PDF 的扩展名改成 `.ai`，Illustrator 能正常打开编辑 —— 旧 `.ai` 本来也是
+PDF 容器，只是少了 Illustrator 自己的编辑记录。
+
+Zoho 里放一份可直接取用的副本，方便对外发送：
+
+| Zoho `Marketing/Logo/梧桐小讲堂/` | 内容 |
+|---|---|
+| `icon/` | 纯图标交付包，含 favicon / 应用图标 |
+| `logo/` | 横版、竖版字标（SVG / PDF / PNG + 黑白），复制自本仓库 `brand/logo/` |
+| `存档/` | 旧版 `.ai` / `.eps` 与历史导出 |
+
+**方向是单向的：仓库 → Zoho。** 改完仓库后把 `brand/logo/` 的新文件复制到 Zoho 的
+`logo/`，不要在 Zoho 里直接改。
 
 ## 第三方标不在这里
 
