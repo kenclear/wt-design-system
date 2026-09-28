@@ -19,9 +19,13 @@
  *
  * 位图用本机 Chrome 无头渲染（可用 CHROME 环境变量覆盖），JPG 由 macOS sips 转换。
  *
- * 用法：npm run build:kit [-- 输出目录]    默认输出到 dist/常用/（不入库）
+ * 同时输出 logo/ 与 icon/：brand/ 主资产的副本，按同一命名规则改名，给 Zoho
+ * 「设计/logo/」「设计/icon/」用。仓库里的主资产保持英文名不动 —— 站点和脚本按那些
+ * 名字引用。icon/ 里 favicon/ 与 app/ 的文件保留原名：那是网站约定俗成的固定名字。
+ *
+ * 用法：npm run build:kit [-- 输出目录]    默认输出到 dist/（不入库），生成 dist/常用/、logo/、icon/
  */
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, copyFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -29,7 +33,8 @@ import { tmpdir } from 'node:os';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const brand = (p) => join(root, 'brand', p);
-const OUT = resolve(process.argv[2] ?? join(root, 'dist', '常用'));
+const DIST = resolve(process.argv[2] ?? join(root, 'dist'));
+const OUT = join(DIST, '常用');
 const CHROME = process.env.CHROME ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 const BG = { 白底: '#ffffff', 黑底: '#000000', 深蓝底: '#003a89' };
@@ -106,5 +111,46 @@ for (const [form, base] of [['横版', 'logo/wordmark-landscape'], ['竖版', 'l
   }
 }
 
+// logo/：主资产原尺寸副本，改名为 形态-颜色[-透明底-宽x高]
+const LOGO_OUT = join(DIST, 'logo');
+let logoCount = 0;
+const pngSize = (p) => execFileSync('sips', ['-g', 'pixelWidth', '-g', 'pixelHeight', p], { encoding: 'utf8' })
+  .match(/\d+/g).slice(-2).join('x');
+for (const [form, base] of [['横版', 'logo/wordmark-landscape'], ['竖版', 'logo/wordmark-portrait']]) {
+  mkdirSync(join(LOGO_OUT, form), { recursive: true });
+  for (const [color, v] of Object.entries(VARIANT)) {
+    const exts = color === '彩色' ? ['svg', 'pdf'] : ['svg'];
+    for (const ext of exts) {
+      copyFileSync(brand(`${base}${v}.${ext}`), join(LOGO_OUT, form, `${form}-${color}.${ext}`));
+      logoCount++;
+    }
+    const png = brand(`${base}${v}.png`);
+    copyFileSync(png, join(LOGO_OUT, form, `${form}-${color}-透明底-${pngSize(png)}.png`));
+    logoCount++;
+  }
+}
+
+// icon/：纯图标交付包，尺寸阶梯改名为 icon-彩色-透明底-宽x高
+const ICON_OUT = join(DIST, 'icon');
+let iconCount = 0;
+const put = (src, rel) => {
+  mkdirSync(dirname(join(ICON_OUT, rel)), { recursive: true });
+  copyFileSync(src, join(ICON_OUT, rel));
+  iconCount++;
+};
+put(brand('icon/icon.svg'), 'svg/icon-彩色.svg');
+put(brand('icon/_source-raster.png'), 'icon-精修原图-1254x1254.png');
+for (const ext of ['png', 'webp']) {
+  const dir = brand(`icon/${ext}`);
+  for (const f of readdirSync(dir).filter((f) => f.endsWith(`.${ext}`))) {
+    const n = f.match(/icon-(\d+)\./)[1];
+    put(join(dir, f), `${ext}/icon-彩色-透明底-${n}x${n}.${ext}`);
+  }
+}
+for (const f of ['favicon.svg', 'favicon.ico', 'favicon-16.png', 'favicon-32.png', 'favicon-48.png']) put(brand(`favicon/${f}`), `favicon/${f}`);
+for (const f of ['apple-touch-icon.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'app-icon-1024.png', 'site.webmanifest']) put(brand(`favicon/${f}`), `app/${f}`);
+
 rmSync(tmp, { recursive: true });
 console.log(`✓ 常用包 ${count} 个文件 → ${OUT}`);
+console.log(`✓ logo ${logoCount} 个文件 → ${LOGO_OUT}`);
+console.log(`✓ icon ${iconCount} 个文件 → ${ICON_OUT}`);

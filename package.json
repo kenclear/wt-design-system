@@ -1,6 +1,6 @@
 {
   "name": "wt-design-system",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "梧桐小讲堂设计系统 —— 令牌、字体与规范",
   "private": true,
   "type": "module",

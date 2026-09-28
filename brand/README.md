@@ -174,13 +174,19 @@ Zoho 里放一份可直接取用的副本，方便对外发送：
 
 | Zoho `Marketing/Logo/梧桐小讲堂/` | 内容 |
 |---|---|
-| `icon/` | 纯图标交付包，含 favicon / 应用图标 |
-| `logo/` | 横版、竖版字标（SVG / PDF / PNG + 黑白），复制自本仓库 `brand/logo/` |
+| `设计/icon/` | 纯图标交付包（SVG、PNG/WebP 尺寸阶梯、favicon、应用图标），`brand/icon/` + `brand/favicon/` 按中文规则改名的副本 |
+| `设计/logo/` | 横版、竖版字标原尺寸（SVG / PDF / PNG + 黑白），`brand/logo/` 按中文规则改名的副本 |
 | `常用/` | 日常取用包：透明底 / 白底 / 黑底 / 深蓝底 / icon / 矢量，由 `npm run build:kit` 生成 |
 | `存档/` | 旧版 `.ai` / `.eps` 与历史导出 |
 
-**方向是单向的：仓库 → Zoho。** 改完仓库后把 `brand/logo/` 的新文件复制到 Zoho 的
-`logo/`，重跑 `npm run build:kit` 覆盖 Zoho 的 `常用/`，不要在 Zoho 里直接改。
+**方向是单向的：仓库 → Zoho。** 改完仓库后重跑 `npm run build:kit`，用 `dist/常用/`
+覆盖 Zoho 的 `常用/`、`dist/logo/` 覆盖 `设计/logo/`、`dist/icon/` 覆盖 `设计/icon/`（均保留各自的
+README.md），不要在 Zoho 里直接改。
+
+Zoho 里的文件名统一为 **形态-颜色-底色-宽x高**（如 `横版-彩色-透明底-4463x1062.png`；
+矢量文件只到颜色，如 `横版-彩色.svg`），形态为 横版 / 竖版 / icon，不带品牌名。
+`favicon/`、`app/` 里的文件保留网站约定俗成的原名。仓库里的主资产保持英文名 —— 站点和
+脚本按那些名字引用。
 
 `常用/` 的规则：深色底（黑、品牌深蓝）一律用白色版；有底色的图出 PNG + JPG；字标四周
 留白为字标高度的 42%；`icon/` 为 1080² 方形图标（可作社交头像），叶片缩在中央 62% 以内，裁成圆形不会切到。

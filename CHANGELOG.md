@@ -264,3 +264,18 @@ favicon 同步到 wutong.org，并更正文档里的站点声明。
   这组是 1080² 的方形图标，用途不止社交头像，按「头像」命名会让人以为只能用在那里。
 - 其余文件夹里只有叶片的那一形态，文件名由「图标-」统一改为「icon-」
   （如 `icon-彩色-白底-1024x1024.png`、`矢量/icon-彩色.svg`），与 `icon/` 文件夹一致。
+
+## 1.4.3 — 2026-09-28
+
+- Zoho `设计/logo/` 按常用包的规则改名：文件夹 `landscape/` / `portrait/` → `横版/` / `竖版/`，
+  文件如 `wordmark-landscape.png` → `横版-彩色-透明底-4463x1062.png`、
+  `wordmark-landscape-white.svg` → `横版-白色.svg`。内容逐字节未变。
+- Zoho `设计/icon/` 同样改名：`png/wutong-icon-512.png` → `png/icon-彩色-透明底-512x512.png`、
+  `svg/wutong-icon.svg` → `svg/icon-彩色.svg`、`wutong-refined-original.png` →
+  `icon-精修原图-1254x1254.png`。`favicon/`、`app/` 保留网站约定的原名。SVG 换成仓库版本
+  （仅多了 `wt-` id 前缀），其余文件逐字节未变。
+- `build-kit` 同时输出 `dist/logo/` 与 `dist/icon/`（主资产按中文规则改名的副本），Zoho 同步
+  不再手工复制改名。
+  输出目录参数改为上层目录（默认 `dist/`）。
+- brand/README 的 Zoho 目录表更新为实际结构（`icon/`、`logo/` 已移入 `设计/`），并写明命名规则。
+  仓库里 `brand/` 的主资产保持英文名：站点与脚本按这些名字引用。
