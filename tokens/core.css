@@ -518,15 +518,17 @@
      * the design's --space-4. Only the semantic rhythm needs tokens.
      * ============================================================== */
     --spacing-gutter: 5%;
-    /* Brand mark heights. The header runs the flat wordmark. The footer runs the
-       embossed version, whose artboard carries ~44% empty margin — hence the
-       much larger box for a mark that ends up only slightly bigger on screen. */
+    /* Brand mark heights. Header and footer both run wordmark-landscape.svg,
+       whose canvas is cropped to the artwork — the token is the mark's real
+       height. 40px → 168×40 in the header, 60px → 252×60 in the footer.
+       (The footer used an embossed lockup until 1.3.0; its artboard carried
+       ~44% empty margin, which is why this used to be 7.5rem.) */
 
     /* 紧凑工具卡的 logo 方块。48px，跟名字排一行；旧卡那个 aspect-video 图版
        在 359px 宽的卡上要吃掉 202px，一张卡 42% 的高度是个空盒子。 */
 
     --spacing-logo: 2.5rem;
-    --spacing-logo-footer: 7.5rem;
+    --spacing-logo-footer: 3.75rem;
     /* Section rhythm — retuned to the homepage's cadence (14 / 20 / 28 on the
        spacing scale). The homepage was settled first and every other page is
        being brought onto it, so these tokens now carry that rhythm rather than

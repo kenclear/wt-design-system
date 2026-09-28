@@ -90,23 +90,22 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 带 `_` 前缀的两个是**派生物**，不是主资产：
 
 - `logo/_site-header-export.png` — 页头在用的 2560×619 PNG
-- `logo/_site-footer-export.webp` — 页脚在用的浮雕锁形
+- `logo/_site-footer-export.webp` — 页脚曾用的浮雕锁形
 
-⚠ **这两个仍是旧叶子**（1.1.0），与现行 icon 不一致。页头换成 `wordmark-landscape.svg`
-即可；页脚浮雕锁形需要设计师按新叶片重做，重做前保留旧版。
+⚠ **这两个都是旧叶子，已停用**，仅作存档。站点页头、页脚自 1.3.0 起都用
+`wordmark-landscape.svg`，页脚不再用浮雕效果。
 
-**页头应使用 `wordmark-landscape.svg`。** 把 2560px 宽的 PNG 缩到 165px 显示是
-错误做法，字标必须走矢量。
+**字标必须走矢量。** 不要把大尺寸 PNG 缩到几十像素高显示。
 
 ### 站上的实测尺寸
 
 | | |
 |---|---|
-| 页头字标渲染 | **165 × 40 px**（旧 PNG），高度令牌 `--spacing-logo` = `2.5rem`；换新 SVG 后为 168 × 40 |
-| 页脚锁形渲染 | **297 × 120 px**，高度令牌 `--spacing-logo-footer` = `7.5rem` |
+| 页头字标渲染 | **168 × 40 px**，高度令牌 `--spacing-logo` = `2.5rem` |
+| 页脚字标渲染 | **252 × 60 px**，高度令牌 `--spacing-logo-footer` = `3.75rem` |
 | 页头左侧留白 | 页面 gutter 5%（1500px 视口下约 75px） |
 | 页头上下余量 | header 73px − 字标 40px = 上下各 16px |
-| 页脚 hover | 上浮 4px、亮度 105%、500ms。**不加阴影** —— 投影会让金属质感发闷 |
+| 页脚 hover | 上浮 4px、500ms，不加阴影 |
 
 ### 使用规则
 
