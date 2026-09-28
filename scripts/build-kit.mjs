@@ -6,7 +6,7 @@
  * 「白底的横版 logo」「深色底的白色图标」「社交头像」这类现成图 —— 每次临时去
  * 拼一张，底色、留白都会漂。这里把它们一次性按规则生成，logo 改了重跑即可。
  *
- * 命名：形态-颜色-底色-宽x高（如 横版-彩色-白底-2400x876.png）。不带品牌名 ——
+ * 命名：形态-颜色-底色-宽x高（如 横版-彩色-白底-2400x876.png）。形态为 横版 / 竖版 / icon。不带品牌名 ——
  * 整个文件夹都是梧桐小讲堂的；尺寸放最后，在 Finder 里被截断时也还看得见。
  * 矢量文件不标尺寸。
  *
@@ -14,7 +14,8 @@
  *   - 深色底（黑 / 品牌深蓝）一律用白色单色版：彩色叶片的蓝色在深底上看不清。
  *   - 有底色的图出 PNG + JPG（有些平台不收透明图）；透明底只出 PNG。
  *   - 字标四周留白 = 字标高度的 42%（规范下限 40%）。
- *   - 头像 1080²，叶片缩在画布中央 62% 以内，裁成圆形也不会切到叶片。
+ *   - icon/ 为 1080² 的方形图标（可作社交头像），叶片缩在画布中央 62% 以内，
+ *     裁成圆形也不会切到叶片。
  *
  * 位图用本机 Chrome 无头渲染（可用 CHROME 环境变量覆盖），JPG 由 macOS sips 转换。
  *
@@ -38,7 +39,7 @@ const viewBox = (p) => readFileSync(brand(p), 'utf8').match(/viewBox="([^"]+)"/)
 const FORMS = {
   横版: { svg: (v) => `logo/wordmark-landscape${v}.svg`, w: 2000 }, // 字标宽 2000px
   竖版: { svg: (v) => `logo/wordmark-portrait${v}.svg`, w: 1600 },
-  图标: { svg: (v) => `icon/icon${v}.svg`, w: 1024, square: true }, // icon.svg 自带留白
+  icon: { svg: (v) => `icon/icon${v}.svg`, w: 1024, square: true }, // icon.svg 自带留白
 };
 const VARIANT = { 彩色: '', 黑色: '-black', 白色: '-white' };
 
@@ -69,7 +70,7 @@ const canvas = (form) => {
   return { W: f.w + pad * 2, H: h + pad * 2, w: f.w };
 };
 
-for (const dir of ['透明底', ...Object.keys(BG), '头像', '矢量']) mkdirSync(join(OUT, dir), { recursive: true });
+for (const dir of ['透明底', ...Object.keys(BG), 'icon', '矢量']) mkdirSync(join(OUT, dir), { recursive: true });
 
 // 透明底：三形态 × 三色
 for (const form of Object.keys(FORMS)) {
@@ -90,15 +91,15 @@ for (const [bgName, bg] of Object.entries(BG)) {
   }
 }
 
-// 头像：1080²，图标画布（1254²，叶片占约 79%）缩到 830px，叶片约占画布 62%
+// icon：1080²，图标画布（1254²，叶片占约 79%）缩到 830px，叶片约占画布 62%
 for (const [bgName, color] of [['白底', '彩色'], ['深蓝底', '白色']]) {
-  const png = join(OUT, '头像', `头像-${color}-${bgName}-1080x1080.png`);
-  render(FORMS.图标.svg(VARIANT[color]), 1080, 1080, 830, BG[bgName], png);
+  const png = join(OUT, 'icon', `icon-${color}-${bgName}-1080x1080.png`);
+  render(FORMS.icon.svg(VARIANT[color]), 1080, 1080, 830, BG[bgName], png);
   toJpg(png);
 }
 
 // 矢量：主资产的副本，换成中文名
-for (const [form, base] of [['横版', 'logo/wordmark-landscape'], ['竖版', 'logo/wordmark-portrait'], ['图标', 'icon/icon']]) {
+for (const [form, base] of [['横版', 'logo/wordmark-landscape'], ['竖版', 'logo/wordmark-portrait'], ['icon', 'icon/icon']]) {
   for (const ext of ['svg', 'pdf']) {
     copyFileSync(brand(`${base}.${ext}`), join(OUT, '矢量', `${form}-彩色.${ext}`));
     count++;
