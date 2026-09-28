@@ -130,19 +130,17 @@ logo、图标、favicon、照片。所有尺寸和留白数值都是从 wutong.o
 | `favicon/app-icon-1024.png` | 1024，白底 | 应用商店等大图 |
 | `favicon/site.webmanifest` | — | 示例清单，引用 192/512 两张 |
 
-站上 `BaseLayout.astro` 只声明了 SVG 一个：
-
-```html
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-```
-
-其余文件需要各自的声明才会生效：
+站上 `BaseLayout.astro` 的声明（2026-09 起）：
 
 ```html
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 ```
+
+ico 给不认 SVG 的旧浏览器兜底，SVG 在其后声明，支持的浏览器优先用它。站点另把
+`icon/png/icon-512.png` 以 `favicon-512.png` 放在根目录，作为结构化数据里的组织 logo。
 
 `site.webmanifest` 的路径相对于清单文件本身，部署时按实际目录调整。PWA 图标声明为
 `any`，不是 maskable。

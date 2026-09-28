@@ -245,3 +245,15 @@ steel 保留为 UI 辅助色，与 `#a8dadc` / `#e63946` 的成组关系不变�
   尺寸放最后，Finder 截断长文件名时也看得见。矢量文件不标尺寸。
 - 深色底一律用白色版：彩色叶片的蓝色在深底上对比度不足。
 - 输出到 `dist/`，不入库 —— 它是产物，随时可以重新生成。
+
+## 1.4.1 — 2026-09-28
+
+favicon 同步到 wutong.org，并更正文档里的站点声明。
+
+- **文档此前写「站上只声明了 SVG」，与事实不符。** 站上实际只声明了一个
+  `favicon.png`，而那是 2634 × 2824 的旧叶子大图（94KB、非正方形）；`favicon.svg`
+  虽然在 `public/` 里，但没有声明，从未生效。
+- 站点现在声明 ico + svg + apple-touch-icon + manifest，文件全部来自 `brand/favicon/`。
+  brand/README 与文档第 01 节按实际声明改写。
+- `site.webmanifest` 的 `name` 由「梧桐」改为「梧桐小讲堂」，`short_name` 保留「梧桐」
+  （主屏图标下的短名）。
