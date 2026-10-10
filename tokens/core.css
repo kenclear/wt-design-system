@@ -8,7 +8,7 @@
  *
  * 这里放的是「跨站点通用」的东西：六条色阶、语义别名、类型标尺、圆角、间距、
  * 容器、断点、阴影、动效、装饰层。
- * 只属于本站某一页的东西（工具卡、筛选 chip、快装包导航底色）在 site.css。
+ * 只属于本站某一页的东西（工具卡、筛选 chip）在 site.css。
  *
  * ----------------------------------------------------------------------------
  * 维护铁律（完整版见设计系统仓库的 docs/）
@@ -253,12 +253,6 @@
     --color-secondary: var(--color-flamingo);
     --color-secondary-dark: var(--color-flamingo-dark);
     --color-secondary-light: var(--color-flamingo-light);
-    /* 导航里那个「Shopify 快装包」的底。
-       色相取自 Shopify 自己的品牌绿 —— shopify.svg 里量到的是 #95bf47，
-       本站色板里最接近的是 sulu-dark #80bc69（色距 40，同一族），所以用后者
-       兑白推出来，不引色板外的色号。
-       混白 85% 是照着原来那支珊瑚淡底的亮度反推的（两边都是 L≈0.886）——
-       只换色相，不改轻重。字仍旧是正文色，压在这两档底上都是 14.7:1 以上。 */
     --color-accent: var(--color-aqua-island);
     --color-accent-dark: var(--color-aqua-island-dark);
     --color-accent-light: var(--color-aqua-island-light);
