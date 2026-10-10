@@ -325,10 +325,6 @@
     font-weight:600; color:#92600a; }
   .d-eyebrow { font-size:.75rem; font-weight:600; letter-spacing:.12em; color:#6f6b6a; }
   .d-rule { display:block; width:3rem; height:2px; background:#f2673f; }
-  .d-navfeat { display:inline-flex; align-items:center; justify-content:center;
-    border-radius:6.25rem; font-size:1rem; font-weight:500; color:#231c1b;
-    background:#ecf5e8; padding:.375rem 1.25rem; }
-  .d-navfeat.hov { background:#ddedd6; transform:translateY(-2px); }
   .d-input { width:100%; max-width:26rem; border-radius:999px; border:1px solid #e8eaf2;
     background:#fff; padding:.75rem 1.25rem .75rem 3.25rem; font-size:1rem; color:#10162b; }
   .d-input.foc { border-color:#165dfc; }
@@ -730,7 +726,6 @@
       </tbody>
     </table>
   </div>
-  <p><code>--color-accent-wash</code> 是导航「Shopify 快装包」的底，色相取自 Shopify 品牌绿 <code>#95bf47</code>（从其 SVG 量得），用板内最接近的 <code>sulu-dark #80bc69</code> 混白 85% 推出，亮度对齐原珊瑚淡底——只换色相，不改轻重。</p>
 
   <h3>表面与文字</h3>
   <div class="scroll">
@@ -1247,21 +1242,6 @@
   <span class="k">border-radius</span>:<span class="v">999px</span>;
   <span class="k">font-size</span>:<span class="v">.8125rem</span>; <span class="k">font-weight</span>:<span class="v">600</span>; <span class="k">line-height</span>:<span class="v">1.5</span>;
 }</pre>
-</div>
-
-<div class="cmp">
-  <header><h4>导航主推项</h4><code>navFeature · Header.astro</code></header>
-  <div class="demo-row"><div class="unit"><div><span class="d-navfeat">Shopify 快装包</span></div><span class="state">静止</span></div><div class="unit"><div><span class="d-navfeat hov">Shopify 快装包</span></div><span class="state">hover</span></div></div>
-  <div class="spec"><div class="scroll"><table><thead><tr><th>属性</th><th class="v">值</th><th>说明</th></tr></thead><tbody><tr><td class="tok">background</td><td class="v">#ecf5e8</td><td class="note-cell">--color-accent-wash。色相取自 Shopify 品牌绿 #95bf47</td></tr><tr><td class="tok">background:hover</td><td class="v">#ddedd6</td><td class="note-cell">--color-accent-wash-hover</td></tr><tr><td class="tok">color</td><td class="v">#231c1b</td><td class="note-cell"><b>字色字重都不动</b> —— 只靠底色分出来</td></tr><tr><td class="tok">font</td><td class="v">1rem / 500</td><td class="note-cell">跟旁边的纯文字导航项一致</td></tr><tr><td class="tok">padding</td><td class="v">0.375rem 1.25rem</td><td class="note-cell">桌面。抽屉里是 0.625rem 1.5rem</td></tr><tr><td class="tok">hover 位移</td><td class="v">translateY(-2px)</td><td class="note-cell">与工具卡同一位移量</td></tr><tr><td class="tok">对比度</td><td class="v">14.99:1</td><td class="note-cell"></td></tr><tr><td class="tok">设计意图</td><td class="v">要被看见，但不能比旁边纯文字项重一截</td><td class="note-cell">所以不做实心按钮</td></tr></tbody></table></div></div>
-  <pre>.nav-feature {
-  <span class="k">border-radius</span>:<span class="v">6.25rem</span>;
-  <span class="k">background</span>:<span class="v">#ecf5e8</span>;
-  <span class="k">color</span>:<span class="v">#231c1b</span>;
-  <span class="k">font-size</span>:<span class="v">1rem</span>; <span class="k">font-weight</span>:<span class="v">500</span>;
-  <span class="k">padding</span>:<span class="v">.375rem 1.25rem</span>;
-  <span class="k">transition</span>:<span class="v">background-color 200ms, translate 200ms</span>;
-}
-.nav-feature:hover { <span class="k">background</span>:<span class="v">#ddedd6</span>; <span class="k">translate</span>:<span class="v">0 -2px</span>; }</pre>
 </div>
 
 <div class="cmp">
